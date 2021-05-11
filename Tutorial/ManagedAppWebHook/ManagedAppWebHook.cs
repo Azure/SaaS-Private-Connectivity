@@ -1,20 +1,23 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Http;
+using Azure.ResourceManager.Network;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using Microsoft.Azure.Management.Fluent;
+using Azure.ResourceManager.Network.Models;
+using System.Collections.Generic;
 
 namespace HttpTrigger
 {
@@ -27,8 +30,8 @@ namespace HttpTrigger
         private readonly static string MySqlDatabase = Environment.GetEnvironmentVariable("MySqlDatabase") ?? throw new ArgumentNullException(nameof(MySqlDatabase));
         private readonly static string MySqlUserId = Environment.GetEnvironmentVariable("MySqlUserId") ?? throw new ArgumentNullException(nameof(MySqlUserId));
         private readonly static string MySqlPassword = Environment.GetEnvironmentVariable("MySqlPassword") ?? throw new ArgumentNullException(nameof(MySqlPassword));
-    
-
+        private readonly static string ResourceGroup = Environment.GetEnvironmentVariable("ResourceGroup") ?? throw new ArgumentNullException(nameof(ResourceGroup));
+        private readonly static string PrivateLinkService = Environment.GetEnvironmentVariable("PrivateLinkService") ?? throw new ArgumentNullException(nameof(PrivateLinkService));
 
         [FunctionName("ManagedAppWebHook")]
         public async Task<IActionResult> Run(
@@ -80,7 +83,7 @@ namespace HttpTrigger
                         break;
 
                     case ProvisioningState.Succeeded:
-                        await CreateUserSecretsAsync(data, log);
+                        await ValidateAndApprovePrivateConnectionAsync(data, log);
                         break;
                 }
             }
@@ -105,7 +108,7 @@ namespace HttpTrigger
             return new OkResult();
         }
 
-        private async Task<ActionResult> ApprovePrivateConnectionAsync(Notification data, ILogger log)
+        private async Task<ActionResult> ValidateAndApprovePrivateConnectionAsync(Notification data, ILogger log)
         {
             var parsedString = data?.ApplicationId?.Split('/') ?? throw new ArgumentNullException(nameof(data));
             if (parsedString.Length < 5)
@@ -116,6 +119,7 @@ namespace HttpTrigger
 
             //authenticate in client subscription
             var clientAzureAuth = AuthenticateToAzure(clientSubscriptionId);
+
             var managedAppDetails = await GetManagedAppDetails(data.ApplicationId, clientAzureAuth, log);
 
             if (managedAppDetails == null)
@@ -130,8 +134,7 @@ namespace HttpTrigger
                 throw new UnauthorizedAccessException(message);
             }
 
-            //await CreateKeyVaultSecretsAsync(managedAppDetails, log);
-            //replace with private link approval
+            await ApprovePrivateEndpointConnectionAsync(clientSubscriptionId, managedAppDetails.Outputs.CustomerName.Value, log);
             return new OkResult();
         }
 
@@ -182,7 +185,44 @@ namespace HttpTrigger
             return false;
         }
 
-       // add connection approval
+        private async Task ApprovePrivateEndpointConnectionAsync(string clientSubscriptionId, string customerName, ILogger log)
+        {
+            try
+            {
+                var networkManagementClient = new NetworkManagementClient(clientSubscriptionId, new DefaultAzureCredential());
+                var privateEndpointConnections =
+                    networkManagementClient.PrivateLinkServices.ListPrivateEndpointConnectionsAsync(ResourceGroup, PrivateLinkService);
+                var privateEndpointConnectionsList = new List<PrivateEndpointConnection>();
+
+                await foreach (PrivateEndpointConnection privateEndpointConnection in privateEndpointConnections)
+                {
+                    privateEndpointConnectionsList.Add(privateEndpointConnection);
+                }
+
+                var pendingConnection = privateEndpointConnectionsList
+                        .FirstOrDefault(pe =>
+                        pe.PrivateLinkServiceConnectionState.Status == "Pending" &&
+                        pe.PrivateEndpoint.Id.Split('/')[2] == clientSubscriptionId);
+
+                if (pendingConnection == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                pendingConnection.PrivateLinkServiceConnectionState.Status = "Approved";
+                pendingConnection.PrivateLinkServiceConnectionState.Description = $"Approved connection from customer {customerName}";
+                await networkManagementClient.PrivateLinkServices.UpdatePrivateEndpointConnectionAsync(ResourceGroup, PrivateLinkService, pendingConnection.Name, pendingConnection);
+
+            }
+            catch (ArgumentNullException ex)
+            {
+                log.LogError(ex, "I did not manage to find the private endpoint connection to approve");
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, "Error approving the connection");
+            }
+        }
 
 
         private async Task<ApplicationDetails> GetManagedAppDetails(string applicationId, IAzure azure, ILogger log)
