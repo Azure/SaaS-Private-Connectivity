@@ -34,6 +34,13 @@ module appsvc './appsvc.bicep' = {
   }
 }
 
+module storage './storage.bicep' = {
+  name: '${appName}-sa'
+  params:{
+    appName: appName
+  }
+}
+
 output laName string = analytics.outputs.laName
 output laId string = analytics.outputs.workspaceId
 output vnetId string = network.outputs.vnetId
