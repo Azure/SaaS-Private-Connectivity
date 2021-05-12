@@ -46,6 +46,8 @@ output laId string = analytics.outputs.workspaceId
 output vnetId string = network.outputs.vnetId
 output appSubnetId string = network.outputs.appSubnetId
 output insightsId string = analytics.outputs.insightsId
+output insightsName string = analytics.outputs.insightsName
 output insightsAppId string = analytics.outputs.insightsAppId
 output insightsKey string = analytics.outputs.insightsKey
+output appsvcName string = appsvc.outputs.appsvcName
 

@@ -4,7 +4,7 @@ param skuName string = 'GP_Gen5_4'
 param skuTier string = 'GeneralPurpose'
 param administratorLogin string = 'azureadmin'
 @secure()
-param administratorLoginPassword string = '2021@Wrekin@2021'
+param administratorLoginPassword string
 param version string = '5.7'
  
 var resgpguid = substring(replace(guid(resourceGroup().id), '-', ''), 0, 4)

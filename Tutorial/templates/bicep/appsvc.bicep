@@ -19,3 +19,4 @@ resource appsvc 'Microsoft.Web/serverfarms@2020-12-01' = {
     }
 }
 
+output appsvcName string = appsvc.name
