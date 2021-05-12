@@ -22,8 +22,8 @@ git clone https://github.com/Azure/SaaS-Private-Connectivity.git
 
 Change into the cloned directory.
 
-```console
-cd Tutorial
+```
+cd tutorials
 ```
 
 In this tutorial, you learn how to:
@@ -123,16 +123,20 @@ az functionapp create --name $functionApp -g $resoruceGroup -s $storageAccount -
 ```
 The function app will be created and can be viewed in the Azure portal 
 
-![functionApp](../images/function-publish13.png)
+![functionApp](../../images/function-publish13.png)
+
 
 Deploy the function
 
 ```
 func azure functionapp publish $functionApp
+
+
 ```
 
 The package file will be created and deployed to your function app:
-![functionApp](../images/function-publish15.png)
+
+![functionApp](../../images/function-publish15.png)
 
 
 ## Check that the function is reachable
