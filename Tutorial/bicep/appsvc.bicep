@@ -8,7 +8,7 @@ resource appsvc 'Microsoft.Web/serverfarms@2020-12-01' = {
   kind: 'linux'
   location: resourceGroup().location
   properties:{
-    
+    reserved:true
   }
   sku:{
      name: 'P1v2'

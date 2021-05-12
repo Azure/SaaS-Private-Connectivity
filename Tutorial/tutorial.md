@@ -6,9 +6,9 @@ In later tutorials, an example Private Link Service will be created using an AKS
 
 ## Before you begin
 
-This tutorial assumes a basic understanding of azure cli and Visual Studio Code.
+This tutorial assumes a basic understanding of azure cli and Visual Studio Code and Azure Functions
 
-To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription.
+To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed.
 
 
 ## Get application code

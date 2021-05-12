@@ -18,6 +18,21 @@ using MySqlConnector;
 
 namespace HttpTrigger
 {
+
+    public class HealthCheck
+    {
+        [FunctionName("HealthCheck")]
+        public async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "health")] HttpRequest req,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            string responseMessage = "This HTTP triggered function executed successfully.";
+
+            return new OkObjectResult(responseMessage);
+        }
+    }
     public class ManagedAppWebHook
     {
         private readonly static string TenantId = Environment.GetEnvironmentVariable("TenantId") ?? throw new ArgumentNullException(nameof(TenantId));
@@ -28,8 +43,6 @@ namespace HttpTrigger
         private readonly static string MySqlUserId = Environment.GetEnvironmentVariable("MySqlUserId") ?? throw new ArgumentNullException(nameof(MySqlUserId));
         private readonly static string MySqlPassword = Environment.GetEnvironmentVariable("MySqlPassword") ?? throw new ArgumentNullException(nameof(MySqlPassword));
     
-
-
         [FunctionName("ManagedAppWebHook")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "resource")] HttpRequest req,
@@ -80,7 +93,7 @@ namespace HttpTrigger
                         break;
 
                     case ProvisioningState.Succeeded:
-                        await CreateUserSecretsAsync(data, log);
+                        //await CreateUserSecretsAsync(data, log);
                         break;
                 }
             }
