@@ -1,0 +1,184 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {},
+  "parameters": {
+    "appName": {
+      "type": "string",
+      "defaultValue": "fsidemo",
+      "metadata": {
+        "description": "appName used to make this deployment unique"
+      }
+    },
+    "vnetAddressPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "description"
+      },
+      "defaultValue": "10.0.0.0/24"
+    },
+    "administratorLogin": {
+      "type": "string",
+      "metadata": {
+        "description": "description"
+      }
+    },
+    "administratorLoginPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "description"
+      }
+    }
+  },
+  "functions": [],
+  "variables": {
+    "resgpguid_var": "[substring(replace(guid(resourceGroup().id), '-', ''), 0, 4)]",
+    "uniqueResourceName_var": "[concat(parameters('appName'),'-',variables('resgpguid_var'))]",
+    "subnetName": "app-subnet",
+    "subnetAddressPrefix": "10.0.0.0/24"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2020-10-01",
+      "name": "[concat(variables('uniqueResourceName_var'),'-la')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": {
+          "name": "PerGB2018"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Insights/components",
+      "apiVersion": "2020-02-02-preview",
+      "name": "[concat(variables('uniqueResourceName_var'),'-insights')]",
+      "location": "[resourceGroup().location]",
+      "kind": "web",
+      "properties": {
+        "WorkspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces',concat(variables('uniqueResourceName_var'),'-la'))]",
+        "Application_Type": "web"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.OperationalInsights/workspaces', concat(variables('uniqueResourceName_var'),'-la'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-06-01",
+      "name": "[concat(variables('uniqueResourceName_var'),'-vnet')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetAddressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnetName')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetAddressPrefix')]"
+            }
+          }
+        ]
+      }
+    },
+        {
+          "type": "Microsoft.DBForMySQL/servers",
+          "apiVersion": "2017-12-01",
+          "name": "[concat(variables('uniqueResourceName_var'),'-mysql')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "version": "5.7",
+            "createMode": "Default",
+            "administratorLogin": "[parameters('administratorLogin')]",
+            "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+          }
+        },
+        {
+          "type": "Microsoft.Web/serverfarms",
+          "apiVersion": "2020-12-01",
+          "name": "[concat(variables('uniqueResourceName_var'),'-appsvc')]",
+          "kind": "linux",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "reserved": true
+          },
+          "sku": {
+            "name": "P1v2",
+            "tier": "PremiumV2",
+            "size": "P1v2",
+            "family": "Pv2",
+            "capacity": 1
+          }
+        },
+        {
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2021-02-01",
+          "name": "[concat(parameters('appName'),variables('resgpguid_var'),'sa')]",
+          "location": "[resourceGroup().location]",
+          "kind": "StorageV2",
+          "sku": {
+            "name": "Standard_LRS",
+            "tier": "Standard"
+          },
+          "properties": {
+            "supportsHttpsTrafficOnly": true,
+            "encryption": {
+              "services": {
+                "file": {
+                  "keyType": "Account",
+                  "enabled": true
+                },
+                "blob": {
+                  "keyType": "Account",
+                  "enabled": true
+                }
+              },
+              "keySource": "Microsoft.Storage"
+            },
+            "accessTier": "Hot"
+          }
+        },
+        {
+          "type": "Microsoft.Storage/storageAccounts/blobServices",
+          "apiVersion": "2019-06-01",
+          "name": "[concat(parameters('appName'),variables('resgpguid_var'),'sa/default')]",
+          "properties": {
+            "cors": {
+              "corsRules": []
+            },
+            "deleteRetentionPolicy": {
+              "enabled": true,
+              "days": 7
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Storage/storageAccounts', concat(parameters('appName'),variables('resgpguid_var'),'sa'))]"
+          ]
+        }
+  ],
+ "outputs": {
+   "resourceGroup": {
+     "type": "string",
+     "value": "[resourceGroup().name]"
+   },
+   "appSvcResourceId": {
+     "type": "string",
+     "value": "[resourceId('Microsoft.Web/serverfarms',concat(variables('uniqueResourceName_var'),'-appsvc'))]"
+   },
+  "insightsKey": {
+    "type": "string",
+    "value": "[reference(resourceId('Microsoft.Insights/components',concat(variables('uniqueResourceName_var'),'-insights'))).InstrumentationKey]"
+  },
+    "insightsName": {
+    "type": "string",
+    "value": "[reference(resourceId('Microsoft.Insights/components',concat(variables('uniqueResourceName_var'),'-insights'))).Name]"
+  },
+  "storageAccountName": {
+    "type": "string",
+    "value": "[concat(parameters('appName'),variables('resgpguid_var'),'sa')]"
+  }
+}
+}
