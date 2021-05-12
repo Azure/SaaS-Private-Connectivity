@@ -20,8 +20,10 @@ The solution is intended to be deployed from either a Service Catalog or Azure M
     - [PrivateLink Service](#privatelink-service)
     - [Internal Loadbalancer](#internal-loadbalancer)
     - [Azure Function App](#azure-function-app)
-- [Tutorial](./Tutorial/tutorial.md)
-
+- [Tutorial](./documentation/tutorial.md)
+  - [Function App Webhook](./documentation/tutorials/tutorial1.md)
+  - [Example App with Private Link Service](./documentation/tutorials/tutorial2.md)
+  - [Managed Application](./documentation/tutorials/tutorial3.md)
 
 # Deployment Architecture
 
