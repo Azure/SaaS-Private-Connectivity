@@ -8,6 +8,8 @@ In later tutorials, an example Private Link Service will be created using an AKS
 
 This tutorial assumes a basic understanding of azure cli and Visual Studio Code and Azure Functions
 
+To support deployment ensure the functions core tools are available [Core Tool](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash) and dotnet sdks are installed [dotnet](https://docs.microsoft.com/en-gb/dotnet/core/install/)
+
 To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed.
 
 
@@ -15,15 +17,18 @@ To complete this tutorial you will need access to an Azure subscription with the
 
 The [sample function app][sample-application] used in this tutorial is a simple function app consisting of a http trigger to allow interaction with of a front-end web component and a back-end Redis instance. The web component is packaged into a custom container image. The Redis instance uses an unmodified image from Docker Hub.
 
-Use [git][] to clone the sample application to your development environment:
+Use git to clone the sample application to your development environment:
 
-```console
+```
 git clone https://github.com/Azure/SaaS-Private-Connectivity.git
+
+```
 
 Change into the cloned directory.
 
 ```
 cd tutorials
+
 ```
 
 In this tutorial, you learn how to:
@@ -41,6 +46,7 @@ In Azure, you allocate related resources to a resource group. Create a resource 
 
 ```
 az group create --name rg-tutorial --location northeurope
+
 ```
 
 ## Deploy needed Azure Components
@@ -64,6 +70,7 @@ Update the azure.parameters.json file if required then deploy using:
 cd /templates/arm
 
 az deployment group create -g rg-tutorial --template-file azuredeploy.json --parameters ./azure.parameters.json administratorLoginPassword="<enter login password value>"
+
 ```
  
 
@@ -74,6 +81,7 @@ az deployment group create -g rg-tutorial --template-file azuredeploy.json --par
 cd /templates/bicep
 
 az deployment group create -g rg-tutorial -f ./main.bicep
+
 ```
 
 Once deployed there are some values that will be required in subsequent steps which can be found in the outputs from the template deployments for example:
@@ -100,6 +108,7 @@ Once deployed there are some values that will be required in subsequent steps wh
         "type": "String",
         "value": "fsidemo88dcsa"
       }
+
 ```
 
 
@@ -111,6 +120,7 @@ cd /Tutorial/ManagedAppWebHook
 
 ```
 In order to deploy the function app use the following:
+
 ```
 resourceGroup=<resouregroup from outputs>
 storageAccount=<storageAccount Name from outputs>
