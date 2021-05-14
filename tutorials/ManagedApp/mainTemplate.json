@@ -1,0 +1,207 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+
+    "customerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Customer Name"
+      }
+    },
+    "presharedKey": {
+      "type": "string",
+      "metadata": {
+        "description": "Pre-Shared Customer Key"
+      }
+    },
+    "remoteServiceAlias": {
+      "type": "string",
+      "metadata": {
+        "description": "Private Link Service Alias"
+      }
+    },
+    "virtualNetworkNewOrExisting": {
+      "type": "string",
+      "metadata": {
+        "description": "Boolean indicating whether the VNet is new or existing"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Existing VNet Name"
+      }
+    },
+    "virtualNetworkResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource group of the VNet"
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Application subnet Name"
+      }
+    },
+    "virtualNetworkAddressPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "description"
+      }
+    },
+    "subnetAddressPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "description"
+      }
+    }
+  },
+  "functions": [],
+  "variables": {
+    "vnetId": {
+      "new": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+      "existing": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+    },
+    "subnetId": "[concat(variables('vnetId')[parameters('virtualNetworkNewOrExisting')], '/subnets/', parameters('subnetName'))]",
+    "SaasPrivateDnsZoneName": "northeurope.cloudapp.azure.com",
+    "SaasPrivateEndpointName": "[concat(parameters('customerName'),'-PrivateEndpoint')]"
+  },
+  "resources": [
+    {
+      "condition": "[equals(parameters('virtualNetworkNewOrExisting'), 'new')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2019-11-01",
+      "name": "[parameters('virtualNetworkName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('virtualNetworkAddressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[parameters('subnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnetAddressPrefix')]",
+              "privateEndpointNetworkPolicies": "Disabled"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones",
+      "apiVersion": "2018-09-01",
+      "name": "[variables('SaasPrivateDnsZoneName')]",
+      "location": "global",
+      "properties": {
+        "maxNumberOfRecordSets": 25000,
+        "maxNumberOfVirtualNetworkLinks": 1000,
+        "maxNumberOfVirtualNetworkLinksWithRegistration": 100
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+      "apiVersion": "2018-09-01",
+      "name": "[concat(variables('SaasPrivateDnsZoneName'), '/link_to_', toLower(parameters('virtualNetworkName')))]",
+      "location": "global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', variables('SaasPrivateDnsZoneName'))]"
+      ],
+      "properties": {
+        "registrationEnabled": false,
+        "virtualNetwork": {
+          "id": "[variables('vnetId')[parameters('virtualNetworkNewOrExisting')]]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2020-04-01",
+      "name": "[variables('SaasPrivateEndpointName')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+      ],
+      "properties": {
+        "manualPrivateLinkServiceConnections": [
+          {
+            "name": "[variables('SaasPrivateEndpointName')]",
+            "properties": {
+              "privateLinkServiceId": "[parameters('remoteServiceAlias')]",
+              "groupIds": [],
+              "requestMessage": "[concat('Please approve connection from ', parameters('customerName'))]"
+            }
+          }
+        ],
+        "subnet": {
+          "id": "[variables('subnetId')]"
+        },
+        "customDnsConfigs": [
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', variables('SaasPrivateDnsZoneName'))]",
+        "[resourceId('Microsoft.Network/privateEndpoints', variables('SaasPrivateEndpointName'))]"
+      ],
+      "name": "nestedDnsDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "parameters": {
+          "nicId": { "value": "[reference(resourceId('Microsoft.Network/privateEndpoints',variables('SaasPrivateEndpointName')), '2019-09-01').networkInterfaces[0].id]" }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "nicId": {
+              "type": "string"
+            }
+          },
+          "variables": {},
+          "resources": [
+            {
+              "type": "Microsoft.Network/privateDnsZones/A",
+              "apiVersion": "2020-01-01",
+              "name": "[concat(variables('SaasPrivateDnsZoneName'),'/saasprovider')]",
+              "dependsOn": [
+              ],
+              "properties": {
+                "ttl": 60,
+                "aRecords": [
+                  {
+                    "ipv4Address": "[[reference(parameters('nicId'), '2019-07-01').ipConfigurations[0].properties.privateIPAddress]"
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "nic": {
+              "type": "object",
+              "value": "[[reference(parameters('nicId'), '2019-07-01')]"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "customerName": {
+      "type": "string",
+      "value": "[parameters('customerName')]"
+    },
+    "presharedKey": {
+      "type": "string",
+      "value": "[parameters('presharedKey')]"
+    }
+  }
+}

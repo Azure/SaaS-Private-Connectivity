@@ -62,20 +62,11 @@ You'll now deploy the components needed to support the Notification Webhook.
 
 The templates to deploy these component have been provided as an ARM template or Bicep templates
 
-### ARM deployment
 
-Update the azure.parameters.json file if required then deploy using:
-
-```
-cd /templates/arm
-
-az deployment group create -g rg-tutorial --template-file azuredeploy.json --parameters ./azure.parameters.json administratorLoginPassword="<enter login password value>"
-
-```
- 
 
 ### Bicep deployment
 
+This tutorial assumes you have bicep installed [bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install?tabs=azure-powershell)
 
 ```
 cd /templates/bicep
@@ -156,6 +147,35 @@ Now that the Function has been deployed it can be verified using the health url
 ```
 https://<azure website host>/api/health
 ```
+
+Once the function has been deployed you can additionally connect to the Azuze MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server)
+
+When you have connected you will be able to create the required database and table and insert a record.
+
+```
+-- Create a database
+DROP DATABASE IF EXISTS tutorialdb;
+CREATE DATABASE tutorialdb;
+USE tutorialdb;
+
+-- Create a table and insert rows
+DROP TABLE IF EXISTS customer;
+CREATE TABLE customer (id serial PRIMARY KEY, CompanyName VARCHAR(50), SharedKey VARCHAR(50));
+
+```
+
+The tutorial uses a SharedKey to validate the request for private link connection approval. To generate a SharedKey you will need to create an entry in the customer table
+
+```
+-- insert sample row
+INSERT INTO customer ( CompanyName, SharedKey ) VALUES ('ExampleCustomer',uuid());
+
+select * from customer;
+```
+
+The result will return a value for the ExampleCustomer and SharedKey.  This SharedKey can be used in the subsequent steps in [tutorial3](./tutorial3.md)
+
+
 
 ## Next steps
 

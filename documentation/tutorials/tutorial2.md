@@ -15,9 +15,9 @@ To complete this tutorial you will need access to an Azure subscription with the
 In this tutorial, you learn how to:
 
 * Deploy a simple Application 
-* 
-*
-*
+* Retrieve details of the internal loadbalancer
+* Disable network policies
+* Create a Private Link Service for the example application
 
 
 

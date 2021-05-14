@@ -1,0 +1,137 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "config": {
+            "isWizard": true,
+            "basics": {
+                "location": {
+                    "allowedValues": [
+                        "eastus",
+                        "westus2",
+                        "centralus",
+                        "westeurope",
+                        "northeurope",
+                        "uksouth",
+                        "francecentral",
+                        "japaneast",
+                        "southeastasia",
+                        "australiaeast"
+                    ],
+                    "visible": true
+                }
+            }
+        },
+        "basics": [],
+        "steps": [
+            {
+                "name": "applicationConfig",
+                "label": "Application Configuration",
+                "elements": [
+                    {
+                        "name": "applicationConfigSection1",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Customer Details",
+                        "elements": [
+                            {
+                                "name": "customerName",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Customer Name",
+                                "defaultValue": "",
+                                "toolTip": "Please enter your customer name",
+                                "placeholder": "",
+                                "constraints": {
+                                    "required": true,
+                                    "validationMessage": "Name is not valid. Please re-enter."
+                                },
+                                "visible": true
+                            },
+                            {
+                                "name": "presharedKey",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Pre-Shared Key",
+                                "defaultValue": "",
+                                "toolTip": "Please enter your Pre-Shared Customer Key",
+                                "placeholder": "",
+                                "constraints": {
+                                    "required": true,
+                                    "validationMessage": "Pre-Shared Customer Key is not valid. Please re-enter."
+                                },
+                                "visible": true
+                            },
+                            {
+                                "name": "remoteServiceAlias",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Remote Service Alias",
+                                "defaultValue": "",
+                                "toolTip": "Please enter the tutorial Private Link Service Alias",
+                                "placeholder": "",
+                                "constraints": {
+                                    "required": true,
+                                    "validationMessage": "Private Link Alias is required."
+                                },
+                                "visible": true
+                            }
+                        ],
+                        "visible": true
+                    }
+                ]
+            },
+            {
+                "name": "networking",
+                "label": "Networking",
+                "elements": [
+                    {
+                        "name": "vnet",
+                        "type": "Microsoft.Network.VirtualNetworkCombo",
+                        "label": {
+                            "virtualNetwork": "Virtual network",
+                            "subnets": "Subnet"
+                        },
+                        "toolTip": {
+                            "virtualNetwork": "",
+                            "subnets": ""
+                        },
+                        "defaultValue": {
+                            "name": "vnet01",
+                            "addressPrefixSize": "/24"
+                        },
+                        "constraints": {
+                            "minAddressPrefixSize": ""
+                        },
+                        "options": {
+                            "hideExisting": false
+                        },
+                        "subnets": {
+                            "subnet1": {
+                                "label": "Application subnet",
+                                "defaultValue": {
+                                    "name": "default",
+                                    "addressPrefixSize": "/24"
+                                },
+                                "constraints": {
+                                    "minAddressPrefixSize": "/24",
+                                    "minAddressCount": 12,
+                                    "requireContiguousAddresses": true
+                                }
+                            }
+                        },
+                        "visible": true
+                    }
+                ]
+            }
+        ],
+        "outputs": {
+            "customerName": "[steps('applicationConfig').applicationConfigSection1.customerName]",
+            "presharedKey": "[steps('applicationConfig').applicationConfigSection1.presharedKey]",
+            "remoteServiceAlias": "[steps('applicationConfig').applicationConfigSection1.remoteServiceAlias]",
+            "virtualNetworkNewOrExisting": "[steps('networking').vnet.newOrExisting]",
+            "virtualNetworkName": "[steps('networking').vnet.name]",
+            "virtualNetworkAddressPrefix": "[first(steps('networking').vnet.addressPrefixes)]",
+            "virtualNetworkResourceGroup": "[steps('networking').vnet.resourceGroup]",
+            "subnetName": "[steps('networking').vnet.subnets.subnet1.name]",
+            "subnetAddressPrefix": "[steps('networking').vnet.subnets.subnet1.addressPrefix]"
+        }
+    }
+}

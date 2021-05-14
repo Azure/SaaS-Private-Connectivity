@@ -2,6 +2,10 @@ targetScope = 'resourceGroup'
 
 @description('appName used to make this deployment unique')
 param appName string = 'fsidemo'
+param aksNodeResourceGroup string = '${resourceGroup().name}-aks'
+
+@secure()
+param administratorLoginPassword string
 
 var resgpguid_var = substring(replace(guid(resourceGroup().id), '-', ''), 0, 4)
 var uniqueResourceName_var = '${resgpguid_var}'
@@ -20,10 +24,18 @@ module network './nw.bicep' = {
   }
 }
 
+module identity 'identity.bicep' = {
+  name: '${appName}-Identity'
+  params: {
+    appName: appName
+  }
+}
+
 module mysql './mysql.bicep' = {
   name: '${appName}-mysql'
   params:{
     appName: appName
+    administratorLoginPassword:  administratorLoginPassword
   }
 }
 
@@ -40,6 +52,18 @@ module storage './storage.bicep' = {
     appName: appName
   }
 }
+
+module aks 'aks.bicep' = {
+  name: '${appName}-Aks'
+  params: {
+    clusterName: '${appName}Aks'
+    aksIdentityResourceId: identity.outputs.aksIdentityResourceId
+    nodeResourceGroup: aksNodeResourceGroup
+    aksSubnetId: network.outputs.appSubnetId
+    logAnalyticsWorkspaceId: analytics.outputs.workspaceId
+    }
+}
+
 
 output laName string = analytics.outputs.laName
 output laId string = analytics.outputs.workspaceId
