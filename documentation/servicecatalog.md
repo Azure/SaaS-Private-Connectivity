@@ -18,6 +18,16 @@ In addition when the service catalog definition is created authorization details
 
 ### Service Catalog for Private Connectivity Pattern
 
-#### CustomUIDefinition
+#### customUIDefinition.json
 
 The CustomUIDefinition will contain details of the fields and information that needs to be captured from the end user are "ordering" time.  For the private connectity pattern, as a minimum this would contain the resource group to which the managed application will be deployed and details of the virtual network configuration required, either existing or new vnet.
+
+#### mainTemplate.json
+
+The mainTemplate.json for the private connectivity pattern contains the following infrastructure elements to deploy
+- virtual network (if required)
+- Private DNS zone
+- Virtual Network link
+- Private Endpoint
+- Deployment ( to add a DNS record )
+
