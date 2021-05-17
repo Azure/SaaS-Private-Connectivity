@@ -10,7 +10,7 @@ This tutorial assumes a basic understanding of azure cli and Visual Studio Code 
 
 To support deployment ensure the functions core tools are available [Core Tool](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash) and dotnet sdks are installed [dotnet](https://docs.microsoft.com/en-gb/dotnet/core/install/)
 
-To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed.
+To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed. This project was developed with .NET 5, so either .NET Core 3.1 or .NET 5 will work as they are compatible.
 
 
 ## Get application code
@@ -119,7 +119,7 @@ plan=<appSvcResourceId from outputs>
 insights=<insightsName from outputs>
 functionApp=fsidemo
 
-az functionapp create --name $functionApp -g $resoruceGroup -s $storageAccount --app-insights $insights --os-type Linux --runtime dotnet --plan $plan --functions-version 3
+az functionapp create --name $functionApp -g $resourceGroup -s $storageAccount --app-insights $insights --os-type Linux --runtime dotnet --plan $plan --functions-version 3
 
 ```
 The function app will be created and can be viewed in the Azure portal 
@@ -154,6 +154,7 @@ When you have connected you will be able to create the required database and tab
 
 ## Create customer table
 
+```
 -- Create a database
 DROP DATABASE IF EXISTS tutorialdb;
 CREATE DATABASE tutorialdb;
@@ -162,7 +163,6 @@ USE tutorialdb;
 -- Create a table and insert rows
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer (id serial PRIMARY KEY, CompanyName VARCHAR(50), SharedKey VARCHAR(50));
-
 ```
 
 The tutorial uses a SharedKey to validate the request for private link connection approval. To generate a SharedKey you will need to create an entry in the customer table
@@ -176,7 +176,6 @@ select * from customer;
 
 The result will return a value for the ExampleCustomer and SharedKey.  This SharedKey can be used in the subsequent steps in [tutorial3](./tutorial3.md)
 
-```
 
 ## Create service principal
 
@@ -215,6 +214,7 @@ This service principal will be used in the function app to get details of the ma
 
 One way you can store connection strings and secrets used by your function app and bindings is as application settings. This makes credentials available to both your function code and bindings.
 App settings and connection strings are stored encrypted in Azure. They're decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly. (https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings)
+
 When you develop a function app locally, you must maintain local copies of these values in the local.settings.json project file. (https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file)
 
 In order to edit your function app settings, go to the Configuration blade of your function app in the portal and then to AppSettings (https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the APPINSIGHTS_INSTRUMENTATIONKEY, APPLICATIONINSIGHTS_CONNECTION_STRING, etc.
@@ -257,7 +257,7 @@ These are the additional app settings needed for your function to run :
   },
   {
     "name": "MySqlUserId",
-    "value": Replace with your user id,
+    "value": Replace with your Sql user id,
     "slotSetting": false
   },
   {
