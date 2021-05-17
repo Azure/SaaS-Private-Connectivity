@@ -41,22 +41,27 @@ The key Azure components used to support this pattern are:
 - PrivateLink Service
 - Internal Loadbalancer
 
-To support the automated approval of the PrivateLink connection from a MarketPlace deployment additionally:
-- Azure Function App
+To support the automated approval of the PrivateLink connection from a MarketPlace ( or Service Catalog ) deployment additionally:
+- Webhook Notification Endpoint 
 
 The other components depicated in the deployment architecture are used to support the SaaS application deployment which provides the APIs that are being made available over the PrivateLink Service
 
 ### Private Endpoint
+Private Endpoint is a network interface that connects you privately and securely to a service powered by Azure Private Link. Private Endpoint uses a private IP address from your VNet to provide the connection to the remote service.  In the case of the Private Connectivity pattern this is a Private Link Service exposing a set of service APIs
 [Private Endpoint](https://docs.microsoft.com/en-us/azure/private-link/private-endpoint-overview)
 
 ### Private DNS Zone
+Private DNS Zone is linked to the vnet and allows resolution of the Private Link service names.
 [Private DNS Zone](https://docs.microsoft.com/en-us/azure/dns/private-dns-overview)
 
 ### PrivateLink Service
+Private Link service is the reference to the Provider's service.  The service is running behind an internal loadbalance and is enabled for Private Link access.
 [PrivateLink Service](https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview)
 
 ### Internal Loadbalancer
 [Internal Loadbalancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-overview)
 
-### Azure Function App
+### Notification Webhook
+In the examples shown in the tutorials an Azure Funtion has been used for the Notification Webhook
 [Function App](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview)
+This could be deployed using other capabilities providing the notification endpoint is exposed to allow the MarketPlace (Service Catalog) notifications to be sent to this listening endpoint.
