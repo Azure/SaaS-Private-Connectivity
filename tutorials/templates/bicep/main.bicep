@@ -12,14 +12,14 @@ var uniqueResourceName_var = '${resgpguid_var}'
 
 module analytics './la.bicep' = {
   name: '${appName}-la'
-  params:{
+  params: {
     appName: appName
   }
 }
 
 module network './nw.bicep' = {
   name: '${appName}-vnet'
-  params:{
+  params: {
     appName: appName
   }
 }
@@ -33,22 +33,22 @@ module identity 'identity.bicep' = {
 
 module mysql './mysql.bicep' = {
   name: '${appName}-mysql'
-  params:{
+  params: {
     appName: appName
-    administratorLoginPassword:  administratorLoginPassword
+    administratorLoginPassword: administratorLoginPassword
   }
 }
 
 module appsvc './appsvc.bicep' = {
   name: '${appName}-appsvc'
-  params:{
+  params: {
     appName: appName
   }
 }
 
 module storage './storage.bicep' = {
   name: '${appName}-sa'
-  params:{
+  params: {
     appName: appName
   }
 }
@@ -61,9 +61,15 @@ module aks 'aks.bicep' = {
     nodeResourceGroup: aksNodeResourceGroup
     aksSubnetId: network.outputs.appSubnetId
     logAnalyticsWorkspaceId: analytics.outputs.workspaceId
-    }
+  }
 }
 
+module roleassignment_aks 'role-assignment-aks.bicep' = {
+  name: '${appName}-RoleAssignment-Aks'
+  params: {
+    aksIdentityObjectId: identity.outputs.aksIdentityObjectId
+  }
+}
 
 output laName string = analytics.outputs.laName
 output laId string = analytics.outputs.workspaceId
@@ -74,4 +80,3 @@ output insightsName string = analytics.outputs.insightsName
 output insightsAppId string = analytics.outputs.insightsAppId
 output insightsKey string = analytics.outputs.insightsKey
 output appsvcName string = appsvc.outputs.appsvcName
-
