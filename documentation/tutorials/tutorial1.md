@@ -1,6 +1,6 @@
 # Tutorial: Deploy an Example Function App as a Notification Endpoint
 
-This tutorial is part one of a three part tutorial series that will configure and deploy and example of the Private Connectivity pattern.
+This tutorial is part one of a three part tutorial series that will configure and deploy an example of the Private Connectivity pattern.
 
 In later tutorials, an example Private Link Service will be created using an AKS cluster and internal Load Balancer and a Managed application will be deployed from the Service Catalog.
 
@@ -60,7 +60,7 @@ You'll now deploy the components needed to support the Notification Webhook.
 - Application Insights
 - Virtual Network (not required directly but will be used in later tutorial)
 
-The templates to deploy these component have been provided as an ARM template or Bicep templates
+The templates to deploy these components have been provided as an ARM template or Bicep templates
 
 
 
@@ -148,7 +148,7 @@ Now that the Function has been deployed it can be verified using the health url
 https://<azure website host>/api/health
 ```
 
-Once the function has been deployed you can additionally connect to the Azuze MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server)
+Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server)
 
 When you have connected you will be able to create the required database and table and insert a record.
 
@@ -175,6 +175,8 @@ select * from customer;
 ```
 
 The result will return a value for the ExampleCustomer and SharedKey.  This SharedKey can be used in the subsequent steps in [tutorial3](./tutorial3.md)
+
+```
 
 ## Create service principal
 
@@ -283,10 +285,10 @@ These are the additional app settings needed for your function to run :
     "value":  Replace with Service Principal tenantId,
     "slotSetting": false
   },
+```
 
 The following values : AZURE_CLIENT_ID, AZURE_CLIENT_SECRET and AZURE_TENANT_ID are used by Azure Default Credentials (https://docs.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme#defaultazurecredential). These are used to authenticate in the publisher tenant.
 
-```
 ## Next steps
 
 Deploy a sample application [Tutorial2](./tutorial-sampleapp.md)
