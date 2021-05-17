@@ -10,7 +10,7 @@ This tutorial assumes a basic understanding of azure cli and Visual Studio Code 
 
 To support deployment ensure the functions core tools are available [Core Tool](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash) and dotnet sdks are installed [dotnet](https://docs.microsoft.com/en-gb/dotnet/core/install/)
 
-To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed. This project was developed with .NET 5, so either .NET Core 3.1 or .NET 5 will work as they are compatible.
+To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed. This tutorial project was developed using .NET 5, so either .NET Core 3.1 or .NET 5 sdk is required."
 
 
 ## Get application code
