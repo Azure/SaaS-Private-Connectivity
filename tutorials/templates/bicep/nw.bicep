@@ -12,8 +12,6 @@ var subnets = [
   }
 ]
 
-
-
 resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
   name: vnetName
   location: resourceGroup().location
@@ -25,9 +23,10 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
     }
     subnets: [for subnet in subnets: {
       name: subnet.name
-      properties:{
+      properties: {
         addressPrefix: subnet.address
-      }  
+        privateLinkServiceNetworkPolicies: 'Disabled'
+      }
     }]
 
     enableDdosProtection: false
