@@ -13,7 +13,7 @@ param dnsServiceIP string = '10.2.0.10'
 @description('Specifies the CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.')
 param dockerBridgeCidr string = '172.17.0.1/16'
 
-resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
+resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
   name: clusterName
   location: resourceGroup().location
   identity: {
@@ -45,7 +45,6 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
       }
     ]
     addonProfiles: {
-
       omsagent: {
         enabled: true
         config: {
@@ -62,7 +61,6 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
       dockerBridgeCidr: dockerBridgeCidr
       loadBalancerSku: 'standard'
     }
-
   }
 }
 

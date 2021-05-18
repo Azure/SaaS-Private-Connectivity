@@ -80,3 +80,5 @@ output insightsName string = analytics.outputs.insightsName
 output insightsAppId string = analytics.outputs.insightsAppId
 output insightsKey string = analytics.outputs.insightsKey
 output appsvcName string = appsvc.outputs.appsvcName
+output appSvcResourceId string = appsvc.outputs.appSvcResourceId
+output storageAccountName string = storage.outputs.storageAccountName

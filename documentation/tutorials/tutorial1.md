@@ -10,12 +10,12 @@ This tutorial assumes a basic understanding of azure cli and Visual Studio Code 
 
 To support deployment ensure the functions core tools are available [Core Tool](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash) and dotnet sdks are installed [dotnet](https://docs.microsoft.com/en-gb/dotnet/core/install/)
 
-To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed. This tutorial project was developed using .NET 5, so either .NET Core 3.1 or .NET 5 sdk is required."
+To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed. This tutorial project was developed using .NET 5, so either .NET Core 3.1 or .NET 5 sdk is required.
 
 
 ## Get application code
 
-The [sample function app][sample-application] used in this tutorial is a simple function app consisting of a http trigger to allow interaction with a marketplace deployment.
+The sample application used in this tutorial is a simple function app consisting of a http trigger to allow interaction with a marketplace deployment.
 
 Use git to clone the sample application to your development environment:
 
@@ -27,7 +27,7 @@ git clone https://github.com/Azure/SaaS-Private-Connectivity.git
 Change into the cloned directory.
 
 ```
-cd tutorials
+cd Saas-Private-Connectivity
 
 ```
 
@@ -42,7 +42,7 @@ In this tutorial, you learn how to:
 
 ## Create a resource group
 
-In Azure, you allocate related resources to a resource group. Create a resource group by using [az group create](/cli/azure/group#az_group_create). The following example creates a resource group named *demoResourceGroup* in the *northeurope* location (region). 
+In Azure, you allocate related resources to a resource group. Create a resource group by using [az group create](/cli/azure/group#az_group_create). The following example creates a resource group named *rg-tutorial* in the *northeurope* location (region). 
 
 ```
 az group create --name rg-tutorial --location northeurope
@@ -63,17 +63,20 @@ You'll now deploy the components needed to support the Notification Webhook.
 The templates to deploy these components have been provided as an ARM template or Bicep templates
 
 
-
 ### Bicep deployment
+
+In the previous step, you created a resource group named rg-tutorial. In this step you will deploy Azure resources to this resource group.
 
 This tutorial assumes you have bicep installed [bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install?tabs=azure-powershell)
 
 ```
-cd /templates/bicep
+cd tutorials/templates/bicep
 
 az deployment group create -g rg-tutorial -f ./main.bicep
 
 ```
+
+You will notice you are asked for an administratorLoginPassword. This password will be used to create an administratorLoginPassword for your MySql instance. 
 
 Once deployed there are some values that will be required in subsequent steps which can be found in the outputs from the template deployments for example:
 
@@ -90,10 +93,6 @@ Once deployed there are some values that will be required in subsequent steps wh
       "insightsName": {
         "type": "String",
         "value": "fsidemo-88dc-insights"
-      },
-      "resourceGroup": {
-        "type": "String",
-        "value": "rg-tutorial"
       },
       "storageAccountName": {
         "type": "String",
@@ -113,8 +112,8 @@ cd /Tutorial/ManagedAppWebHook
 In order to deploy the function app use the following:
 
 ```
-resourceGroup=<resouregroup from outputs>
-storageAccount=<storageAccount Name from outputs>
+resourceGroup=rg-tutorial
+storageAccount=<storageAccountName from outputs>
 plan=<appSvcResourceId from outputs>
 insights=<insightsName from outputs>
 functionApp=fsidemo

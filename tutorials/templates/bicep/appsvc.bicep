@@ -7,16 +7,18 @@ resource appsvc 'Microsoft.Web/serverfarms@2020-12-01' = {
   name: '${uniqueResourceName_var}-appsvc'
   kind: 'linux'
   location: resourceGroup().location
-  properties:{
-    reserved:true
+  properties: {
+    reserved: true
   }
-  sku:{
-     name: 'P1v2'
-     tier: 'PremiumV2'
-     size: 'P1v2'
-     family: 'Pv2'
-     capacity: 1
-    }
+  sku: {
+    name: 'P1v2'
+    tier: 'PremiumV2'
+    size: 'P1v2'
+    family: 'Pv2'
+    capacity: 1
+  }
 }
 
 output appsvcName string = appsvc.name
+
+output appSvcResourceId string = appsvc.id
