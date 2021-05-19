@@ -106,7 +106,7 @@ Once deployed there are some values that will be required in subsequent steps wh
 The Function App will be deployed to the App Service Plan created in the last step.  The http trigger based function to listen for webhook notifications will then be deployed to this function app.
 
 ```
-cd /Tutorial/ManagedAppWebHook
+cd /tutorials/ManagedAppWebHook
 
 ```
 In order to deploy the function app use the following:
@@ -116,11 +116,14 @@ resourceGroup=rg-tutorial
 storageAccount=<storageAccountName from outputs>
 plan=<appSvcResourceId from outputs>
 insights=<insightsName from outputs>
-functionApp=fsidemo
+functionApp=<enter a name for your function app>
 
 az functionapp create --name $functionApp -g $resourceGroup -s $storageAccount --app-insights $insights --os-type Linux --runtime dotnet --plan $plan --functions-version 3
 
 ```
+
+If you get back an error: Operation returned an invalid status 'Conflict', it means the current app name is already in use. The function app's name must be able to produce a unique FQDN as AppName.azurewebsites.net. 
+
 The function app will be created and can be viewed in the Azure portal 
 
 ![functionApp](../../images/function-publish13.png)
