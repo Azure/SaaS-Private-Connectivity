@@ -290,4 +290,4 @@ The following values : AZURE_CLIENT_ID, AZURE_CLIENT_SECRET and AZURE_TENANT_ID 
 
 ## Next steps
 
-Deploy a sample application [Tutorial2](./tutorial-sampleapp.md)
+Deploy a sample application [Tutorial2](./tutorial2.md)
