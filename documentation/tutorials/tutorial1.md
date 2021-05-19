@@ -137,6 +137,8 @@ func azure functionapp publish $functionApp
 
 ```
 
+This step assumes you have installed the functions core tools mentioned in the Before you begin section. If at this stage, you get an error : Can't find app with name $functionApp, just give it a few more seconds for the deployment to complete. 
+
 The package file will be created and deployed to your function app:
 
 ![functionApp](../../images/function-publish15.png)
@@ -153,6 +155,8 @@ https://<azure website host>/api/health
 Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server)
 
 When you have connected you will be able to create the required database and table and insert a record.
+
+As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql and choose Add client IP (https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
 ## Create customer table
 
