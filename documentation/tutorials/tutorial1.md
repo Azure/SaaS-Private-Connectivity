@@ -6,11 +6,11 @@ In later tutorials, an example Private Link Service will be created using an AKS
 
 ## Before you begin
 
-This tutorial assumes a basic understanding of azure cli and Visual Studio Code and Azure Functions
+This tutorial assumes a basic understanding of azure cli and Visual Studio Code and Azure Functions.
 
-To support deployment ensure the functions core tools are available [Core Tool](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash) and dotnet sdks are installed [dotnet](https://docs.microsoft.com/en-gb/dotnet/core/install/)
+To support deployment ensure the functions core tools are available [Core Tool](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash) and .Net Core 3.1 SDK is installed [dotnet core 3.1] (https://dotnet.microsoft.com/download/dotnet/3.1).
 
-To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed. This tutorial project was developed using .NET 5, so either .NET Core 3.1 or .NET 5 sdk is required.
+To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription.
 
 
 ## Get application code
@@ -60,14 +60,14 @@ You'll now deploy the components needed to support the Notification Webhook.
 - Application Insights
 - Virtual Network (not required directly but will be used in later tutorial)
 
-The templates to deploy these components have been provided as an ARM template or Bicep templates
+The templates to deploy these components have been provided as an ARM template or Bicep templates.
 
 
 ### Bicep deployment
 
 In the previous step, you created a resource group named rg-tutorial. In this step you will deploy Azure resources to this resource group.
 
-This tutorial assumes you have bicep installed [bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install?tabs=azure-powershell)
+This tutorial assumes you have bicep installed [bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install?tabs=azure-powershell).
 
 ```
 cd tutorials/templates/bicep
@@ -106,7 +106,8 @@ Once deployed there are some values that will be required in subsequent steps wh
 The Function App will be deployed to the App Service Plan created in the last step.  The http trigger based function to listen for webhook notifications will then be deployed to this function app.
 
 ```
-cd /tutorials/ManagedAppWebHook
+cd ../..
+cd ManagedAppWebHook
 
 ```
 In order to deploy the function app use the following:
@@ -124,7 +125,7 @@ az functionapp create --name $functionApp -g $resourceGroup -s $storageAccount -
 
 If you get back an error: Operation returned an invalid status 'Conflict', it means the current app name is already in use. The function app's name must be able to produce a unique FQDN as AppName.azurewebsites.net. 
 
-The function app will be created and can be viewed in the Azure portal 
+The function app will be created and can be viewed in the Azure portal:
 
 ![functionApp](../../images/function-publish13.png)
 
@@ -152,11 +153,12 @@ Now that the Function has been deployed it can be verified using the health url
 https://<azure website host>/api/health
 ```
 
-Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server)
+Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server).
+
+As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql and choose Add client IP (https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
 When you have connected you will be able to create the required database and table and insert a record.
 
-As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql and choose Add client IP (https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
 ## Create customer table
 
