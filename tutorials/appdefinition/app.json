@@ -1,0 +1,29 @@
+{
+    "properties": {
+      "lockLevel": "ReadOnly",
+      "displayName": "Private SaaS",
+      "description": "Private connectivity to SaaS",
+      "authorizations": [
+        {
+          "principalId": "<USER_OR_GROUP_OBJECT_ID>",
+          "roleDefinitionId": "<ROLE_DEFINITION_ID>"
+        },
+        {
+            "principalId": "<USER_OR_GROUP_OBJECT_ID>",
+            "roleDefinitionId": "<ROLE_DEFINITION_ID>"
+        }
+      ],
+      "deploymentPolicy": {
+        "deploymentMode": "Incremental"
+      },
+      "notificationPolicy": {
+        "notificationEndpoints": [
+          {
+            "uri": "https://YOUR-FUNCTION-NAME.azurewebsites.net/api"
+          }
+        ]
+      },
+      "packageFileUri": "https://YOUR-STORAGE-ACCOUNT-NAME.blob.core.windows.net/managedapp-def/app.zip"
+    },
+    "location": "westeurope"
+  }
