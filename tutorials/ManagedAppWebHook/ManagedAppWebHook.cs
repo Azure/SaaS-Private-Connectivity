@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -6,41 +7,27 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Azure.Identity;
-using Microsoft.AspNetCore.Http;
 using Azure.ResourceManager.Network;
+using Azure.ResourceManager.Network.Models;
+using Azure.Security.KeyVault.Secrets;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using Microsoft.Azure.Management.Fluent;
-using Azure.ResourceManager.Network.Models;
-using System.Collections.Generic;
 
 namespace HttpTrigger
 {
 
-    public class HealthCheck
-    {
-        [FunctionName("HealthCheck")]
-        public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "health")] HttpRequest req,
-            ILogger log)
-        {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
-            string responseMessage = "This HTTP triggered function executed successfully.";
-
-            return new OkObjectResult(responseMessage);
-        }
-    }
     public class ManagedAppWebHook
     {
-        private readonly static string TenantId = Environment.GetEnvironmentVariable("TenantId") ?? throw new ArgumentNullException(nameof(TenantId));
-        private readonly static string ClientSecret = Environment.GetEnvironmentVariable("ClientSecret") ?? throw new ArgumentNullException(nameof(ClientSecret));
-        private readonly static string ClientId = Environment.GetEnvironmentVariable("ClientId") ?? throw new ArgumentNullException(nameof(ClientId));
+        private readonly static string TenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID") ?? throw new ArgumentNullException(nameof(TenantId));
+        private readonly static string ClientSecret = Environment.GetEnvironmentVariable("AZURE_CLIENT_SECRET") ?? throw new ArgumentNullException(nameof(ClientSecret));
+        private readonly static string ClientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID") ?? throw new ArgumentNullException(nameof(ClientId));
         private readonly static string MySqlServer = Environment.GetEnvironmentVariable("MySqlServer") ?? throw new ArgumentNullException(nameof(MySqlServer));
         private readonly static string MySqlDatabase = Environment.GetEnvironmentVariable("MySqlDatabase") ?? throw new ArgumentNullException(nameof(MySqlDatabase));
         private readonly static string MySqlUserId = Environment.GetEnvironmentVariable("MySqlUserId") ?? throw new ArgumentNullException(nameof(MySqlUserId));
@@ -48,6 +35,18 @@ namespace HttpTrigger
     
         private readonly static string ResourceGroup = Environment.GetEnvironmentVariable("ResourceGroup") ?? throw new ArgumentNullException(nameof(ResourceGroup));
         private readonly static string PrivateLinkService = Environment.GetEnvironmentVariable("PrivateLinkService") ?? throw new ArgumentNullException(nameof(PrivateLinkService));
+
+        [FunctionName("HealthCheck")]
+        public static IActionResult HealthCheck(
+           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "health")] HttpRequest req,
+           ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            string responseMessage = "This HTTP triggered function executed successfully.";
+
+            return new OkObjectResult(responseMessage);
+        }
 
         [FunctionName("ManagedAppWebHook")]
         public async Task<IActionResult> Run(
