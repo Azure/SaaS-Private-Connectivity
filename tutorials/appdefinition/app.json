@@ -25,5 +25,5 @@
       },
       "packageFileUri": "https://YOUR-STORAGE-ACCOUNT-NAME.blob.core.windows.net/managedapp-def/app.zip"
     },
-    "location": "westeurope"
+    "location": "northeurope"
   }

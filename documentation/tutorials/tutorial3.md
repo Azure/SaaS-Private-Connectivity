@@ -71,6 +71,31 @@ Populate the [_app.json_](../../tutorials/appdefinition/app.json) file with the 
 * Your notification endpoint (omit the final _/resource_ of your Function endpoint as it will be automatically appended by the notification engine).
 * The location of the _app.zip_ you created earlier (you can use a signed SAS URL if the file is private).
 
+Make sure you add an authorization for the service principal you created in the first part of the tutorial and was configured in the Azure Function that will receive the notifications from the managed application deployment.
+
+Obtain the object ID for that service principal.
+
+```
+az ad sp show --id <YOUR_SERVICE_PRINCIPAL_CLIENT_ID> -o tsv --query "objectId"
+```
+
+And add an authorization with _Reader_ access (role definition ID _acdd72a7-3385-48ef-bd42-f606fba81ae7_).
+
+```json
+{
+  "properties": {
+    ...
+    "authorizations": [
+      ...
+      {
+        "principalId": "<YOUR_SERVICE_PRINCIPAL_OBJECT_ID>",
+        "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+      }
+    ],
+    ...
+}
+```
+
 Once populated, you can deploy the application definition with the command below. Make sure to replace the variables with your desired values.
 
 ```
