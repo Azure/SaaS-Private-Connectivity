@@ -8,7 +8,7 @@ In later tutorials, an example Private Link Service will be created using an AKS
 
 This tutorial assumes a basic understanding of azure cli and Visual Studio Code and Azure Functions.
 
-To support deployment ensure the functions core tools are available [Core Tool](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash) and .Net Core 3.1 SDK is installed [dotnet core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1).
+To support deployment ensure the functions core tools are available ([Function Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash)) and .Net Core 3.1 SDK is installed ([dotnet core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1)).
 
 To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription.
 
@@ -57,7 +57,7 @@ You'll now deploy the components needed to support the Notification Webhook:
 - Application Insights
 - Virtual Network (not required directly but will be used in later tutorial)
 
-The templates to deploy these components have been provided as an ARM template or Bicep templates.
+The templates to deploy these components have been provided as Bicep templates.
 
 
 ### Bicep deployment
@@ -100,6 +100,7 @@ Once deployed there are some values that will be required in subsequent steps wh
 
 ## Deploy the Function App
 The Function App will be deployed to the App Service Plan created in the last step.  The http trigger based function to listen for webhook notifications will then be deployed to this function app.
+This step assumes you have installed the functions core tools mentioned in the Before you begin section.
 
 ```
 cd ../..
@@ -130,7 +131,7 @@ Deploy the function
 func azure functionapp publish $functionApp
 ```
 
-This step assumes you have installed the functions core tools mentioned in the Before you begin section. If at this stage, you get an error : Can't find app with name $functionApp, just give it a few more seconds for the deployment to complete. 
+If at this stage, you get an error : Can't find app with name $functionApp, just give it a few more seconds for the deployment to complete. 
 
 The package file will be created and deployed to your function app:
 
@@ -186,7 +187,7 @@ This principal references a globally unique app object. The service principal ob
 
 Choose an SP NAME that is unique in your Azure Active Directory.
 
-Login to your Azure subscription and create your service principal using the following command (https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az_ad_sp_create_for_rbac):
+Create your service principal using the following command (https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az_ad_sp_create_for_rbac):
 
 ```
 az ad sp create-for-rbac --name <SP NAME> --sdk-auth --role owner --scope '/subscriptions/<subscriptionId>/resourceGroups/rg-tutorial'
@@ -223,11 +224,11 @@ And now, if you go in the portal under your access control blade for your resour
 ## Update Function App Settings
 
 One way you can store connection strings and secrets used by your function app and bindings is as application settings. This makes credentials available to both your function code and bindings.
-App settings and connection strings are stored encrypted in Azure. They're decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly. (https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings)
+App settings and connection strings are stored encrypted in Azure. They're decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly (https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings).
 
-When you develop a function app locally, you must maintain local copies of these values in the local.settings.json project file. (https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file)
+When you develop a function app locally, you must maintain local copies of these values in the local.settings.json project file. (https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file). 
 
-In order to edit your function app settings, go to the Configuration blade of your function app in the portal and then to AppSettings (https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the APPINSIGHTS_INSTRUMENTATIONKEY, APPLICATIONINSIGHTS_CONNECTION_STRING, etc.
+In order to edit your function app settings, go to the Configuration blade of your function app in the portal and then to AppSettings (https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the APPINSIGHTS_INSTRUMENTATIONKEY.
 
 To edit, click on Advanced Edit and this will allow you to edit them as a JSON file. Alternatively click on New application setting which will allow you to add one by one.
 Once happy with your changes, click on Save.
@@ -236,28 +237,13 @@ These are the additional app settings needed for your function to run :
 
 ```
   {
-    "name": "ClientId",
-    "value": Replace with Service Principal clientId,
-    "slotSetting": false
-  },
-  {
-    "name": "ClientSecret",
-    "value": Replace with Service Principal clientSecret,
-    "slotSetting": false
-  },
-  {
-    "name": "TenantId",
-    "value": Replace with Service Principal tenantId,
-    "slotSetting": false
-  },
-  {
     "name": "MySqlDatabase",
     "value": Replace with Sql database name,in this case tutorialdb,
     "slotSetting": false
   },
   {
     "name": "MySqlPassword",
-    "value": Replace with Sql db password,
+    "value": Replace with MySql db administratorLoginPassword,
     "slotSetting": false
   },
   {
@@ -296,8 +282,6 @@ These are the additional app settings needed for your function to run :
     "slotSetting": false
   },
 ```
-
-The following values : AZURE_CLIENT_ID, AZURE_CLIENT_SECRET and AZURE_TENANT_ID are used by Azure Default Credentials (https://docs.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme#defaultazurecredential). These are used to authenticate in the publisher tenant.
 
 ## Next steps
 

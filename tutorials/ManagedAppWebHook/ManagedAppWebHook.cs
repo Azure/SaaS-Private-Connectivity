@@ -25,9 +25,9 @@ namespace HttpTrigger
 
     public class ManagedAppWebHook
     {
-        private readonly static string TenantId = Environment.GetEnvironmentVariable("TenantId") ?? throw new ArgumentNullException(nameof(TenantId));
-        private readonly static string ClientSecret = Environment.GetEnvironmentVariable("ClientSecret") ?? throw new ArgumentNullException(nameof(ClientSecret));
-        private readonly static string ClientId = Environment.GetEnvironmentVariable("ClientId") ?? throw new ArgumentNullException(nameof(ClientId));
+        private readonly static string TenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID") ?? throw new ArgumentNullException(nameof(TenantId));
+        private readonly static string ClientSecret = Environment.GetEnvironmentVariable("AZURE_CLIENT_SECRET") ?? throw new ArgumentNullException(nameof(ClientSecret));
+        private readonly static string ClientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID") ?? throw new ArgumentNullException(nameof(ClientId));
         private readonly static string MySqlServer = Environment.GetEnvironmentVariable("MySqlServer") ?? throw new ArgumentNullException(nameof(MySqlServer));
         private readonly static string MySqlDatabase = Environment.GetEnvironmentVariable("MySqlDatabase") ?? throw new ArgumentNullException(nameof(MySqlDatabase));
         private readonly static string MySqlUserId = Environment.GetEnvironmentVariable("MySqlUserId") ?? throw new ArgumentNullException(nameof(MySqlUserId));
