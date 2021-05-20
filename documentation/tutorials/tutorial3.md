@@ -78,10 +78,63 @@ SUBSCRIPTION_ID=$(az account show -o tsv --query id)
 RESOURCE_GROUP=rg-tutorial
 APP_DEF_NAME=unique-name-of-your-app-def
 az rest --method put \
-    --url https://management.azure.com/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Solutions/applicationDefinitions/${APP_DEF_NAME}\?api-version\=2018-06-01 \
+    --url "https://management.azure.com/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Solutions/applicationDefinitions/${APP_DEF_NAME}?api-version=2018-06-01" \
     --body @app.json
 ```
 
 You will see the application definition in your Service Catalog from the portal.
 
 ![Service Catalog](../../images/service-catalog-portal.jpg)
+
+## Deploy the managed application from Service Catalog
+
+Now that you have published the managed application definition, you can click on it and deploy the managed app from that definition.
+
+![Managed Application overview](../../images/app-def-overview.jpg)
+
+You will be presented with a wizard form where you, as a customer, will have to fill in the information required by the managed application to be deployed.
+
+First, provide values for the **Basics** step. Select the Azure subscription to deploy your service catalog app to. Create a new resource group. Select a location for your app. When finished, select **Next**.
+
+![Managed Application deployment step 1](../../images/app-deploy-step-1.jpg)
+
+On the next step, **Application Configuration**, customers will type their name, a pre-shared that they would have received by the SaaS provider beforehand and that will be used to validate the deployment and approve the private link service connection, and the remote service alias for the private link service they will be connecting to.
+
+You can obtain the remote service alias from the portal by navigating to the private link service resource, or with the following CLI command.
+
+```
+az network private-link-service show -g rg-tutorial -n fsidemoPrivateLinkService -o tsv --query "alias"
+```
+
+When finished, select **Next**.
+
+![Managed Application deployment step 2](../../images/app-deploy-step-2.jpg)
+
+On step 3, **Networking**, you can choose to deploy the managed application to a new Virtual Network and subnet or to an existing one. In this demo we are going to deploy to a new network and subnet.
+
+![Managed Application deployment step 3](../../images/app-deploy-step-3.jpg)
+
+On the final step, you can review the summary and after validation succeeds, select **Create** to begin deployment.
+
+![Managed Application deployment step 4](../../images/app-deploy-step-4.jpg)
+
+The managed application will start to deploy and should complete in just a couple of minutes.
+
+![Managed Application deployment completed](../../images/app-deploy-completed.jpg)
+
+After the service catalog app has been deployed, you have two new resource groups. One resource group holds the service catalog app, **rg-application** in this case. The other resource group holds the resources for the service catalog app.
+
+View the resource group named **rg-application** to see the service catalog app.
+
+![Managed Application resource group](../../images/rg-application.jpg)
+
+You can click on the managed application resource and then find the managed resource group that holds the resources for the service catalog app.
+
+![Managed Application resource group](../../images/demoapp-overview.jpg)
+
+Click on the managed resource group to see the resources for the service catalog app.
+
+![Managed Application managed resource group](../../images/managed-resource-group.jpg)
+
+## Validate Private Link connection approval
+
