@@ -64,7 +64,7 @@ The templates to deploy these components have been provided as Bicep templates.
 
 In the previous step, you created a resource group named rg-tutorial. In this step you will deploy Azure resources to this resource group.
 
-This tutorial assumes you have bicep installed [bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install?tabs=azure-powershell).
+This tutorial assumes you have bicep installed ([bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install?tabs=azure-powershell)).
 
 ```
 cd tutorials/templates/bicep
@@ -131,7 +131,7 @@ Deploy the function
 func azure functionapp publish $functionApp
 ```
 
-If at this stage, you get an error : Can't find app with name $functionApp, just give it a few more seconds for the deployment to complete. 
+If at this stage, you get an error : Can't find app with name $functionApp, just give it a few more seconds for the deployment to complete and try the same command again. 
 
 The package file will be created and deployed to your function app:
 
@@ -148,14 +148,13 @@ https://<function url>/api/health
 
 The function url should be something like: yourfunctionname.azurewebsites.net.
 
+## Create customer table
+
 Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server).
 
 As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql. Once there, choose Add client IP and enter your IP address(https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
 When you have connected you will be able to create the required database and table and insert a record.
-
-
-## Create customer table
 
 ```
 -- Create a database
@@ -177,7 +176,7 @@ INSERT INTO customer ( CompanyName, SharedKey ) VALUES ('ExampleCustomer',uuid()
 select * from customer;
 ```
 
-The result will return a value for the ExampleCustomer and SharedKey.  This SharedKey can be used in the subsequent steps in [tutorial3](./tutorial3.md)
+The result will return a value for the ExampleCustomer and SharedKey.  This SharedKey can be used in the subsequent steps in [tutorial3](./tutorial3.md).
 
 
 ## Create service principal
