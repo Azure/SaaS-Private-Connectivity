@@ -147,7 +147,6 @@ https://<function url>/api/health
 ```
 
 The function url should be something like: yourfunctionname.azurewebsites.net.
-
 ## Create customer table
 
 Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server).
@@ -155,6 +154,7 @@ Once the function has been deployed you can additionally connect to the Azure My
 As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql. Once there, choose Add client IP and enter your IP address(https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
 When you have connected you will be able to create the required database and table and insert a record.
+
 
 ```
 -- Create a database
@@ -223,9 +223,9 @@ And now, if you go in the portal under your access control blade for your resour
 ## Update Function App Settings
 
 One way you can store connection strings and secrets used by your function app and bindings is as application settings. This makes credentials available to both your function code and bindings.
-App settings and connection strings are stored encrypted in Azure. They're decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly (https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings).
+App settings and connection strings are stored encrypted in Azure. They're decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly. (https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings)
 
-When you develop a function app locally, you must maintain local copies of these values in the local.settings.json project file. (https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file). 
+When you develop a function app locally, you must maintain local copies of these values in the local.settings.json project file. (https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file)
 
 In order to edit your function app settings, go to the Configuration blade of your function app in the portal and then to AppSettings (https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the APPINSIGHTS_INSTRUMENTATIONKEY.
 
@@ -237,7 +237,7 @@ These are the additional app settings needed for your function to run :
 ```
   {
     "name": "MySqlDatabase",
-    "value": Replace with Sql database name,in this case tutorialdb,
+    "value": Replace with Sql database name: tutorialdb,
     "slotSetting": false
   },
   {
@@ -257,12 +257,12 @@ These are the additional app settings needed for your function to run :
   },
   {
     "name": "PrivateLinkService",
-    "value": Replace with private link service name,
+    "value": Replace with private link service name: fsidemoPrivateLinkService,
     "slotSetting": false
   },
   {
     "name": "ResourceGroup",
-    "value": Replace with resource group name where private link service is deployed,
+    "value": Replace with resource group name where private link service is deployed: rg-tutorial,
     "slotSetting": false
   },
     {
@@ -281,6 +281,8 @@ These are the additional app settings needed for your function to run :
     "slotSetting": false
   },
 ```
+
+The following values : AZURE_CLIENT_ID, AZURE_CLIENT_SECRET and AZURE_TENANT_ID are used by Azure Default Credentials (https://docs.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme#defaultazurecredential). These are used to authenticate in the publisher tenant.
 
 ## Next steps
 
