@@ -21,3 +21,12 @@ resource mysql 'Microsoft.DBforMySQL/servers@2017-12-01' = {
     sslEnforcement: 'Disabled'
   }
 }
+
+resource mysqlfwrule 'Microsoft.DBforMySQL/servers/firewallRules@2017-12-01' = {
+  parent: mysql
+  name: 'AllowAllWindowsAzureIps'
+  properties: {
+    startIpAddress: '0.0.0.0'
+    endIpAddress: '0.0.0.0'
+  }
+}
