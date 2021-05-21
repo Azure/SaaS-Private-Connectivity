@@ -32,7 +32,7 @@ namespace HttpTrigger
         private readonly static string MySqlDatabase = Environment.GetEnvironmentVariable("MySqlDatabase") ?? throw new ArgumentNullException(nameof(MySqlDatabase));
         private readonly static string MySqlUserId = Environment.GetEnvironmentVariable("MySqlUserId") ?? throw new ArgumentNullException(nameof(MySqlUserId));
         private readonly static string MySqlPassword = Environment.GetEnvironmentVariable("MySqlPassword") ?? throw new ArgumentNullException(nameof(MySqlPassword));
-    
+
         private readonly static string ResourceGroup = Environment.GetEnvironmentVariable("ResourceGroup") ?? throw new ArgumentNullException(nameof(ResourceGroup));
         private readonly static string PrivateLinkService = Environment.GetEnvironmentVariable("PrivateLinkService") ?? throw new ArgumentNullException(nameof(PrivateLinkService));
 
@@ -243,38 +243,48 @@ namespace HttpTrigger
         private async Task<ApplicationDetails> GetManagedAppDetails(string applicationId, IAzure azure, ILogger log)
         {
 
-            var retryCount = 0;
+            var retryCount = 1;
             ApplicationDetails customerDetails = null;
+            IGenericResource managedAppDetails = null;
 
-
-            while (retryCount < 3 && customerDetails == null)
+            while (retryCount < 4 && managedAppDetails == null)
             {
-                log.LogInformation("Trying to authenticate against client subscription again");
+                log.LogInformation("Trying to get managed app deployment details");
                 await Task.Delay(20000);
-                var managedAppDetails = await azure.GenericResources.GetByIdAsync(applicationId);
-                if (managedAppDetails != null)
+
+                try
                 {
-                    try
-                    {
-                        customerDetails = JsonSerializer.Deserialize<ApplicationDetails>(managedAppDetails.Properties.ToString());
-                    }
-                    catch (ArgumentNullException)
-                    {
-                        log.LogError("Null exception when deserializing request body");
-                        throw;
-                    }
-                    catch (JsonException)
-                    {
-                        log.LogError("Json exception when deserializing request body");
-                        throw;
-                    }
+                    managedAppDetails = await azure.GenericResources.GetByIdAsync(applicationId);
                 }
-                log.LogInformation("Customer name is " + customerDetails.Outputs.CustomerName.Value);
+                catch (Exception ex)
+                {
+                    log.LogInformation($"I do not have permissions for getting managed app deployment details in {retryCount} try, trying again");
+                }
                 retryCount++;
             }
-
+            if (managedAppDetails == null)
+            {
+                throw new UnauthorizedAccessException();
+            }
+            else
+            {
+                try
+                {
+                    customerDetails = JsonSerializer.Deserialize<ApplicationDetails>(managedAppDetails.Properties.ToString());
+                    log.LogInformation("Customer name is " + customerDetails.Outputs.CustomerName.Value);
+                }
+                catch (ArgumentNullException)
+                {
+                    log.LogError("Null exception when deserializing request body");
+                    throw;
+                }
+                catch (JsonException)
+                {
+                    log.LogError("Json exception when deserializing request body");
+                    throw;
+                }
+            }
             return customerDetails;
         }
-
     }
 }
