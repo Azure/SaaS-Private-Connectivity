@@ -281,9 +281,6 @@ These are the additional app settings needed for your function to run :
     "slotSetting": false
   },
 ```
-
-The following values : AZURE_CLIENT_ID, AZURE_CLIENT_SECRET and AZURE_TENANT_ID are used by Azure Default Credentials (https://docs.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme#defaultazurecredential). These are used to authenticate in the publisher tenant.
-
 ## Next steps
 
 Deploy a sample application [Tutorial2](./tutorial2.md)
