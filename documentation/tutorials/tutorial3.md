@@ -184,17 +184,6 @@ In this case, the Azure Function which acts as a notification web hook for your 
 
 ## Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
 
-In the Create the managed application definition step, we gave reader access to the Azure function service principal and contributor access to our logged in user. 
-If we go to the access control of the resource group where the managed app components have been deployed, we can see a deny assignment that excludes these 2 Service Principals:
-
-![denyassignment](../../images/denyassignment-contoso.png)
-
-This means the logged in user is allowed to make changes to the resource group where the managed app components are deployed.
-
-Deploy an ubuntu server on the same VNET where the private endpoint is deployed (vnet-01) , install curl and try this command:
+Deploy an ubuntu server on the same virtual network where the private endpoint is deployed (vnet01) , install curl and try this command:
 
 ![curl-output](../../images/curl-output.png)
-
-And if we go to the private dns zone deployed as part of the managed application deployment, we can see a record that points to the private IP address of the private endpoint network interface:
-
-![private-dns-record](../../images/zone-record.png)
