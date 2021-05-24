@@ -171,9 +171,20 @@ Click on the managed resource group to see the resources for the service catalog
 
 ## Validate Private Link connection approval
 
-Once the deployment is complete, you can check your private link connection is now approved : 
+While the deployment is in progress, you can go to your private link service and you should be seeing in a few seconds a new private endpoint connection:
+
+![before-approval](../../images/before-connection-approval.png)
+
+At the moment, the connection is still pending. Give it another few seconds and you will see that the state has changed to approved:
+
+![after-approval](../../images/after-connection-approval.png)
+
+Once the deployment is complete, refresh your private endpoint connections and now it will be approved : 
 
 ![connectionApproval](../../images/validate-connection-approval.jpg)
+
+The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a private link service (https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access).
+In this case, the Azure Function which acts as a notification web hook for your managed app deployment approved the private endpoint connection.  
 
 ## Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
 
