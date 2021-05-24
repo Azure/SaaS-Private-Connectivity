@@ -184,6 +184,22 @@ In this case, the Azure Function which acts as a notification web hook for your 
 
 ## Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
 
-Deploy an ubuntu server on the same virtual network where the private endpoint is deployed (vnet01) , install curl and try this command:
+Deploy an ubuntu server on the same virtual network where the private endpoint is deployed (vnet01) and connect to your virtual machine using your SSH keys or password.
+
+Install curl:
+
+```
+sudo apt update && sudo apt upgrade
+sudo apt install curl
+curl --version
+```
+
+Try calling the endpoint exposed via the private link service:
+
+```
+curl saasprovider.northeurope.cloudapp.azure.com
+```
+
+If the private connection between your private endpoint and your private link service has been successful, you will get the following :
 
 ![curl-output](../../images/curl-output.png)
