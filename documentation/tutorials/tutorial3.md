@@ -79,7 +79,11 @@ Obtain the object ID for that service principal.
 az ad sp show --id <YOUR_SERVICE_PRINCIPAL_CLIENT_ID> -o tsv --query "objectId"
 ```
 
-And add an authorization with _Reader_ access (role definition ID _acdd72a7-3385-48ef-bd42-f606fba81ae7_).
+And add an authorization with _Reader_ access (role definition ID _acdd72a7-3385-48ef-bd42-f606fba81ae7_). 
+
+Add an authorization for your logged in user as well. Go to Azure Active Directory and get the Object Id for your user and give it _Contributor_ access (role definition ID b24988ac-6180-42a0-ab88-20f7382dd24c) (See: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-users-profile-azure-portal).
+This will allow you to make changes to the resource group where the managed application components are deployed. 
+
 
 ```json
 {
@@ -90,6 +94,10 @@ And add an authorization with _Reader_ access (role definition ID _acdd72a7-3385
       {
         "principalId": "<YOUR_SERVICE_PRINCIPAL_OBJECT_ID>",
         "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+      },
+       {
+        "principalId": "<YOUR_USER_OBJECT_ID>",
+        "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c"
       }
     ],
     ...
@@ -166,3 +174,20 @@ Click on the managed resource group to see the resources for the service catalog
 Once the deployment is complete, you can check your private link connection is now approved : 
 
 ![connectionApproval](../../images/validate-connection-approval.jpg)
+
+## Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
+
+In the Create the managed application definition step, we gave reader access to the Azure function service principal and contributor access to our logged in user. 
+If we go to the access control of the resource group where the managed app components have been deployed, we can see a deny assignment that excludes these 2 Service Principals:
+
+![denyassignment](../../images/denyassignment-contoso.png)
+
+This means the logged in user is allowed to make changes to the resource group where the managed app components are deployed.
+
+Deploy an ubuntu server into the managed app resource group, install curl and try this command:
+
+![curl-output](../../images/curl-output.png)
+
+And if we go to the private dns zone deployed as part of the managed application deployment, we can see a record that points to the private IP address of the private endpoint network interface:
+
+![private-dns-record](../../images/zone-record.png)
