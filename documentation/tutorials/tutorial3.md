@@ -200,6 +200,6 @@ Try calling the endpoint exposed via the private link service:
 curl saasprovider.northeurope.cloudapp.azure.com
 ```
 
-If the private connection between your private endpoint and your private link service has been successful, you will get the following :
+If the private connection between your private endpoint and your private link service was successfully established, you will get the following :
 
 ![curl-output](../../images/curl-output.png)
