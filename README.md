@@ -97,4 +97,4 @@ The commercial marketplace or Service Catalog calls this endpoint to notify the 
 
 ## Next steps
 
-Complete the [Tutorial](./documentation/tutorials/tutorial.md)
+Complete the [Tutorial](./documentation/tutorial.md)
