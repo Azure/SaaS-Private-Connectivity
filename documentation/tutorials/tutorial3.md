@@ -184,7 +184,7 @@ If we go to the access control of the resource group where the managed app compo
 
 This means the logged in user is allowed to make changes to the resource group where the managed app components are deployed.
 
-Deploy an ubuntu server into the managed app resource group, install curl and try this command:
+Deploy an ubuntu server on the same VNET where the private endpoint is deployed (vnet-01) , install curl and try this command:
 
 ![curl-output](../../images/curl-output.png)
 
