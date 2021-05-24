@@ -2,7 +2,7 @@
 
 This tutorial is part three of a three part tutorial series that will configure and deploy and example of the Private Connectivity pattern.
 
-The final part of the three part series focuses on the managed Application deployment and validation of the end to end example scenario ensuring the Private Link connection has been approved as expected and communication with the backend example application is possible using the exposed endpoints
+The final part of the three part series focuses on the managed Application deployment and validation of the end to end example scenario ensuring the Private Link connection has been approved as expected and communication with the backend example application is possible using the exposed endpoints.
 
 ## Before you begin
 
@@ -19,7 +19,7 @@ In this tutorial, you learn how to:
 * Validate Private Link connection approval
 * Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
 
-Details of how a managed application UI definition and deployment template can be created can be found [here](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview)
+Details of how a managed application UI definition and deployment template can be created can be found [here](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview).
 
 ## Create a Service Catalog Definition
 
@@ -163,3 +163,6 @@ Click on the managed resource group to see the resources for the service catalog
 
 ## Validate Private Link connection approval
 
+Once the deployment is complete, you can check your private link connection is now approved : 
+
+![connectionApproval](../../images/validate-connection-approval.jpg)

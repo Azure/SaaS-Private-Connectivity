@@ -110,8 +110,7 @@ namespace HttpTrigger
             }
             catch (UnauthorizedAccessException ex)
             {
-                responseMessage = "Your shared key is not valid";
-                log.LogError(-1, ex, responseMessage);
+                log.LogError(-1, ex, ex.Message);
                 return new UnauthorizedResult();
             }
             catch (Exception ex)
@@ -136,12 +135,6 @@ namespace HttpTrigger
             var clientAzureAuth = AuthenticateToAzure(clientSubscriptionId);
 
             var managedAppDetails = await GetManagedAppDetails(data.ApplicationId, clientAzureAuth, log);
-
-            if (managedAppDetails == null)
-            {
-                var message = "I did not have the right access to get deployment details";
-                throw new Exception(message);
-            }
 
             if (await ValidateKeyAsync(managedAppDetails.Outputs.PreSharedKey.Value, log) == false)
             {
@@ -264,7 +257,7 @@ namespace HttpTrigger
             }
             if (managedAppDetails == null)
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("You do not have access to get managed app deployment details");
             }
             else
             {
