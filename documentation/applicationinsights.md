@@ -45,14 +45,14 @@ This means that the service principal used by the Azure Function app does not ha
 
 ![sp-contributor](../images/sp-contributor.png)
 
-You can either add this role assignment manually or republish your managed app definition making sure the app.json file contains the right role assignment for this service principal [tutorial3](./tutorial3.md)
+You can either add this role assignment manually or republish your managed app definition making sure the app.json file contains the right role assignment for this service principal as detailed in [tutorial3](./tutorial3.md)
 
 ```
 "Your shared key is not valid."
 ```
 
 This can mean that you've made a mistake when you entered the Pre-Shared key at the marketplace deployment time. See [tutorial3](./tutorial3.md) for how to use the Pre-Shared Key.
-Alternatively, this can also mean that you made a mistake when creating a Pre-Shared Key in the database. See [tutorial1](./tutorial1.md) for how to generate a Pre-Shared in the database.
+Alternatively, this can also mean that you made a mistake when creating a Pre-Shared Key in the database. See [tutorial1](./tutorial1.md) for how to generate a Pre-Shared Key in the database.
 
 
 ```
