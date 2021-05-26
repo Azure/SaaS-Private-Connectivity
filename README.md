@@ -26,8 +26,8 @@ As well as providing an overview of the connectivity pattern there are also thre
   - [Function App Webhook](./documentation/tutorials/tutorial1.md)
   - [Example App with Private Link Service](./documentation/tutorials/tutorial2.md)
   - [Managed Application](./documentation/tutorials/tutorial3.md)
-- [How To]
-  - [Source IP address Tracking](./documentation/How-to guides/sourceIpTracking.md)
+- [How To](./documentation/How-to-guides)
+  - [Source IP address Tracking](./documentation/How-to-guides/sourceIpTracking.md)
 
 
 # Deployment Architecture
@@ -74,7 +74,7 @@ This could be deployed using other capabilities providing the notification endpo
 
 # Managed Application Deployment with Automation of Private Link Connectivity 
 
-The Managed Application Deployment can be done from either a [Service Catalog](./servicecatalog.md) or an [Azure Market Place](./marketplace.md) entry.  By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the Publisher.  The deployment of all the components required to enable private connectivity are contained within the Managed Application with the exception of the Webhook to handle notifications and any additional vnet peering that is required by the customer to enable access to the Managed Application vnet.
+The Managed Application Deployment can be done from either a [Service Catalog](./documentation/servicecatalog.md) or an [Azure Market Place](./documentation/marketplace.md) entry.  By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the Publisher.  The deployment of all the components required to enable private connectivity are contained within the Managed Application with the exception of the Webhook to handle notifications and any additional vnet peering that is required by the customer to enable access to the Managed Application vnet.
 
 The diagram below illustrates a typical flow when provisioning a Managed Application and automating the approval of the Private Link Connection
 
