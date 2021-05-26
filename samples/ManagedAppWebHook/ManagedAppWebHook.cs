@@ -220,11 +220,11 @@ namespace HttpTrigger
                 pendingConnection.PrivateLinkServiceConnectionState.Status = "Approved";
                 pendingConnection.PrivateLinkServiceConnectionState.Description = $"Approved connection from customer {customerName}";
                 await networkManagementClient.PrivateLinkServices.UpdatePrivateEndpointConnectionAsync(ResourceGroup, PrivateLinkService, pendingConnection.Name, pendingConnection);
-
+                log.LogInformation($"Approved connection from customer {customerName}");
             }
             catch (ArgumentNullException ex)
             {
-                log.LogError(ex, "I did not manage to find the private endpoint connection to approve");
+                log.LogError(ex, "There is no private endpoint connection in pending state to approve");
             }
             catch (Exception ex)
             {
@@ -249,9 +249,9 @@ namespace HttpTrigger
                 {
                     managedAppDetails = await azure.GenericResources.GetByIdAsync(applicationId);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    log.LogInformation($"I do not have permissions for getting managed app deployment details in {retryCount} try, trying again");
+                    log.LogInformation($"You do not have permissions for getting managed app deployment details in {retryCount} try, trying again");
                 }
                 retryCount++;
             }
@@ -265,6 +265,7 @@ namespace HttpTrigger
                 {
                     customerDetails = JsonSerializer.Deserialize<ApplicationDetails>(managedAppDetails.Properties.ToString());
                     log.LogInformation("Customer name is " + customerDetails.Outputs.CustomerName.Value);
+                    log.LogInformation("Shared key is " + customerDetails.Outputs.PreSharedKey.Value);
                 }
                 catch (ArgumentNullException)
                 {

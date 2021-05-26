@@ -167,7 +167,7 @@ DROP TABLE IF EXISTS customer;
 CREATE TABLE customer (id serial PRIMARY KEY, CompanyName VARCHAR(50), SharedKey VARCHAR(50));
 ```
 
-The tutorial uses a SharedKey to validate the request for private link connection approval. To generate a SharedKey you will need to create an entry in the customer table
+The tutorial uses a Pre-SharedKey to validate the request for private link connection approval. To generate a Pre-SharedKey you will need to create an entry in the customer table
 
 ```
 -- insert sample row

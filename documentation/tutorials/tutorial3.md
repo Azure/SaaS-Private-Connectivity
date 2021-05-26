@@ -79,10 +79,10 @@ Obtain the object ID for that service principal.
 az ad sp show --id <YOUR_SERVICE_PRINCIPAL_CLIENT_ID> -o tsv --query "objectId"
 ```
 
-And add an authorization with _Reader_ access (role definition ID _acdd72a7-3385-48ef-bd42-f606fba81ae7_). 
+And add an authorization with _Contributor_ access (role definition ID _b24988ac-6180-42a0-ab88-20f7382dd24c_). 
 
 Add an authorization for your logged in user as well. Go to Azure Active Directory and get the Object Id for your user and give it _Contributor_ access (role definition ID b24988ac-6180-42a0-ab88-20f7382dd24c) (See: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-users-profile-azure-portal).
-This will allow you to make changes to the resource group where the managed application components are deployed. 
+This will allow your current logged in user to make changes to the resource group where the managed application components are deployed. 
 
 
 ```json
@@ -93,7 +93,7 @@ This will allow you to make changes to the resource group where the managed appl
       ...
       {
         "principalId": "<YOUR_SERVICE_PRINCIPAL_OBJECT_ID>",
-        "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+        "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c"
       },
        {
         "principalId": "<YOUR_USER_OBJECT_ID>",
