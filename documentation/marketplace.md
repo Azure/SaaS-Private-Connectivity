@@ -8,7 +8,7 @@ Partner center provides access to the Azure Commercial MarketPlace where offers 
 Once an offer has been created the key elements for the Private Connectivity Pattern are within the Plan Setup
 
 ## Plan Listing
-Containts overview of the individual plan
+Contains overview of the individual plan
 
 ## Pricing & Availability
 Key section here for validation puposes is whether the Plan Visibility is Public or Private.  With Private visibility Azure subscription IDs can be added to limit the visibility of the Marketplace entry to target subscriptions only
@@ -21,8 +21,8 @@ The technical configuration provides the package details.
 |---------|---------|
 | Package file | zip file of the managed application customUIdefinition.json and the mainTemplate.json |
 | Deployment Mode | Ensure "Incremental" is selected |
-| Notification Endpoint URL | Enter the webhook notification endpoint without /reesources as this will be added by the Marketplace notification service |
-| Cusomtize Allowed Customer actions | select (see below for details) |
+| Notification Endpoint URL | Enter the webhook notification endpoint without /resource as this will be added by the Marketplace notification service eg (https://functionapp.azurewebsites.net/api) |
+| Customize Allowed Customer actions | select (see below for details) |
 | Azure Active Directory tenant ID | Enter the Publisher tenant id |
 | Authorizations | Enter the principal Id of the function App identity and any User/Group required to access the managed app |
 

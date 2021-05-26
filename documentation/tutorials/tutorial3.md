@@ -37,7 +37,7 @@ Every managed application definition includes a file named _mainTemplate.json_. 
 
 In our private connectivity context, the template will include a Private Endpoint that will be used by your customers to connect to your private SaaS offering via the Private Link Service we deployed previously.
 
-A sample _mainTemplate.json_ file can be found [here](../tutorials/ManagedApp/mainTemplate.json). The template deploys the following Azure resources:
+A sample _mainTemplate.json_ file can be found [here](../../samples/ManagedApp/mainTemplate.json). The template deploys the following Azure resources:
 
 * An optional Virtual Network, depending on if the customer wants to deploy the Private Endpoint to a new Virtual Network or use an existing one.
 * A Private DNS Zone and the A Record to override your SaaS endpoint and allow customers to resolve your endpoint to the Private Endpoint IP address instead of the default public IP.
@@ -48,7 +48,7 @@ A sample _mainTemplate.json_ file can be found [here](../tutorials/ManagedApp/ma
 
 As a publisher, you define the portal experience for creating the managed application. The _createUiDefinition.json_ file generates the portal interface. You define how users provide input for each parameter using [control elements](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/create-uidefinition-elements) including drop-downs, text boxes, and password boxes.
 
-A sample _createUiDefinition.json_ file can be found [here](../../tutorials/ManagedApp/createUiDefinition.json). The file defines a portal experience where customers have to enter their details, a pre-shared key that will be validated on the SaaS side, and the networking details to know where to deploy the Private Endpoint.
+A sample _createUiDefinition.json_ file can be found [here](../../samples/ManagedApp/createUiDefinition.json). The file defines a portal experience where customers have to enter their details, a pre-shared key that will be validated on the SaaS side, and the networking details to know where to deploy the Private Endpoint.
 
 You can customize the portal experience to fit your needs and obtain direct information from your customers. To learn more about creating a UI experience, check [this guide](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/create-uidefinition-overview).
 

@@ -41,9 +41,7 @@ Logs in the application insights will show us information about these actions:
 
 ```
 
-This means that the service principal used by the Azure Function app does not have the right access to get deployment details. This implies an error with the role assignment for the service principal at managed app deployment time - it should have been given a Contributor role to the resource group where managed app components are deployed. You can verify it under the access control for the resource group where the managed app components are deployed: 
-
-![sp-contributor](../images/sp-contributor.png)
+This means that the service principal used by the Azure Function app does not have the right access to get deployment details. This implies an error with the role assignment for the service principal at managed app deployment time - it should have been given a Contributor role to the resource group where managed app components are deployed. You can verify it under the access control for the managed resource group.
 
 You can either add this role assignment manually or republish your managed app definition making sure the app.json file contains the right role assignment for this service principal as detailed in [tutorial3](./tutorial3.md)
 

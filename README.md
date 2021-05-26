@@ -67,7 +67,7 @@ Private Link service is the reference to the Provider's service.  The service is
 [Internal Loadbalancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-overview)
 
 ### Notification Webhook
-In the examples shown in the tutorials an Azure Funtion has been used for the Notification Webhook
+In the examples shown in the tutorials an Azure Function has been used for the Notification Webhook
 [Function App](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview)
 This could be deployed using other capabilities providing the notification endpoint is exposed to allow the MarketPlace (Service Catalog) notifications to be sent to this listening endpoint.
 
@@ -89,7 +89,7 @@ The diagram below illustrates a typical flow when provisioning a Managed Applica
 
 In the case of the Private Connectivity pattern it is recommended that an additional authorization is added to Notification and approval process based on the requirements of the Service Provider.  In the tutorials provided this is demonstrated using a pre-shared key stored in the providers database which is provided at ordering time by the consumer and verified by the function app before the connection is approved.
 
-At the end of the deployment process identities ( Users, Groups or Apps/Service Principals ) with have access to the managed application deployment based on the authorization granted.  The Customer admin will have full control of the managed application however, they will only have read access to the managed resource group unless specific additional authorizations have been granted.  In the case of the Private Connectivity pattern these additional permissions are:
+At the end of the deployment process identities ( Users, Groups or Apps/Service Principals ) will have access to the managed application deployment based on the authorization granted.  The Customer admin will have full control of the managed application however, they will only have read access to the managed resource group unless specific additional authorizations have been granted.  In the case of the Private Connectivity pattern these additional permissions are:
 - Ability to peer the managed app vnet
 - Ability to link the private DNS zone to a vnet
 
