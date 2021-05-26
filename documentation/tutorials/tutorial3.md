@@ -37,7 +37,7 @@ Every managed application definition includes a file named _mainTemplate.json_. 
 
 In our private connectivity context, the template will include a Private Endpoint that will be used by your customers to connect to your private SaaS offering via the Private Link Service we deployed previously.
 
-A sample _mainTemplate.json_ file can be found [here](../../tutorials/ManagedApp/mainTemplate.json). The template deploys the following Azure resources:
+A sample _mainTemplate.json_ file can be found [here](../tutorials/ManagedApp/mainTemplate.json). The template deploys the following Azure resources:
 
 * An optional Virtual Network, depending on if the customer wants to deploy the Private Endpoint to a new Virtual Network or use an existing one.
 * A Private DNS Zone and the A Record to override your SaaS endpoint and allow customers to resolve your endpoint to the Private Endpoint IP address instead of the default public IP.

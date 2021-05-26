@@ -176,7 +176,7 @@ INSERT INTO customer ( CompanyName, SharedKey ) VALUES ('ExampleCustomer',uuid()
 select * from customer;
 ```
 
-The result will return a value for the ExampleCustomer and SharedKey.  This SharedKey can be used in the subsequent steps in [tutorial3](./tutorial3.md).
+The result will return a value for the ExampleCustomer and Pre-SharedKey.  This Pre-SharedKey can be used in the subsequent steps in [tutorial3](./tutorial3.md).
 
 
 ## Create service principal
@@ -237,7 +237,7 @@ These are the additional app settings needed for your function to run :
 ```
   {
     "name": "MySqlDatabase",
-    "value": Replace with Sql database name: tutorialdb,
+    "value": Replace with MySql db name: tutorialdb,
     "slotSetting": false
   },
   {
@@ -247,12 +247,12 @@ These are the additional app settings needed for your function to run :
   },
   {
     "name": "MySqlServer",
-    "value": Replace with sql server name sqlservername.mysql.database.azure.com,
+    "value": Replace with MySql server name sqlservername.mysql.database.azure.com,
     "slotSetting": false
   },
   {
     "name": "MySqlUserId",
-    "value": Replace with your Sql user id,
+    "value": Replace with your MySql user id,
     "slotSetting": false
   },
   {
