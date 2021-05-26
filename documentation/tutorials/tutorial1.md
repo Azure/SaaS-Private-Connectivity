@@ -67,7 +67,7 @@ In the previous step, you created a resource group named rg-tutorial. In this st
 This tutorial assumes you have bicep installed ([bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install?tabs=azure-powershell)).
 
 ```
-cd tutorials/templates/bicep
+cd samples/templates/bicep
 
 az deployment group create -g rg-tutorial -f ./main.bicep
 ```

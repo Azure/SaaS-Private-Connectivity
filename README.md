@@ -2,12 +2,12 @@
 
 
 # Introduction 
-This documentation provides guidance on the architecture and deployment of the SaaS Private Connectivity Pattern that supports the following key features:
+This documentation provides guidance on the architecture and deployment of the SaaS Private Connectivity Pattern aimed at supporting the following key features:
 
 - Private Connectivity over Azure PrivateLink to expose Service hosted API's
 - Deployment and Automated approval of a PrivateLink connection with a Managed Application deployment
 
-The solution is intended to be deployed from either a Service Catalog or Azure MarketPlace deployment.  The Service Catalog setup and deployment limits the deployment scope to the subscription in which the Service Catalog definition is deployed, however use of the Azure MarketPlace allows the solution to be made available as a Managed Application to any consuming customer/subscription given the agreed authentication mechanism is validated.  The solution described can be used to enable private connectivity from a customer subscription/tenant to a Service Providers solution.  To allow connectivity from a customers networks either vnet peering would be required (recommended) or the use of an existing vnet into which the Managed Application is deployed.  In this scenario additional permissions would need to be granted by the customer to allow deployment to the existing vnet scope.
+The solution is intended to be deployed as a Managed Application from either a Service Catalog or Azure MarketPlace deployment.  The Service Catalog setup and deployment limits the deployment scope to the subscription in which the Service Catalog definition is deployed, however use of the Azure MarketPlace allows the solution to be made available as a Managed Application to any consuming customer/subscription given the agreed authentication mechanism is validated.  The solution described can be used to enable private connectivity from a customer subscription/tenant to a Service Providers solution.  To enable connectivity from an existing customer network either vnet peering would be required (recommended) or the use of an existing vnet into which the Managed Application is deployed.  In this scenario additional permissions would need to be granted by the customer to allow deployment to the existing vnet scope.
 
 As well as providing an overview of the connectivity pattern there are also three tutorials which provide examples of how to deploy the pattern with a simple application context example.
 
@@ -26,6 +26,8 @@ As well as providing an overview of the connectivity pattern there are also thre
   - [Function App Webhook](./documentation/tutorials/tutorial1.md)
   - [Example App with Private Link Service](./documentation/tutorials/tutorial2.md)
   - [Managed Application](./documentation/tutorials/tutorial3.md)
+- [How To](./documentation/How-to-guides)
+  - [Source IP address Tracking](./documentation/How-to-guides/sourceIpTracking.md)
 
 
 # Deployment Architecture
@@ -45,9 +47,9 @@ The key Azure components used to support this pattern are:
 - Internal Loadbalancer
 
 To support the automated approval of the PrivateLink connection from a MarketPlace ( or Service Catalog ) deployment additionally:
-- Webhook Notification Endpoint (using Azure Function App)
+- Webhook Notification Endpoint (in the example using an Azure Function App)
 
-The other components depicated in the deployment architecture are used to support the SaaS application deployment which provides the APIs that are being made available over the PrivateLink Service
+The other components depicated in the deployment architecture are used to support the example SaaS application deployment which provides the APIs that would be made available over the PrivateLink Service
 
 ### Private Endpoint
 Private Endpoint is a network interface that connects you privately and securely to a service powered by Azure Private Link. Private Endpoint uses a private IP address from your VNet to provide the connection to the remote service.  In the case of the Private Connectivity pattern this is a Private Link Service exposing a set of service APIs
@@ -72,7 +74,7 @@ This could be deployed using other capabilities providing the notification endpo
 
 # Managed Application Deployment with Automation of Private Link Connectivity 
 
-The Managed Application Deployment can be done from either a [Service Catalog](./servicecatalog.md) or an [Azure Market Place](./marketplace.md) entry.  By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the Publisher.  The deployment of all the components required to enable private connectivity are contained within the Managed Application with the exception of the Webhook to handle notifications and any additional vnet peering that is required by the customer to enable access to the Managed Application vnet.
+The Managed Application Deployment can be done from either a [Service Catalog](./documentation/servicecatalog.md) or an [Azure Market Place](./documentation/marketplace.md) entry.  By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the Publisher.  The deployment of all the components required to enable private connectivity are contained within the Managed Application with the exception of the Webhook to handle notifications and any additional vnet peering that is required by the customer to enable access to the Managed Application vnet.
 
 The diagram below illustrates a typical flow when provisioning a Managed Application and automating the approval of the Private Link Connection
 

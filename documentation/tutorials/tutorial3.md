@@ -64,7 +64,7 @@ The next step is to select a user group, user, or application for managing the r
 
 You need the object ID of the user or group to use for managing the resources and the role definition ID of the Azure built-in role you want to grant access to the user, user group, or application. Typically, you use the Owner or Contributor or Reader role. Check [this guide](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles) to find the ID of your desired role.
 
-Populate the [_app.json_](../../tutorials/appdefinition/app.json) file with the following details:
+Populate the [_app.json_](../../samples/appdefinition/app.json) file with the following details:
 
 * The type of lock placed on the managed resource group. It prevents the customer from performing undesirable operations on this resource group. Currently, ReadOnly is the only supported lock level.
 * One or more authorizations with the user or group object ID, and the role definition ID that are used to grant permission to the managed resource group.
