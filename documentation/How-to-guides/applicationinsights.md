@@ -17,7 +17,7 @@ Some information to look out for:
 
 The managed app provisioning state will tell you the current state of the managed application deployment : Accepted, Suceeded, Failed, etc. (https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/publish-notifications#event-triggers)
 
-![appinsights-provisoningstates](../images/appinsights-provisioningstate.png)
+![appinsights-provisoningstates](../../images/appinsights-provisioningstate.png)
 
 When you've just triggered a managed app deployment, the provisoning state will be "Accepted". Give it a few seconds and you will see the state changing to "Succeeded", which means your managed app components have now been sucessfully deployed. At this point, your Azure Function app will start the flow for approving your Private endpoint connection.
 
@@ -31,7 +31,7 @@ The flow for the private endpoint connection approval is as follows:
 
 Logs in the application insights will show us information about these actions:
 
-![appinsights-provisoningstates](../images/appinsights-actions.png)
+![appinsights-provisoningstates](../../images/appinsights-actions.png)
 
 
 ## Troubleshooting common errors
@@ -43,14 +43,14 @@ Logs in the application insights will show us information about these actions:
 
 This means that the service principal used by the Azure Function app does not have the right access to get deployment details. This implies an error with the role assignment for the service principal at managed app deployment time - it should have been given a Contributor role to the resource group where managed app components are deployed. You can verify it under the access control for the managed resource group.
 
-You can either add this role assignment manually or republish your managed app definition making sure the app.json file contains the right role assignment for this service principal as detailed in [tutorial3](./tutorial3.md)
+You can either add this role assignment manually or republish your managed app definition making sure the app.json file contains the right role assignment for this service principal as detailed in [tutorial3](../tutorials/tutorial3.md)
 
 ```
 "Your shared key is not valid."
 ```
 
-This can mean that you've made a mistake when you entered the Pre-Shared key at the marketplace deployment time. See [tutorial3](./tutorial3.md) for how to use the Pre-Shared Key.
-Alternatively, this can also mean that you made a mistake when creating a Pre-Shared Key in the database. See [tutorial1](./tutorial1.md) for how to generate a Pre-Shared Key in the database.
+This can mean that you've made a mistake when you entered the Pre-Shared key at the marketplace deployment time. See [tutorial3](../tutorials/tutorial3.md) for how to use the Pre-Shared Key.
+Alternatively, this can also mean that you made a mistake when creating a Pre-Shared Key in the database. See [tutorial1](../tutorials/tutorial1.md) for how to generate a Pre-Shared Key in the database.
 
 
 ```
@@ -59,4 +59,4 @@ The client with object id does not have authorization to perform 'Microsoft.Netw
 
 This means that the service principal used by the Azure function app does not have Owner role assigned to the resource group where your Private Link Service is deployed, rg-tutorial.
 Same as in the previous example, you can verify it under the access control for rg-tutorial. 
-To fix this, make sure you add the role assignment as detailed in [tutorial1](./tutorial1.md)
+To fix this, make sure you add the role assignment as detailed in [tutorial1](../tutorials/tutorial1.md)
