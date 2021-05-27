@@ -2,7 +2,7 @@
 
 This tutorial is part one of a three part tutorial series that will configure and deploy an example of the Private Connectivity pattern.
 
-In later tutorials, an example Private Link Service will be created using an AKS cluster and internal Load Balancer and a Managed application will be deployed from the Service Catalog.
+In later tutorials, an example Private Link Service will be created using an AKS cluster and internal Load Balancer and a Managed application will be deployed from the service catalog.
 
 ## Before you begin
 
@@ -31,16 +31,16 @@ cd Saas-Private-Connectivity
 
 In this tutorial, you learn how to:
 
-* Create a resource group 
+* Create a resource group
 * Deploy the Azure components required to support your Function App
 * Deploy your Function App
-* Configure the Function App for use with Azure App Insights and Azure MySQL 
+* Configure the Function App for use with Azure App Insights and Azure MySQL
 * Create a database table for use with the example app
 
 
 ## Create a resource group
 
-In Azure, you allocate related resources to a resource group. Create a resource group by using [az group create](/cli/azure/group#az_group_create). The following example creates a resource group named *rg-tutorial* in the *northeurope* location (region). 
+In Azure, you allocate related resources to a resource group. Create a resource group by using [az group create](/cli/azure/group#az_group_create). The following example creates a resource group named *rg-tutorial* in the *northeurope* location (region).
 
 ```
 az group create --name rg-tutorial --location northeurope
@@ -72,7 +72,7 @@ cd samples/templates/bicep
 az deployment group create -g rg-tutorial -f ./main.bicep
 ```
 
-You will notice you are asked for an administratorLoginPassword. This password will be used to create an administratorLoginPassword for your MySql instance. 
+You will notice you are asked for an administratorLoginPassword. This password will be used to create an administratorLoginPassword for your MySql instance.
 
 Once deployed there are some values that will be required in subsequent steps which can be found in the outputs section from the template deployment. For example:
 
@@ -118,7 +118,7 @@ functionApp=<enter a name for your function app>
 az functionapp create --name $functionApp -g $resourceGroup -s $storageAccount --app-insights $insights --os-type Linux --runtime dotnet --plan $plan --functions-version 3
 ```
 
-If you get back an error: Operation returned an invalid status 'Conflict', it means the current app name is already in use. The function app's name must be able to produce a unique FQDN as AppName.azurewebsites.net. 
+If you get back an error: Operation returned an invalid status 'Conflict', it means the current app name is already in use. The function app's name must be able to produce a unique FQDN as AppName.azurewebsites.net.
 
 The function app will be created and can be viewed in the Azure portal:
 
@@ -131,7 +131,7 @@ Deploy the function
 func azure functionapp publish $functionApp
 ```
 
-If at this stage, you get an error : Can't find app with name $functionApp, just give it a few more seconds for the deployment to complete and try the same command again. 
+If at this stage, you get an error : Can't find app with name $functionApp, just give it a few more seconds for the deployment to complete and try the same command again.
 
 The package file will be created and deployed to your function app:
 
@@ -182,7 +182,7 @@ The result will return a value for the ExampleCustomer and Pre-SharedKey.  This 
 ## Create service principal
 
 To access resources secured by an Azure AD tenant, the function app uses a service principal. There are 3 types of Service principal: application, managed identity and legacy - this tutorial uses application.
-This principal references a globally unique app object. The service principal object defines what the app can actually do in the specific tenant, who can access the app, and what resources the app can access. (https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#service-principal-object) 
+This principal references a globally unique app object. The service principal object defines what the app can actually do in the specific tenant, who can access the app, and what resources the app can access. (https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#service-principal-object)
 
 Choose an SP NAME that is unique in your Azure Active Directory.
 
@@ -209,7 +209,7 @@ The service principal information is displayed as JSON.
 }
 ```
 
-Make note of clientId,clientSecret and tenantId - you will need this information to update the Function application settings. 
+Make note of clientId,clientSecret and tenantId - you will need this information to update the Function application settings.
 
 To test the creation of the service principal, run the az cli:
 

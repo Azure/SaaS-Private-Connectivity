@@ -14,8 +14,8 @@ To complete this tutorial you will need access to an Azure subscription with the
 
 In this tutorial, you learn how to:
 
-* Create a Service Catalog Definition with a Notification Endpoint configured
-* Deploy the managed Application from the Service Catalog definition
+* Create a service catalog Definition with a Notification Endpoint configured
+* Deploy the managed Application from the service catalog definition
 * Validate Private Link connection approval
 * Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
 
@@ -79,10 +79,10 @@ Obtain the object ID for that service principal.
 az ad sp show --id <YOUR_SERVICE_PRINCIPAL_CLIENT_ID> -o tsv --query "objectId"
 ```
 
-And add an authorization with _Contributor_ access (role definition ID _b24988ac-6180-42a0-ab88-20f7382dd24c_). 
+And add an authorization with _Contributor_ access (role definition ID _b24988ac-6180-42a0-ab88-20f7382dd24c_).
 
 Add an authorization for your logged in user as well. Go to Azure Active Directory and get the Object Id for your user and give it _Contributor_ access (role definition ID b24988ac-6180-42a0-ab88-20f7382dd24c) (See: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-users-profile-azure-portal).
-This will allow your current logged in user to make changes to the resource group where the managed application components are deployed. 
+This will allow your current logged in user to make changes to the resource group where the managed application components are deployed.
 
 
 ```json
@@ -115,11 +115,11 @@ az rest --method put \
     --body @app.json
 ```
 
-You will see the application definition in your Service Catalog from the portal.
+You will see the application definition in your service catalog from the portal.
 
 ![Service Catalog](../../images/service-catalog-portal.jpg)
 
-## Deploy the managed application from Service Catalog
+## Deploy the managed application from service catalog
 
 Now that you have published the managed application definition, you can click on it and deploy the managed app from that definition.
 
@@ -180,7 +180,7 @@ At the moment, the connection is still pending. Give it another few seconds for 
 ![after-approval](../../images/after-connection-approval.png)
 
 The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a private link service (https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access).
-In this case, the Azure Function which acts as a notification web hook for your managed app deployment approved the private endpoint connection.  
+In this case, the Azure Function which acts as a notification web hook for your managed app deployment approved the private endpoint connection.
 
 ## Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
 

@@ -1,9 +1,9 @@
 # Private Connectivity Market Place
 
-Outlined below are detailed of how the Azure Commercial MarketPlace can be used to support the private connectivity pattern.
+Outlined below are detailed of how the Azure Commercial Marketplace can be used to support the private connectivity pattern.
 
 ## Microsoft Partner Center
-Partner center provides access to the Azure Commercial MarketPlace where offers can be created and published.  Details of how to access Partner Center, sign up and create an account are detailed in the Partner Center documentation [Partner Center](https://docs.microsoft.com/en-us/partner-center/).
+Partner center provides access to the Azure Commercial Marketplace where offers can be created and published.  Details of how to access Partner Center, sign up and create an account are detailed in the Partner Center documentation [Partner Center](https://docs.microsoft.com/en-us/partner-center/).
 
 Once an offer has been created the key elements for the Private Connectivity Pattern are within the Plan Setup
 
@@ -14,7 +14,7 @@ Contains overview of the individual plan
 Key section here for validation puposes is whether the Plan Visibility is Public or Private.  With Private visibility Azure subscription IDs can be added to limit the visibility of the Marketplace entry to target subscriptions only
 
 ## Technical Configuration
-The technical configuration provides the package details. 
+The technical configuration provides the package details.
 
 
 |Field |Comment  |
@@ -28,7 +28,7 @@ The technical configuration provides the package details.
 
 
 ### Allowed Control actions:
-To enable Private connectivity add the following actions that will allow vnet peering 
+To enable Private connectivity add the following actions that will allow VNet peering
 Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write
 Microsoft.Network/virtualNetworks/virtualNetworkPeerings/delete
 Microsoft.Network/virtualNetworks/peer/action
