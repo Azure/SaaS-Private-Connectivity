@@ -14,10 +14,10 @@ To complete this tutorial you will need access to an Azure subscription with the
 
 In this tutorial, you will learn how to:
 
-* Create a service catalog Definition with a Notification Endpoint configured
-* Deploy the managed Application from the service catalog definition
-* Validate Private Link connection approval
-* Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
+* Create a service catalog definition with a notification endpoint configured.
+* Deploy the Managed Application from the service catalog definition.
+* Validate Private Link connection approval.
+* Validate Private Link with connection to example API / endpoint deployed in [part 2](./part2.md).
 
 Details of how a managed application UI definition and deployment template can be created can be found [here](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview).
 
