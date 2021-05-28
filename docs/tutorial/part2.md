@@ -1,13 +1,12 @@
-# Tutorial 2: Deploy an Example Application and Private Link Service
+# Part 2: Deploy an Example Application and Private Link Service
 
-This tutorial is part two of a three part tutorial series that will configure and deploy and example of the Private Connectivity pattern.
-
+This is part two of a three part tutorial series that will configure and deploy and example of the Private Connectivity pattern.
 
 ## Before you begin
 
-This tutorial assumes a basic understanding of azure cli and Visual Studio Code and Azure Functions
+This part assumes a basic understanding of Azure CLI, Visual Studio Code, and Azure functions.
 
-To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription and have the appropriate dotnet SDK installed.
+To complete this tutorial you will need access to an Azure subscription with the Azure CLI configured to use that subscription and have the appropriate dotnet SDK installed.
 
 In this tutorial, you learn how to:
 
@@ -19,7 +18,7 @@ In this tutorial, you learn how to:
 
 We will deploy an application that will be used as an example of a privately-offered application or application apis. The example application is just a Hello-World example, but this can be replaced by a more complex application. As well as deploying the application, we will also expose the application with a Load Balancer service however, you could also use an Ingress resource and any supported ingress (e.g. Nginx). Check the docs for [creating an ingress controller to an internal load balancer](https://docs.microsoft.com/en-us/azure/aks/ingress-internal-ip).
 
-Update your Kubectl config with the AKS cluster credentials.
+Update your _kubectl_ config with the AKS cluster credentials.
 
 ```
 az aks get-credentials --resource-group rg-tutorial --name fsidemoAks
@@ -41,7 +40,7 @@ aks-helloworld-one   1/1     1            1           1m
 
 ## Retrieve details of the internal load balancer
 
-Retrieve the details of the loadbalancer that was created using:
+Retrieve the details of the load balancer that was created using:
 
 ```
 kubectl get services
@@ -111,6 +110,6 @@ Create the Private Link Service.
 az network private-link-service create -g rg-tutorial -n fsidemoPrivateLinkService --lb-frontend-ip-configs $FRONTEND_ID --subnet $SUBNET_ID
 ```
 
-## Next steps
+## Next step
 
-Deploy a Managed Application [Tutorial3](./tutorial3.md)
+Continue to [part 3 of the tutorial](part3.md) to create and deploy a Managed Application to the consumer subscription.
