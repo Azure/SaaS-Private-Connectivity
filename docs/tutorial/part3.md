@@ -1,8 +1,8 @@
-# Tutorial: Deploy an Example Managed Application
+# Part 3: Deploy an Example Managed Application
 
-This tutorial is part three of a three part tutorial series that will configure and deploy and example of the Private Connectivity pattern.
+This is part three of a three part tutorial series that will configure and deploy and example of the Private Connectivity pattern.
 
-The final part of the three part series focuses on the managed Application deployment and validation of the end to end example scenario ensuring the Private Link connection has been approved as expected and communication with the backend example application is possible using the exposed endpoints.
+The final part of the three part series focuses on the Managed Application deployment and validation of the end to end example scenario ensuring the Private Link connection has been approved as expected and communication with the backend example application is possible using the exposed endpoints.
 
 ## Before you begin
 
@@ -12,10 +12,10 @@ To complete this tutorial you will need access to an Azure subscription with the
 
 ## Introduction
 
-In this tutorial, you learn how to:
+In this tutorial, you will learn how to:
 
-* Create a Service Catalog Definition with a Notification Endpoint configured
-* Deploy the managed Application from the Service Catalog definition
+* Create a service catalog Definition with a Notification Endpoint configured
+* Deploy the managed Application from the service catalog definition
 * Validate Private Link connection approval
 * Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
 
@@ -79,10 +79,10 @@ Obtain the object ID for that service principal.
 az ad sp show --id <YOUR_SERVICE_PRINCIPAL_CLIENT_ID> -o tsv --query "objectId"
 ```
 
-And add an authorization with _Contributor_ access (role definition ID _b24988ac-6180-42a0-ab88-20f7382dd24c_). 
+And add an authorization with _Contributor_ access (role definition ID _b24988ac-6180-42a0-ab88-20f7382dd24c_).
 
 Add an authorization for your logged in user as well. Go to Azure Active Directory and get the Object Id for your user and give it _Contributor_ access (role definition ID b24988ac-6180-42a0-ab88-20f7382dd24c) (See: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-users-profile-azure-portal).
-This will allow your current logged in user to make changes to the resource group where the managed application components are deployed. 
+This will allow your current logged in user to make changes to the resource group where the managed application components are deployed.
 
 
 ```json
@@ -115,11 +115,11 @@ az rest --method put \
     --body @app.json
 ```
 
-You will see the application definition in your Service Catalog from the portal.
+You will see the application definition in your service catalog from the portal.
 
 ![Service Catalog](../../images/service-catalog-portal.jpg)
 
-## Deploy the managed application from Service Catalog
+## Deploy the managed application from service catalog
 
 Now that you have published the managed application definition, you can click on it and deploy the managed app from that definition.
 
@@ -169,9 +169,9 @@ Click on the managed resource group to see the resources for the service catalog
 
 ![Managed Application managed resource group](../../images/managed-resource-group.jpg)
 
-## Validate Private Link connection approval
+## Private Link connection approval
 
-While the deployment is in progress, you can go to your private link service and you should be seeing in a few seconds a new private endpoint connection:
+While the deployment is in progress, you can go to your Private Link service and you should be seeing in a few seconds a new private endpoint connection:
 
 ![before-approval](../../images/before-connection-approval.png)
 
@@ -179,14 +179,13 @@ At the moment, the connection is still pending. Give it another few seconds for 
 
 ![after-approval](../../images/after-connection-approval.png)
 
-The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a private link service (https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access).
-In this case, the Azure Function which acts as a notification web hook for your managed app deployment approved the private endpoint connection.  
+The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a Private Link service (see https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access). In this case, the Azure Function which acts as a notification webhook for your managed app deployment approved the private endpoint connection.
 
-## Validate Private Link with connection to example api / endpoint deployed in [tutorial2](./tutorial2.md)
+## Validate Private Link connectivity
 
-Deploy an ubuntu server on the same virtual network where the private endpoint is deployed (vnet01) and connect to your virtual machine using your SSH keys or password.
+Deploy an Ubuntu server on the same virtual network where the private endpoint is deployed and connect to your virtual machine using your SSH keys or password.
 
-Install curl:
+Install _curl_:
 
 ```
 sudo apt update && sudo apt upgrade
@@ -194,7 +193,7 @@ sudo apt install curl
 curl --version
 ```
 
-Try calling the endpoint exposed via the private link service:
+Try calling the endpoint exposed via the Private Link service:
 
 ```
 curl saasprovider.northeurope.cloudapp.azure.com

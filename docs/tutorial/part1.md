@@ -1,0 +1,289 @@
+# Part 1: Deploy an Example Function App as a Notification Endpoint
+
+This is part one of a three part tutorial series that will configure and deploy an example of the Private Connectivity pattern.
+
+In later parts, an example Private Link Service will be created using an AKS cluster and internal Load Balancer and a Managed application will be deployed from the service catalog.
+
+## Before you begin
+
+This tutorial assumes a basic understanding of azure cli and Visual Studio Code and Azure Functions.
+
+To support deployment ensure the functions core tools are available ([Function Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash)) and .Net Core 3.1 SDK is installed ([dotnet core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1)).
+
+To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription.
+
+## Get application code
+
+The sample application used in this tutorial is a simple function app consisting of a http trigger to allow interaction with a marketplace deployment.
+
+Use git to clone the sample application to your development environment:
+
+```
+git clone https://github.com/Azure/SaaS-Private-Connectivity.git
+```
+
+Change into the cloned directory:
+
+```
+cd Saas-Private-Connectivity
+```
+
+In this tutorial, you learn how to:
+
+* Create a resource group
+* Deploy the Azure components required to support your Function App
+* Deploy your Function App
+* Configure the Function App for use with Azure App Insights and Azure MySQL
+* Create a database table for use with the example app
+
+## Create a resource group
+
+In Azure, you allocate related resources to a resource group. Create a resource group by using [az group create](/cli/azure/group#az_group_create). The following example creates a resource group named *rg-tutorial* in the *northeurope* location (region).
+
+```
+az group create --name rg-tutorial --location northeurope
+```
+
+## Deploy Azure components
+
+You will now deploy the components needed to support the notification webhook:
+
+* App Service Plan
+* Azure MySql
+* Storage Account
+* Log Analytics
+* Application Insights
+* Virtual Network (not required directly but will be used in later tutorial)
+
+The templates to deploy these components have been provided as [Bicep](https://github.com/Azure/bicep) templates.
+
+### Deployment
+
+In the previous step, you created a resource group named "rg-tutorial". In this step you will deploy Azure resources to this resource group.
+
+This tutorial assumes you have Bicep installed. Otherwise, follow the steps in the [Install Bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/bicep-install) guide first.
+
+```
+cd samples/templates/bicep
+az deployment group create -g rg-tutorial -f ./main.bicep
+```
+
+You will notice you are asked for an _administratorLoginPassword_. This password will be used to create an administrator password for your MySql instance.
+
+Once deployed there are some values that will be required in subsequent steps which can be found in the outputs section from the template deployment. For example:
+
+```json
+{
+  "outputs": {
+    "appSvcResourceId": {
+      "type": "String",
+      "value": "/subscriptions/<subscriptionId>/resourceGroups/rg-tutorial/providers/Microsoft.Web/serverfarms/fsidemo-88dc-appsvc"
+    },
+    "insightsKey": {
+      "type": "String",
+      "value": "<key value>"
+    },
+    "insightsName": {
+      "type": "String",
+      "value": "fsidemo-88dc-insights"
+    },
+    "storageAccountName": {
+      "type": "String",
+      "value": "fsidemo88dcsa"
+    }
+  }
+}
+```
+
+## Deploy the Function app
+
+The Function app will be deployed to the App Service Plan created in the last step. The HTTP-trigger function to listen for webhook notifications will then be deployed to this function app.
+
+This step assumes you have installed the functions core tools mentioned in the [Before you begin](#before-you-begin) section.
+
+Starting from the repository root directory, run the following commands.
+
+```
+cd samples/ManagedAppWebHook
+```
+
+In order to deploy the Function app, set up some needed environment variables and create the app.
+
+```
+resourceGroup=rg-tutorial
+storageAccount=<storageAccountName from outputs>
+plan=<appSvcResourceId from outputs>
+insights=<insightsName from outputs>
+functionApp=<enter a name for your function app>
+
+az functionapp create --name $functionApp -g $resourceGroup -s $storageAccount --app-insights $insights --os-type Linux --runtime dotnet --plan $plan --functions-version 3
+```
+
+If you get an error like "Operation returned an invalid status 'Conflict'", it means the current app name is already in use. The Function app's name must be able to produce a unique FQDN as <app-name>.azurewebsites.net.
+
+The function app will be created and can be viewed in the Azure portal.
+
+![functionApp](../../images/function-publish13.png)
+
+Deploy the function.
+
+```
+func azure functionapp publish $functionApp
+```
+
+If at this stage, you get an error like "Can't find app with name $functionApp", just give it a few more seconds for the deployment to complete and try the same command again.
+
+The package file will be created and deployed to your function app:
+
+![functionApp](../../images/function-publish15.png)
+
+## Check that the function is reachable
+
+Now that the Function has been deployed it can be verified using the health url:
+
+```
+https://<function-url>/api/health
+```
+
+The function URL should be something like: "yourfunctionname.azurewebsites.net".
+
+## Create customer table
+
+Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server).
+
+As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql. Once there, choose "Add client IP" and enter your IP address (see https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
+
+When you have connected you will be able to create the required database and table and insert a record.
+
+```
+-- Create a database
+DROP DATABASE IF EXISTS tutorialdb;
+CREATE DATABASE tutorialdb;
+USE tutorialdb;
+
+-- Create a table and insert rows
+DROP TABLE IF EXISTS customer;
+CREATE TABLE customer (id serial PRIMARY KEY, CompanyName VARCHAR(50), SharedKey VARCHAR(50));
+```
+
+The tutorial uses a pre-shared key to validate the request for Private Link connection approval. To generate a pre-shared key you will need to create an entry in the customer table.
+
+```
+-- insert sample row
+INSERT INTO customer ( CompanyName, SharedKey ) VALUES ('ExampleCustomer',uuid());
+
+select * from customer;
+```
+
+The result will return a value for the ExampleCustomer and pre-shared key. This pre-shared key will be used in the subsequent steps during this tutorial.
+
+## Create service principal
+
+To access resources secured by an Azure AD tenant, the function app uses a service principal. There are three types of service principals: "application", "managed identity", and "legacy". This tutorial uses "application".
+
+This principal references a globally unique app object. The service principal object defines what the app can actually do in the specific tenant, who can access the app, and what resources the app can access (see https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#service-principal-object).
+
+Choose a service principal name that is unique in your Azure Active Directory.
+
+Create your service principal using the following command:
+
+```
+az ad sp create-for-rbac --name <SP NAME> --sdk-auth --role owner --scope '/subscriptions/<subscriptionId>/resourceGroups/rg-tutorial'
+```
+
+The service principal information is displayed as JSON.
+
+```
+{
+  "clientId": "b52dd125-9272-4b21-9862-0be667bdf6dc",
+  "clientSecret": "ebc6e170-72b2-4b6f-9de2-99410964d2d0",
+  "subscriptionId": "ffa52f27-be12-4cad-b1ea-c2c241b6cceb",
+  "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
+```
+
+Make note of _clientId_, _clientSecret_ and _tenantId_. You will need this information to update the Function application settings.
+
+To test the creation of the service principal, run the following AZ CLI command:
+
+```
+az ad sp list --display-name <SP NAME>
+```
+
+You can now go to the portal under your access control blade for your resource group and into the role assignments blade. You will see your app listed with an _Owner_ role.
+
+![sp_owner](../../images/sp_owner.png)
+
+## Update Function App Settings
+
+One way you can store connection strings and secrets used by your function app and bindings is as application settings. This makes credentials available to both your function code and bindings.
+
+App settings and connection strings are stored encrypted in Azure. They are decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly (see https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings).
+
+When you develop a Function app locally, you must maintain local copies of these values in the _local.settings.json_ project file (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file).
+
+In order to edit your Function app settings, go to the _Configuration_ blade of your Function app in the portal and then to _Application Settings_ (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the *APPINSIGHTS_INSTRUMENTATIONKEY*.
+
+To edit, click on _Advanced Edit_ and this will allow you to edit them as a JSON file. Alternatively click on _New Application Setting_ which will allow you to add one by one.
+
+Once happy with your changes, click on _Save_.
+
+These are the additional app settings needed for your function to run:
+
+```json
+{
+  "name": "MySqlDatabase",
+  "value": "Replace with MySql db name: tutorialdb",
+  "slotSetting": false
+},
+{
+  "name": "MySqlPassword",
+  "value": "Replace with MySql db administratorLoginPassword",
+  "slotSetting": false
+},
+{
+  "name": "MySqlServer",
+  "value": "Replace with MySql server name sqlservername.mysql.database.azure.com",
+  "slotSetting": false
+},
+{
+  "name": "MySqlUserId",
+  "value": "Replace with your MySql user id",
+  "slotSetting": false
+},
+{
+  "name": "PrivateLinkService",
+  "value": "Replace with private link service name: fsidemoPrivateLinkService",
+  "slotSetting": false
+},
+{
+  "name": "ResourceGroup",
+  "value": "Replace with resource group name where private link service is deployed: rg-tutorial",
+  "slotSetting": false
+},
+  {
+  "name": "AZURE_CLIENT_ID",
+  "value": "Replace with Service Principal clientId",
+  "slotSetting": false
+},
+{
+  "name": "AZURE_CLIENT_SECRET",
+  "value": "Replace with Service Principal clientSecret",
+  "slotSetting": false
+},
+{
+  "name": "AZURE_TENANT_ID",
+  "value": "Replace with Service Principal tenantId",
+  "slotSetting": false
+}
+```
+
+## Next step
+
+Continue to [part 2 of the tutorial](part2.md) to deploy a sample application to the service provider subscription.
