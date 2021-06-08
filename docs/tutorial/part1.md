@@ -16,13 +16,7 @@ To complete this tutorial you will need access to an Azure subscription with the
 
 The sample application used in this tutorial is a simple function app consisting of a http trigger to allow interaction with a marketplace deployment.
 
-Use git to clone the sample application to your development environment:
-
-```
-git clone https://github.com/Azure/SaaS-Private-Connectivity.git
-```
-
-Change into the cloned directory:
+Use Git to clone the repository to your development and change to the cloned directory.
 
 ```
 cd Saas-Private-Connectivity
@@ -101,13 +95,19 @@ The Function app will be deployed to the App Service Plan created in the last st
 
 This step assumes you have installed the functions core tools mentioned in the [Before you begin](#before-you-begin) section.
 
-Starting from the repository root directory, run the following commands.
+Go back to the repository root directory.
+
+```
+cd ../../
+```
+
+And navigate to the function app directory.
 
 ```
 cd samples/ManagedAppWebHook
 ```
 
-In order to deploy the Function app, set up some needed environment variables and create the app.
+In order to deploy the function app, set up some needed environment variables and create the app.
 
 ```
 resourceGroup=rg-tutorial
