@@ -9,7 +9,6 @@ using System.Web.Http;
 using Azure.Identity;
 using Azure.ResourceManager.Network;
 using Azure.ResourceManager.Network.Models;
-using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Management.Fluent;
@@ -32,7 +31,6 @@ namespace HttpTrigger
         private readonly static string MySqlDatabase = Environment.GetEnvironmentVariable("MySqlDatabase") ?? throw new ArgumentNullException(nameof(MySqlDatabase));
         private readonly static string MySqlUserId = Environment.GetEnvironmentVariable("MySqlUserId") ?? throw new ArgumentNullException(nameof(MySqlUserId));
         private readonly static string MySqlPassword = Environment.GetEnvironmentVariable("MySqlPassword") ?? throw new ArgumentNullException(nameof(MySqlPassword));
-
         private readonly static string ResourceGroup = Environment.GetEnvironmentVariable("ResourceGroup") ?? throw new ArgumentNullException(nameof(ResourceGroup));
         private readonly static string PrivateLinkService = Environment.GetEnvironmentVariable("PrivateLinkService") ?? throw new ArgumentNullException(nameof(PrivateLinkService));
 
@@ -104,8 +102,7 @@ namespace HttpTrigger
             }
             catch (ArgumentNullException ex)
             {
-                responseMessage = "I did not have the right access to get deployment details";
-                log.LogError(-1, ex, responseMessage);
+                log.LogError(-1, ex, ex.Message);
                 return new InternalServerErrorResult();
             }
             catch (UnauthorizedAccessException ex)
@@ -131,10 +128,10 @@ namespace HttpTrigger
             }
             var clientSubscriptionId = parsedString[2];
 
-            //authenticate in client subscription
+            //authenticate in client subscription for marketplace app or same subscription for service catalog app
             var clientAzureAuth = AuthenticateToAzure(clientSubscriptionId);
 
-            var managedAppDetails = await GetManagedAppDetails(data.ApplicationId, clientAzureAuth, log);
+            var managedAppDetails = await GetAndParseManagedAppDetails(data.ApplicationId, clientAzureAuth, log);
 
             if (await ValidateKeyAsync(managedAppDetails.Outputs.PreSharedKey.Value, log) == false)
             {
@@ -231,15 +228,13 @@ namespace HttpTrigger
                 log.LogError(ex, "Error approving the connection");
             }
         }
-
-
-        private async Task<ApplicationDetails> GetManagedAppDetails(string applicationId, IAzure azure, ILogger log)
+        private async Task<IGenericResource> GetManagedAppDetails(string applicationId, IAzure azure, ILogger log)
         {
-
             var retryCount = 1;
-            ApplicationDetails customerDetails = null;
+
             IGenericResource managedAppDetails = null;
 
+            // it takes a bit longer sometimes for role to be assigned as part of marketplace/service catalog app deployment, retrying 3 times
             while (retryCount < 4 && managedAppDetails == null)
             {
                 log.LogInformation("Trying to get managed app deployment details");
@@ -248,6 +243,7 @@ namespace HttpTrigger
                 try
                 {
                     managedAppDetails = await azure.GenericResources.GetByIdAsync(applicationId);
+
                 }
                 catch (Exception)
                 {
@@ -259,26 +255,33 @@ namespace HttpTrigger
             {
                 throw new UnauthorizedAccessException("You do not have access to get managed app deployment details");
             }
-            else
+            return managedAppDetails;
+        }
+
+        private async Task<ApplicationDetails> GetAndParseManagedAppDetails(string applicationId, IAzure azure, ILogger log)
+        {
+            var managedAppDetails = await GetManagedAppDetails(applicationId, azure, log);
+            ApplicationDetails customerDetails;
+            try
             {
-                try
-                {
-                    customerDetails = JsonSerializer.Deserialize<ApplicationDetails>(managedAppDetails.Properties.ToString());
-                    log.LogInformation("Customer name is " + customerDetails.Outputs.CustomerName.Value);
-                    log.LogInformation("Shared key is " + customerDetails.Outputs.PreSharedKey.Value);
-                }
-                catch (ArgumentNullException)
-                {
-                    log.LogError("Null exception when deserializing request body");
-                    throw;
-                }
-                catch (JsonException)
-                {
-                    log.LogError("Json exception when deserializing request body");
-                    throw;
-                }
+                customerDetails = JsonSerializer.Deserialize<ApplicationDetails>(managedAppDetails.Properties.ToString());
+                log.LogInformation("Customer name is " + customerDetails.Outputs.CustomerName.Value);
+                log.LogInformation("Shared key is " + customerDetails.Outputs.PreSharedKey.Value);
+            }
+            catch (ArgumentNullException)
+            {
+                log.LogError("Null exception when deserializing request body");
+                throw;
+            }
+            catch (JsonException)
+            {
+                log.LogError("Json exception when deserializing request body");
+                throw;
             }
             return customerDetails;
+
         }
+
     }
 }
+

@@ -16,8 +16,6 @@ namespace HttpTrigger
         [JsonPropertyName("customerName")]
         public Property CustomerName { get; set; }
 
-        [JsonPropertyName("topics")]
-        public PropertyList Topics {get;set;}
 
         [JsonPropertyName("presharedKey")]
         public Property PreSharedKey { get; set; }
@@ -33,16 +31,5 @@ namespace HttpTrigger
         [JsonPropertyName("value")]
         public string Value { get; set; }
     }
-
-    public class PropertyList
-    {
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonPropertyName("value")]
-        public List<Property> Value { get; set; }
-
-    }
-
 
 }
