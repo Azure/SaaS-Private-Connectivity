@@ -106,18 +106,7 @@ And navigate to the function app directory.
 cd samples/ManagedAppWebHook
 ```
 
-<<<<<<< HEAD
-In order to deploy the function app, set up some needed environment variables and create the app.
-
-```
-resourceGroup=rg-tutorial
-storageAccount=<storageAccountName from outputs>
-plan=<appSvcResourceId from outputs>
-insights=<insightsName from outputs>
-functionApp=<enter a name for your function app>
-=======
 In order to deploy the Function, set up some needed environment variables and deploy the app.
->>>>>>> origin/func-bicep
 
 ```
 functionApp=<function name from outputs>
