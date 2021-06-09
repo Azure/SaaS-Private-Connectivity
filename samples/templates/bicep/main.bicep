@@ -70,13 +70,4 @@ module roleassignment_aks 'role-assignment-aks.bicep' = {
   }
 }
 
-output laName string = analytics.outputs.laName
-output laId string = analytics.outputs.workspaceId
-output vnetId string = network.outputs.vnetId
-output appSubnetId string = network.outputs.appSubnetId
-output insightsId string = analytics.outputs.insightsId
-output insightsName string = analytics.outputs.insightsName
-output insightsAppId string = analytics.outputs.insightsAppId
-output insightsKey string = analytics.outputs.insightsKey
-output storageAccountName string = storage.outputs.storageAccountName
 output functionName string = function.outputs.name

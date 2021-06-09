@@ -65,27 +65,15 @@ az deployment group create -g rg-tutorial -f ./main.bicep
 
 You will notice you are asked for an _administratorLoginPassword_. This password will be used to create an administrator password for your MySql instance.
 
-Once deployed there are some values that will be required in subsequent steps which can be found in the outputs section from the template deployment. For example:
+Once deployed, get the function name value which can be found in the outputs section from the template deployment. For example:
 
 ```json
 {
   "outputs": {
-    "appSvcResourceId": {
-      "type": "String",
-      "value": "/subscriptions/<subscriptionId>/resourceGroups/rg-tutorial/providers/Microsoft.Web/serverfarms/fsidemo-88dc-appsvc"
-    },
-    "insightsKey": {
-      "type": "String",
-      "value": "<key value>"
-    },
-    "insightsName": {
-      "type": "String",
-      "value": "fsidemo-88dc-insights"
-    },
-    "storageAccountName": {
-      "type": "String",
-      "value": "fsidemo88dcsa"
-    }
+     "functionName": {
+        "type": "String",
+        "value": "fsidemo-2af9-func"
+      }
   }
 }
 ```
@@ -239,13 +227,8 @@ These are the additional app settings needed for your function to run:
   "slotSetting": false
 },
 {
-  "name": "PrivateLinkService",
-  "value": "Replace with private link service name: fsidemoPrivateLinkService",
-  "slotSetting": false
-},
-{
   "name": "ResourceGroup",
-  "value": "Replace with resource group name where private link service is deployed: rg-tutorial",
+  "value": "Replace with resource group name: rg-tutorial",
   "slotSetting": false
 },
   {

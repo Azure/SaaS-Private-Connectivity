@@ -110,6 +110,19 @@ Create the Private Link Service.
 az network private-link-service create -g rg-tutorial -n fsidemoPrivateLinkService --lb-frontend-ip-configs $FRONTEND_ID --subnet $SUBNET_ID
 ```
 
+## Update Function App Settings
+
+Add the name of your Private Link service to your Function App Settings:
+
+```json
+{
+  "name": "PrivateLinkService",
+  "value": "Replace with private link service name: fsidemoPrivateLinkService",
+  "slotSetting": false
+}
+```
+For detailed instructions on how to do this, look at [part 1 of the tutorial](part1.md) under Update Function App Settings section.
+
 ## Next step
 
 Continue to [part 3 of the tutorial](part3.md) to create and deploy a Managed Application to the consumer subscription.
