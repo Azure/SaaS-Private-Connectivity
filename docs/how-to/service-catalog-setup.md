@@ -2,7 +2,7 @@
 
 Outlined below are detailed of how the Azure Service Catalog can be used to deploy the private connectivity pattern. Service catalog based deployments are only available to be deployed by internal users as the service catalog is an internal catalog of approved solutions for users in an organization.
 
-![service catalog](../images/manage_app_options.png)
+![service catalog](../../images/manage_app_options.png)
 
 ## Setup
 
