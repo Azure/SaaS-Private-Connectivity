@@ -7,9 +7,6 @@ param aksNodeResourceGroup string = '${resourceGroup().name}-aks'
 @secure()
 param administratorLoginPassword string
 
-var resgpguid_var = substring(replace(guid(resourceGroup().id), '-', ''), 0, 4)
-var uniqueResourceName_var = '${resgpguid_var}'
-
 module analytics './la.bicep' = {
   name: '${appName}-la'
   params: {
@@ -39,10 +36,12 @@ module mysql './mysql.bicep' = {
   }
 }
 
-module appsvc './appsvc.bicep' = {
-  name: '${appName}-appsvc'
+module function './function.bicep' = {
+  name: '${appName}-function'
   params: {
     appName: appName
+    appInsightsKey: analytics.outputs.insightsKey
+    storageConnectionstring: storage.outputs.connectionstring
   }
 }
 
@@ -79,6 +78,5 @@ output insightsId string = analytics.outputs.insightsId
 output insightsName string = analytics.outputs.insightsName
 output insightsAppId string = analytics.outputs.insightsAppId
 output insightsKey string = analytics.outputs.insightsKey
-output appsvcName string = appsvc.outputs.appsvcName
-output appSvcResourceId string = appsvc.outputs.appSvcResourceId
 output storageAccountName string = storage.outputs.storageAccountName
+output functionName string = function.outputs.name
