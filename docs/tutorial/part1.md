@@ -43,6 +43,7 @@ az group create --name rg-tutorial --location northeurope
 You will now deploy the components needed to support the notification webhook:
 
 * App Service Plan
+* Function App
 * Azure MySql
 * Storage Account
 * Log Analytics
@@ -89,9 +90,7 @@ Once deployed there are some values that will be required in subsequent steps wh
 }
 ```
 
-## Deploy the Function app
-
-The Function app will be deployed to the App Service Plan created in the last step. The HTTP-trigger function to listen for webhook notifications will then be deployed to this function app.
+## Deploy the Function
 
 This step assumes you have installed the functions core tools mentioned in the [Before you begin](#before-you-begin) section.
 
@@ -107,6 +106,7 @@ And navigate to the function app directory.
 cd samples/ManagedAppWebHook
 ```
 
+<<<<<<< HEAD
 In order to deploy the function app, set up some needed environment variables and create the app.
 
 ```
@@ -115,23 +115,15 @@ storageAccount=<storageAccountName from outputs>
 plan=<appSvcResourceId from outputs>
 insights=<insightsName from outputs>
 functionApp=<enter a name for your function app>
-
-az functionapp create --name $functionApp -g $resourceGroup -s $storageAccount --app-insights $insights --os-type Linux --runtime dotnet --plan $plan --functions-version 3
-```
-
-If you get an error like "Operation returned an invalid status 'Conflict'", it means the current app name is already in use. The Function app's name must be able to produce a unique FQDN as <app-name>.azurewebsites.net.
-
-The function app will be created and can be viewed in the Azure portal.
-
-![functionApp](../../images/function-publish13.png)
-
-Deploy the function.
+=======
+In order to deploy the Function, set up some needed environment variables and deploy the app.
+>>>>>>> origin/func-bicep
 
 ```
+functionApp=<function name from outputs>
+
 func azure functionapp publish $functionApp
 ```
-
-If at this stage, you get an error like "Can't find app with name $functionApp", just give it a few more seconds for the deployment to complete and try the same command again.
 
 The package file will be created and deployed to your function app:
 
