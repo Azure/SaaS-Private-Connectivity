@@ -42,6 +42,10 @@ module function './function.bicep' = {
     appName: appName
     appInsightsKey: analytics.outputs.insightsKey
     storageConnectionstring: storage.outputs.connectionstring
+    mysqldb: mysql.outputs.database
+    mysqlpassword: administratorLoginPassword
+    mysqluser: mysql.outputs.login
+    mysqlurl: mysql.outputs.url
   }
 }
 

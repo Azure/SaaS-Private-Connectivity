@@ -137,10 +137,6 @@ As part of this step, you will need to add your IP address under the Connection 
 When you have connected you will be able to create the required database and table and insert a record.
 
 ```
--- Create a database
-DROP DATABASE IF EXISTS tutorialdb;
-CREATE DATABASE tutorialdb;
-USE tutorialdb;
 
 -- Create a table and insert rows
 DROP TABLE IF EXISTS customer;
@@ -218,26 +214,6 @@ Once happy with your changes, click on _Save_.
 These are the additional app settings needed for your function to run:
 
 ```json
-{
-  "name": "MySqlDatabase",
-  "value": "Replace with MySql db name: tutorialdb",
-  "slotSetting": false
-},
-{
-  "name": "MySqlPassword",
-  "value": "Replace with MySql db administratorLoginPassword",
-  "slotSetting": false
-},
-{
-  "name": "MySqlServer",
-  "value": "Replace with MySql server name sqlservername.mysql.database.azure.com",
-  "slotSetting": false
-},
-{
-  "name": "MySqlUserId",
-  "value": "Replace with your MySql user id",
-  "slotSetting": false
-},
 {
   "name": "PrivateLinkService",
   "value": "Replace with private link service name: fsidemoPrivateLinkService",

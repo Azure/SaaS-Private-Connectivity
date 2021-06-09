@@ -1,7 +1,4 @@
 param appName string
-param serverName string = 'fsidemo'
-param skuName string = 'GP_Gen5_4'
-param skuTier string = 'GeneralPurpose'
 param administratorLogin string = 'azureadmin'
 @secure()
 param administratorLoginPassword string
@@ -22,6 +19,11 @@ resource mysql 'Microsoft.DBforMySQL/servers@2017-12-01' = {
   }
 }
 
+resource mysqldb 'Microsoft.DBForMySQL/servers/databases@2017-12-01' = {
+  parent: mysql
+  name: 'tutorialdb'
+}
+
 resource mysqlfwrule 'Microsoft.DBforMySQL/servers/firewallRules@2017-12-01' = {
   parent: mysql
   name: 'AllowAllWindowsAzureIps'
@@ -30,3 +32,7 @@ resource mysqlfwrule 'Microsoft.DBforMySQL/servers/firewallRules@2017-12-01' = {
     endIpAddress: '0.0.0.0'
   }
 }
+
+output login string = administratorLogin
+output url string = mysql.properties.fullyQualifiedDomainName
+output database string = mysqldb.name

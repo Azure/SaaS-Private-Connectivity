@@ -1,6 +1,11 @@
 param appName string
 param appInsightsKey string
 param storageConnectionstring string
+param mysqldb string
+@secure()
+param mysqlpassword string
+param mysqluser string
+param mysqlurl string
 
 var resgpguid = substring(replace(guid(resourceGroup().id), '-', ''), 0, 4)
 var uniqueResourceName_var = '${appName}-${resgpguid}'
@@ -45,6 +50,22 @@ resource func 'Microsoft.Web/sites@2018-11-01' = {
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: appInsightsKey
+        }
+        {
+          name: 'MySqlDatabase'
+          value: mysqldb
+        }
+        {
+          name: 'MySqlPassword'
+          value: mysqlpassword
+        }
+        {
+          name: 'MySqlServer'
+          value: mysqlurl
+        }
+        {
+          name: 'MySqlUserId'
+          value: mysqluser
         }
       ]
     }
