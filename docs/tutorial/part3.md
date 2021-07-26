@@ -10,6 +10,11 @@ This tutorial assumes a basic understanding of Azure CLI.
 
 To complete this tutorial you will need access to an Azure subscription with the Azure CLI configured to use that subscription.
 
+In order to deploy the managed application you will also need to register to use the Microsoft.Solutions resource provider
+```
+az provider register --namespace "Microsoft.Solutions"
+```
+
 ## Introduction
 
 In this tutorial, you will learn how to:
