@@ -4,7 +4,7 @@ The tutorial is designed to provide and example deployment that demonstrated the
 
 The tutorial architecture is shown below:
 
-![tutorial-architecture](../../images/tutorial1.png)
+![tutorial-architecture](../../images/deployment_architecturev3.png)
 
 The deployment includes the deployment of an Azure MySQL DB for storing a pre-shared key and Azure Kubernetes Service for hosting the example application which will be used to validate that the Private Link connection is working correctly.
 
