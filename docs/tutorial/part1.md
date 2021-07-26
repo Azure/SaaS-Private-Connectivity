@@ -52,7 +52,7 @@ You will now deploy the components needed to support the notification webhook:
 * Application Insights
 * Virtual Network (not required directly but will be used in later tutorial)
 
-The templates to deploy these components have been provided as [Bicep](https://github.com/Azure/bicep) templates.
+The templates to deploy these components have been provided as [Bicep](https://github.com/Azure/bicep) templates.  Bicep is a domain-specific language (DSL) that uses declarative syntax to deploy Azure resources.
 
 ### Deployment
 
