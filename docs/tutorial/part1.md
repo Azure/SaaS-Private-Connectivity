@@ -12,6 +12,8 @@ To support deployment ensure the functions core tools are available ([Function C
 
 To complete this tutorial you will need access to an Azure subscription with the Azure cli configured to use that subscription.
 
+It is recommended to use bash to complete the tutorial either using local command line  i.e. WSL or Azure Cloud Shell
+
 ## Get application code
 
 The sample application used in this tutorial is a simple function app consisting of a http trigger to allow interaction with a marketplace deployment.
