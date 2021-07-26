@@ -27,7 +27,7 @@ az aks get-credentials --resource-group rg-tutorial --name fsidemoAks
 Deploy the application.
 
 ```
-kubectl create -f tutorials/templates/app
+kubectl create -f samples/templates/app
 ```
 
 The application pod should become ready in just a few seconds.
