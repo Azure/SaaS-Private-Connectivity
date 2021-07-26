@@ -95,7 +95,7 @@ FRONTEND_ID=$(az network lb show -g rg-tutorial-aks -n kubernetes-internal --que
 Before creating the Private Link Service we need to disable the private link service network policies.
 
 ```
-az network vnet subnet update -g rg-tutorial --vnet-name fsidemo-a59d-vnet --name app-subnet  --disable-private-link-service-network-policies true
+az network vnet subnet update -g rg-tutorial --vnet-name <vnet-name> --name app-subnet  --disable-private-link-service-network-policies true
 ```
 
 Also obtain the subnet ID that will host the private link service.
