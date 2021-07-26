@@ -1,7 +1,4 @@
 param appName string
-param serverName string = 'fsidemo'
-param skuName string = 'GP_Gen5_4'
-param skuTier string = 'GeneralPurpose'
 param administratorLogin string = 'azureadmin'
 @secure()
 param administratorLoginPassword string
