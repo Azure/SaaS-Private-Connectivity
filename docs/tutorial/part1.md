@@ -153,7 +153,7 @@ INSERT INTO customer ( CompanyName, SharedKey ) VALUES ('ExampleCustomer',uuid()
 select * from customer;
 ```
 
-The result will return a value for the ExampleCustomer and pre-shared key. This pre-shared key will be used in the subsequent steps during this tutorial.
+The result will return a value for the ExampleCustomer and pre-shared key. This pre-shared key will be used in the subsequent steps during this tutorial. NOTE:  The customerName will need to be the customerName entered into the Portal ordering screen in part 3 of this tutorial series.
 
 ## Create service principal
 
