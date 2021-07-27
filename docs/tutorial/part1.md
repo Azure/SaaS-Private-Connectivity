@@ -206,6 +206,10 @@ App settings and connection strings are stored encrypted in Azure. They are decr
 
 When you develop a Function app locally, you must maintain local copies of these values in the _local.settings.json_ project file (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file).
 
+You can use either the portal or the azure cli to update Function app settings.
+
+### Using Azure portal
+
 In order to edit your Function app settings, go to the _Configuration_ blade of your Function app in the portal and then to _Application Settings_ (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the *APPINSIGHTS_INSTRUMENTATIONKEY*.
 
 To edit, click on _Advanced Edit_ and this will allow you to edit them as a JSON file. Alternatively click on _New Application Setting_ which will allow you to add one by one.
@@ -255,6 +259,13 @@ These are the additional app settings needed for your function to run:
   "value": "Replace with Service Principal tenantId",
   "slotSetting": false
 }
+```
+### Using azure cli
+
+Alternatively, you can update these settings using the azure cli. For example:
+
+```
+az functionapp config appsettings set --name fsidemo-3d35-func --resource-group rg-tutorial --settings "MySqlDatabase=tutorialdb"
 ```
 
 ## Next step
