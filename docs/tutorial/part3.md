@@ -148,7 +148,7 @@ First, provide values for the **Basics** step. Select the Azure subscription to 
 
 ![Managed Application deployment step 1](../../images/app-deploy-step-1.jpg)
 
-On the next step, **Application Configuration**, customers will type their name, a pre-shared that they would have received by the SaaS provider beforehand and that will be used to validate the deployment and approve the private link service connection, and the remote service alias for the private link service they will be connecting to.
+On the next step, **Application Configuration**, customers will type their name ( Note: this must be the same customerName that was created in the mysql database in part1 of the tutorial series), a pre-shared that they would have received by the SaaS provider beforehand and that will be used to validate the deployment and approve the private link service connection, and the remote service alias for the private link service they will be connecting to.
 
 You can obtain the remote service alias from the portal by navigating to the private link service resource, or with the following CLI command.
 
