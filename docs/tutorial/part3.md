@@ -80,20 +80,16 @@ Make sure you add an authorization for the service principal you created in the 
 
 Note: In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the managed application resource group by default ) to Peer Vnets and link Private DNS zone to their existing vnets.  These roles are:
 
-Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write;
+|Role|Description|
+|--|--|
+|Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write|Allow vnet peering to be created|
+|Microsoft.Network/virtualNetworks/virtualNetworkPeerings/delete|Allow deletion of vnet peering|
+|Microsoft.Network/virtualNetworks/peer/action| Allow peering|
+|Microsoft.Network/privateDnsZones/virtualNetworkLinks/write|All private DNS zone to be linked to existing vnet|
+|Microsoft.Network/privateDnsZones/virtualNetworkLinks/delete|Allow deletion of Private DNS zone link|
+|Microsoft.Network/virtualNetworks/join/action|Allow Private DNS zone control|
 
-Microsoft.Network/virtualNetworks/virtualNetworkPeerings/delete;
-
-Microsoft.Network/virtualNetworks/peer/action;
-
-Microsoft.Network/privateDnsZones/virtualNetworkLinks/write;
-
-Microsoft.Network/privateDnsZones/virtualNetworkLinks/delete;
-
-Microsoft.Network/virtualNetworks/join/action
-
- 
-
+<br>
 Obtain the object ID for that service principal.
 
 ```
