@@ -79,12 +79,19 @@ Populate the [_app.json_](../../samples/appdefinition/app.json) file with the fo
 Make sure you add an authorization for the service principal you created in the first part of the tutorial and was configured in the Azure Function that will receive the notifications from the managed application deployment.
 
 Note: In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the managed application resource group by default ) to Peer Vnets and link Private DNS zone to their existing vnets.  These roles are:
+
 Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write;
+
 Microsoft.Network/virtualNetworks/virtualNetworkPeerings/delete;
+
 Microsoft.Network/virtualNetworks/peer/action;
+
 Microsoft.Network/privateDnsZones/virtualNetworkLinks/write;
+
 Microsoft.Network/privateDnsZones/virtualNetworkLinks/delete;
+
 Microsoft.Network/virtualNetworks/join/action
+
  
 
 Obtain the object ID for that service principal.
