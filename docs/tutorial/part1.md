@@ -169,14 +169,14 @@ Create your service principal using the following command:
 az ad sp create-for-rbac --name <SP NAME> --sdk-auth --role owner --scope '/subscriptions/<subscriptionId>/resourceGroups/rg-tutorial'
 ```
 
-The service principal information is displayed as JSON an example output is shown below:
+The service principal information is displayed as JSON. An example output is shown below:
 
 ```
 {
-  "clientId": "b52dd125-9272-4b21-9862-0be667bdf6dc",
+  "clientId": "414f6051-191f-4786-afa9-b9d1b2cddc31",
   "clientSecret": "****************************",
-  "subscriptionId": "ffa52f27-be12-4cad-b1ea-c2c241b6cceb",
-  "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+  "subscriptionId": "550f272d-5a99-47b2-aaf5-cc1f7ca925b8",
+  "tenantId": "646f25ba-19dc-45a5-9fc8-fa8c60f09e84",
   "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
   "resourceManagerEndpointUrl": "https://management.azure.com/",
   "activeDirectoryGraphResourceId": "https://graph.windows.net/",
