@@ -17,7 +17,7 @@ In addition when the service catalog definition is created authorization details
 
 ### customUIDefinition.json
 
-The CustomUIDefinition will contain details of the fields and information that needs to be captured from the end user at ordering time. For the private connectivity pattern, as a minimum this would contain the resource group to which the managed application will be deployed and details of the virtual network configuration required, either existing or new VNet.
+The CustomUIDefinition will contain details of the fields and information that needs to be captured from the end user at ordering time. For the private connectivity pattern, as a minimum this would contain the resource group to which the Managed Application will be deployed and details of the virtual network configuration required, either existing or new VNet.
 
 ### mainTemplate.json
 

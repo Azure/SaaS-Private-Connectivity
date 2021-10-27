@@ -237,7 +237,7 @@ namespace HttpTrigger
             // it takes a bit longer sometimes for role to be assigned as part of marketplace/service catalog app deployment, retrying 3 times
             while (retryCount < 4 && managedAppDetails == null)
             {
-                log.LogInformation("Trying to get managed app deployment details");
+                log.LogInformation("Trying to get Managed Application deployment details");
                 await Task.Delay(20000);
 
                 try
@@ -247,13 +247,13 @@ namespace HttpTrigger
                 }
                 catch (Exception)
                 {
-                    log.LogInformation($"You do not have permissions for getting managed app deployment details in {retryCount} try, trying again");
+                    log.LogInformation($"You do not have permissions for getting Managed Application deployment details in {retryCount} try, trying again");
                 }
                 retryCount++;
             }
             if (managedAppDetails == null)
             {
-                throw new UnauthorizedAccessException("You do not have access to get managed app deployment details");
+                throw new UnauthorizedAccessException("You do not have access to get Managed Application deployment details");
             }
             return managedAppDetails;
         }

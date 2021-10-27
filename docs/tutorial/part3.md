@@ -138,7 +138,7 @@ You will see the application definition in your service catalog from the portal.
 
 ## Deploy the Managed Application from service catalog
 
-Now that you have published the Managed Application definition, you can click on it and deploy the managed app from that definition.
+Now that you have published the Managed Application definition, you can click on it and deploy the Managed Application from that definition.
 
 ![Managed Application overview](../../images/app-def-overview.jpg)
 
@@ -196,7 +196,7 @@ At the moment, the connection is still pending. Give it another few seconds for 
 
 ![after-approval](../../images/after-connection-approval.png)
 
-The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a Private Link Service (see https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access). In this case, the Azure Function which acts as a notification webhook for your managed app deployment approved the private endpoint connection.
+The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a Private Link Service (see https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access). In this case, the Azure Function which acts as a notification webhook for your Managed Application deployment approved the private endpoint connection.
 
 ## Validate Private Link connectivity
 

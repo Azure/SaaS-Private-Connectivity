@@ -67,8 +67,8 @@ In the case of the Private Connectivity pattern it is recommended that an additi
 
 At the end of the deployment process, the selected identities (Users, Groups or Apps/Service principals) will have access to the Managed Application deployment based on the authorization granted. The customer admin will have full control of the Managed Application. However, they will only have read access to the managed resource group unless specific additional authorizations have been granted. In the case of the Private Connectivity pattern these additional permissions are:
 
-- Ability to peer the managed app VNet.
-- Ability to link the private DNS zone to a VNet.
+- Ability to peer the Managed Application Virtual Network.
+- Ability to link the Private DNS Zone to a Virtual Network.
 
 ### Webhook endpoint
 
