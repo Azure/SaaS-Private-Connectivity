@@ -50,7 +50,7 @@ The other components depicted in the deployment architecture diagram are used to
 
 ## Deployment
 
-The Managed Application deployment can be done from either a [service catalog](./docs/servicecatalog.md) or an [Azure Marketplace](./docs/marketplace.md) entry. By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the publisher. The deployment of all the components required to enable private connectivity are contained within the Managed Application, with the exception of the webhook to handle notifications, and any additional VNet peering that is required by the customer to enable access to the Managed Application VNet.
+The Managed Application deployment can be done from either a [service catalog](./docs/how-to/service-catalog-setup.md) or an [Azure Marketplace](./docs/how-to/marketplace-setup.md) entry. By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the publisher. The deployment of all the components required to enable private connectivity are contained within the Managed Application, with the exception of the webhook to handle notifications, and any additional VNet peering that is required by the customer to enable access to the Managed Application VNet.
 
 The diagram below illustrates a typical flow when provisioning a Managed Application and automating the approval of the Private Link Connection
 
