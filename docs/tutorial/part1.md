@@ -121,13 +121,14 @@ The function URL should be something like: "yourfunctionname.azurewebsites.net".
 ## Create customer table
 
 Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server).
+
 Connection can be done using Azure Cloud Shell for example:
 
 ```
 mysql -h <unique resource name>.mysql.database.azure.com -u azureadmin@<unique resource name>mysqlserver -p
 ```
 
-The mysql name can be obtained from the created resource in the Azure Portal.
+The unique resource name can be obtained from the created resource in the Azure Portal.
 
 As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql. Once there, choose "Add client IP" and enter your IP address (see https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
