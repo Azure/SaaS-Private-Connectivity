@@ -65,7 +65,7 @@ cd samples/templates/bicep
 az deployment group create -g rg-tutorial -f ./main.bicep
 ```
 
-You will notice you are asked for an _administratorLoginPassword_. This password will be used to create an administrator password for your MySql instance.
+You will notice you are asked for an _administratorLoginPassword_. This password will be used to create an administrator password for your MySql instance. Please ensure you pick something that complies with the password policy, which can be found [here](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-ver15).
 
 Once deployed, get the function name value which can be found in the outputs section from the template deployment. For example:
 
