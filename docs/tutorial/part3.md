@@ -78,7 +78,7 @@ Populate the [_app.json_](../../samples/appdefinition/app.json) file with the fo
 
 Make sure you add an authorization for the service principal you created in the first part of the tutorial and was configured in the Azure Function that will receive the notifications from the managed application deployment.
 
-Note: In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the managed application resource group by default ) to Peer Vnets and link Private DNS zone to their existing vnets.  These roles are:
+Note: In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the managed application resource group by default ) to Peer VNets and link Private DNS zone to their existing VNets.  These roles are:
 
 |Role|Description|
 |--|--|
@@ -148,9 +148,9 @@ First, provide values for the **Basics** step. Select the Azure subscription to 
 
 ![Managed Application deployment step 1](../../images/app-deploy-step-1.jpg)
 
-On the next step, **Application Configuration**, customers will type their name ( Note: this must be the same customerName that was created in the mysql database in part1 of the tutorial series), a pre-shared that they would have received by the SaaS provider beforehand and that will be used to validate the deployment and approve the private link service connection, and the remote service alias for the private link service they will be connecting to.
+On the next step, **Application Configuration**, customers will type their name ( Note: this must be the same customerName that was created in the mysql database in part1 of the tutorial series), a pre-shared that they would have received by the SaaS provider beforehand and that will be used to validate the deployment and approve the Private Link Service connection, and the remote service alias for the Private Link Service they will be connecting to.
 
-You can obtain the remote service alias from the portal by navigating to the private link service resource, or with the following CLI command.
+You can obtain the remote service alias from the portal by navigating to the Private Link Service resource, or with the following CLI command.
 
 ```
 az network private-link-service show -g rg-tutorial -n fsidemoPrivateLinkService -o tsv --query "alias"
@@ -188,7 +188,7 @@ Click on the managed resource group to see the resources for the service catalog
 
 ## Private Link connection approval
 
-While the deployment is in progress, you can go to your Private Link service and you should be seeing in a few seconds a new private endpoint connection:
+While the deployment is in progress, you can go to your Private Link Service and you should be seeing in a few seconds a new private endpoint connection:
 
 ![before-approval](../../images/before-connection-approval.png)
 
@@ -196,7 +196,7 @@ At the moment, the connection is still pending. Give it another few seconds for 
 
 ![after-approval](../../images/after-connection-approval.png)
 
-The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a Private Link service (see https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access). In this case, the Azure Function which acts as a notification webhook for your managed app deployment approved the private endpoint connection.
+The approval of the private endpoint connection is usually a manual process, unless it is pre-approved when you deploy a Private Link Service (see https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#control-service-access). In this case, the Azure Function which acts as a notification webhook for your managed app deployment approved the private endpoint connection.
 
 ## Validate Private Link connectivity
 
@@ -210,12 +210,12 @@ sudo apt install curl
 curl --version
 ```
 
-Try calling the endpoint exposed via the Private Link service:
+Try calling the endpoint exposed via the Private Link Service:
 
 ```
 curl saasprovider.northeurope.cloudapp.azure.com
 ```
 
-If the private connection between your private endpoint and your private link service was successfully established, you will get the following :
+If the private connection between your Private Endpoint and your Private Link Service was successfully established, you will get the following :
 
 ![curl-output](../../images/curl-output.png)
