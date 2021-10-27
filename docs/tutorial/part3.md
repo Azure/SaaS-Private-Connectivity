@@ -10,7 +10,7 @@ This tutorial assumes a basic understanding of Azure CLI.
 
 To complete this tutorial you will need access to an Azure subscription with the Azure CLI configured to use that subscription.
 
-In order to deploy the managed application you will also need to register to use the Microsoft.Solutions resource provider
+In order to deploy the Managed Application you will also need to register to use the Microsoft.Solutions resource provider
 ```
 az provider register --namespace "Microsoft.Solutions"
 ```
@@ -24,21 +24,21 @@ In this tutorial, you will learn how to:
 * Validate Private Link connection approval.
 * Validate Private Link with connection to example API / endpoint deployed in [part 2](./part2.md).
 
-Details of how a managed application UI definition and deployment template can be created can be found [here](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview).
+Details of how a Managed Application UI definition and deployment template can be created can be found [here](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview).
 
 ## Create a Service Catalog Definition
 
-To publish a managed application to your service catalog, you must:
+To publish a Managed Application to your service catalog, you must:
 
-* Create a template that defines the resources to deploy with the managed application.
-* Define the user interface elements for the portal when deploying the managed application.
+* Create a template that defines the resources to deploy with the Managed Application.
+* Define the user interface elements for the portal when deploying the Managed Application.
 * Create a _.zip_ package that contains the required template files.
 * Decide which user, group, or application needs access to the resource group in the user's subscription.
-* Create the managed application definition that points to the _.zip_ package and requests access for the identity.
+* Create the Managed Application definition that points to the _.zip_ package and requests access for the identity.
 
-### Create the managed application template
+### Create the Managed Application template
 
-Every managed application definition includes a file named _mainTemplate.json_. In it, you define the Azure resources to deploy. The template is no different than a regular ARM template.
+Every Managed Application definition includes a file named _mainTemplate.json_. In it, you define the Azure resources to deploy. The template is no different than a regular ARM template.
 
 In our private connectivity context, the template will include a Private Endpoint that will be used by your customers to connect to your private SaaS offering via the Private Link Service we deployed previously.
 
@@ -51,7 +51,7 @@ A sample _mainTemplate.json_ file can be found [here](../../samples/ManagedApp/m
 
 ### Create the UI definition
 
-As a publisher, you define the portal experience for creating the managed application. The _createUiDefinition.json_ file generates the portal interface. You define how users provide input for each parameter using [control elements](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/create-uidefinition-elements) including drop-downs, text boxes, and password boxes.
+As a publisher, you define the portal experience for creating the Managed Application. The _createUiDefinition.json_ file generates the portal interface. You define how users provide input for each parameter using [control elements](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/create-uidefinition-elements) including drop-downs, text boxes, and password boxes.
 
 A sample _createUiDefinition.json_ file can be found [here](../../samples/ManagedApp/createUiDefinition.json). The file defines a portal experience where customers have to enter their details, a pre-shared key that will be validated on the SaaS side, and the networking details to know where to deploy the Private Endpoint.
 
@@ -59,11 +59,11 @@ You can customize the portal experience to fit your needs and obtain direct info
 
 ### Package the files
 
-Add the two files (i.e. _mainTemplate.json_ and _createUiDefinition.json_) to a _.zip_ file named _app.zip_. The two files must be at the root level of the _.zip_ file. If you put them in a folder, you receive an error when creating the managed application definition that states the required files aren't present.
+Add the two files (i.e. _mainTemplate.json_ and _createUiDefinition.json_) to a _.zip_ file named _app.zip_. The two files must be at the root level of the _.zip_ file. If you put them in a folder, you receive an error when creating the Managed Application definition that states the required files aren't present.
 
 Upload the package to an accessible location from where it can be consumed. Check [this link](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/publish-service-catalog-app?tabs=azure-cli#package-the-files) to learn how to publish them to a storage account.
 
-### Create the managed application definition
+### Create the Managed Application definition
 
 The next step is to select a user group, user, or application for managing the resources for the customer. This identity has permissions on the managed resource group according to the role that is assigned. The role can be any Azure built-in role like Owner or Contributor.
 
@@ -76,9 +76,9 @@ Populate the [_app.json_](../../samples/appdefinition/app.json) file with the fo
 * Your notification endpoint (omit the final _/resource_ of your function endpoint as it will be automatically appended by the notification engine).
 * The location of the _app.zip_ you created earlier (you can use a signed SAS URL if the file is private).
 
-Make sure you add an authorization for the service principal you created in the first part of the tutorial and was configured in the Azure Function that will receive the notifications from the managed application deployment.
+Make sure you add an authorization for the service principal you created in the first part of the tutorial and was configured in the Azure Function that will receive the notifications from the Managed Application deployment.
 
-Note: In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the managed application resource group by default ) to Peer VNets and link Private DNS zone to their existing VNets.  These roles are:
+Note: In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the Managed Application resource group by default ) to Peer VNets and link Private DNS zone to their existing VNets. These roles are:
 
 |Role|Description|
 |--|--|
@@ -99,7 +99,7 @@ az ad sp show --id <YOUR_SERVICE_PRINCIPAL_CLIENT_ID> -o tsv --query "objectId"
 And add an authorization with _Contributor_ access (role definition ID _b24988ac-6180-42a0-ab88-20f7382dd24c_).
 
 Add an authorization for your logged in user as well. Go to Azure Active Directory and get the Object Id for your user and give it _Contributor_ access (role definition ID b24988ac-6180-42a0-ab88-20f7382dd24c) (See: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-users-profile-azure-portal).
-This will allow your current logged in user to make changes to the resource group where the managed application components are deployed.
+This will allow your current logged in user to make changes to the resource group where the Managed Application components are deployed.
 
 
 ```json
@@ -136,13 +136,13 @@ You will see the application definition in your service catalog from the portal.
 
 ![Service Catalog](../../images/service-catalog-portal.jpg)
 
-## Deploy the managed application from service catalog
+## Deploy the Managed Application from service catalog
 
-Now that you have published the managed application definition, you can click on it and deploy the managed app from that definition.
+Now that you have published the Managed Application definition, you can click on it and deploy the managed app from that definition.
 
 ![Managed Application overview](../../images/app-def-overview.jpg)
 
-You will be presented with a wizard form where you, as a customer, will have to fill in the information required by the managed application to be deployed.
+You will be presented with a wizard form where you, as a customer, will have to fill in the information required by the Managed Application to be deployed.
 
 First, provide values for the **Basics** step. Select the Azure subscription to deploy your service catalog app to. Create a new resource group. Select a location for your app. When finished, select **Next**.
 
@@ -160,7 +160,7 @@ When finished, select **Next**.
 
 ![Managed Application deployment step 2](../../images/app-deploy-step-2.jpg)
 
-On step 3, **Networking**, you can choose to deploy the managed application to a new Virtual Network and subnet or to an existing one. In this demo we are going to deploy to a new network and subnet.
+On step 3, **Networking**, you can choose to deploy the Managed Application to a new Virtual Network and subnet or to an existing one. In this demo we are going to deploy to a new network and subnet.
 
 ![Managed Application deployment step 3](../../images/app-deploy-step-3.jpg)
 
@@ -168,7 +168,7 @@ On the final step, you can review the summary and after validation succeeds, sel
 
 ![Managed Application deployment step 4](../../images/app-deploy-step-4.jpg)
 
-The managed application will start to deploy and should complete in just a couple of minutes.
+The Managed Application will start to deploy and should complete in just a couple of minutes.
 
 ![Managed Application deployment completed](../../images/app-deploy-completed.jpg)
 
@@ -178,7 +178,7 @@ View the resource group named **rg-application** to see the service catalog app.
 
 ![Managed Application resource group](../../images/rg-application.jpg)
 
-You can click on the managed application resource and then find the managed resource group that holds the resources for the service catalog app.
+You can click on the Managed Application resource and then find the managed resource group that holds the resources for the service catalog app.
 
 ![Managed Application resource group](../../images/demoapp-overview.jpg)
 

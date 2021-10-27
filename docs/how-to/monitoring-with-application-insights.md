@@ -13,9 +13,9 @@ This will help see the progress of the current managed app deployment and debug 
 
 Some information to look out for:
 
-1. Managed App provisioning state
+1. Managed Application provisioning state
 
-The managed app provisioning state will tell you the current state of the managed application deployment : Accepted, Suceeded, Failed, etc. (see https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/publish-notifications#event-triggers)
+The Managed Application provisioning state will tell you the current state of the Managed Application deployment: Accepted, Suceeded, Failed, etc. (see https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/publish-notifications#event-triggers)
 
 ![appinsights-provisoningstates](../../images/appinsights-provisioningstate.png)
 
