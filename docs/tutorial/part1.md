@@ -27,9 +27,9 @@ cd Saas-Private-Connectivity
 In this tutorial, you learn how to:
 
 * Create a resource group
-* Deploy the Azure components required to support your Function App
-* Deploy your Function App
-* Configure the Function App for use with Azure App Insights and Azure MySQL
+* Deploy the Azure components required to support your function app
+* Deploy your function app
+* Configure the function app for use with Azure App Insights and Azure MySQL
 * Create a database table for use with the example app
 
 ## Create a resource group
@@ -45,7 +45,7 @@ az group create --name rg-tutorial --location northeurope
 You will now deploy the components needed to support the notification webhook:
 
 * App Service Plan
-* Function App
+* Azure Function app
 * Azure MySql
 * Storage Account
 * Log Analytics
@@ -80,7 +80,7 @@ Once deployed, get the function name value which can be found in the outputs sec
 }
 ```
 
-## Deploy the Function
+## Deploy the function
 
 This step assumes you have installed the functions core tools mentioned in the [Before you begin](#before-you-begin) section.
 
@@ -96,7 +96,7 @@ And navigate to the function app directory.
 cd samples/ManagedAppWebHook
 ```
 
-In order to deploy the Function, set up some needed environment variables and deploy the app.
+In order to deploy the function, set up some needed environment variables and deploy the app.
 
 ```
 functionApp=<function name from outputs>
@@ -110,7 +110,7 @@ The package file will be created and deployed to your function app:
 
 ## Check that the function is reachable
 
-Now that the Function has been deployed it can be verified using the health url:
+Now that the function has been deployed it can be verified using the health url:
 
 ```
 https://<function-url>/api/health
@@ -186,7 +186,7 @@ The service principal information is displayed as JSON. An example output is sho
 }
 ```
 
-Make note of _clientId_, _clientSecret_ and _tenantId_. You will need this information to update the Function application settings.
+Make note of _clientId_, _clientSecret_ and _tenantId_. You will need this information to update the function application settings.
 
 To test the creation of the service principal, run the following AZ CLI command:
 
@@ -198,19 +198,19 @@ You can now go to the portal under your access control blade for your resource g
 
 ![sp_owner](../../images/sp_owner.png)
 
-## Update Function App Settings
+## Update function app settings
 
 One way you can store connection strings and secrets used by your function app and bindings is as application settings. This makes credentials available to both your function code and bindings.
 
 App settings and connection strings are stored encrypted in Azure. They are decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly (see https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings).
 
-When you develop a Function app locally, you must maintain local copies of these values in the _local.settings.json_ project file (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file).
+When you develop a function app locally, you must maintain local copies of these values in the _local.settings.json_ project file (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file).
 
-You can use either the portal or the azure cli to update Function app settings.
+You can use either the portal or the azure cli to update function app settings.
 
 ### Using Azure portal
 
-In order to edit your Function app settings, go to the _Configuration_ blade of your Function app in the portal and then to _Application Settings_ (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the *APPINSIGHTS_INSTRUMENTATIONKEY*.
+In order to edit your function app settings, go to the _Configuration_ blade of your function app in the portal and then to _Application Settings_ (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the *APPINSIGHTS_INSTRUMENTATIONKEY*.
 
 To edit, click on _Advanced Edit_ and this will allow you to edit them as a JSON file. Alternatively click on _New Application Setting_ which will allow you to add one by one.
 

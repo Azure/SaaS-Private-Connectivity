@@ -73,7 +73,7 @@ Populate the [_app.json_](../../samples/appdefinition/app.json) file with the fo
 
 * The type of lock placed on the managed resource group. It prevents the customer from performing undesirable operations on this resource group. Currently, ReadOnly is the only supported lock level.
 * One or more authorizations with the user or group object ID, and the role definition ID that are used to grant permission to the managed resource group.
-* Your notification endpoint (omit the final _/resource_ of your Function endpoint as it will be automatically appended by the notification engine).
+* Your notification endpoint (omit the final _/resource_ of your function endpoint as it will be automatically appended by the notification engine).
 * The location of the _app.zip_ you created earlier (you can use a signed SAS URL if the file is private).
 
 Make sure you add an authorization for the service principal you created in the first part of the tutorial and was configured in the Azure Function that will receive the notifications from the managed application deployment.

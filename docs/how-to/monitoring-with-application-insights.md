@@ -56,7 +56,7 @@ Alternatively, this can also mean that you made a mistake when creating a pre-sh
 The client with object id does not have authorization to perform 'Microsoft.Network/privateLinkServices/privateEndpointConnections/read' over scope '/subscriptions/<subscription-id>/resourceGroups/rg-tutorial/providers/Microsoft.Network/privateLinkServices/fsidemoPrivateLinkService'
 ```
 
-This means that the service principal used by the Azure function app does not have Owner role assigned to the resource group where your Private Link Service is deployed, _rg-tutorial_.
+This means that the service principal used by the Azure Function app does not have Owner role assigned to the resource group where your Private Link Service is deployed, _rg-tutorial_.
 
 Same as in the previous example, you can verify it under the access control for _rg-tutorial_.
 

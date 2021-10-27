@@ -4,7 +4,7 @@ This is part two of a three part tutorial series that will configure and deploy 
 
 ## Before you begin
 
-This part assumes a basic understanding of Azure CLI, Visual Studio Code, and Azure functions.
+This part assumes a basic understanding of Azure CLI, Visual Studio Code, and Azure Functions.
 
 To complete this tutorial you will need access to an Azure subscription with the Azure CLI configured to use that subscription and have the appropriate dotnet SDK installed.
 
@@ -110,9 +110,9 @@ Create the Private Link Service.
 az network private-link-service create -g rg-tutorial -n fsidemoPrivateLinkService --lb-frontend-ip-configs $FRONTEND_ID --subnet $SUBNET_ID
 ```
 
-## Update Function App Settings
+## Update function app settings
 
-Add the name of your Private Link Service to your Function App Settings:
+Add the name of your Private Link Service to your function app settings:
 
 ```json
 {
@@ -121,7 +121,7 @@ Add the name of your Private Link Service to your Function App Settings:
   "slotSetting": false
 }
 ```
-For detailed instructions on how to do this, look at [part 1 of the tutorial](part1.md) under Update Function App Settings section.
+For detailed instructions on how to do this, look at [part 1 of the tutorial](part1.md) under 'Update function app settings' section.
 
 ## Next step
 
