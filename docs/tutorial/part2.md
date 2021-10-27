@@ -84,7 +84,7 @@ Another way to validate the creation of the internal load balancer is by navigat
 
 ![](../../images/internal_lb.jpg)
 
-Now that the load balancer is up and running, obtain the frontend IP configuration ID and save it into a variable that will be used later to create the private link service.
+Now that the load balancer is up and running, obtain the frontend IP configuration ID and save it into a variable that will be used later to create the Private Link Service.
 
 ```
 FRONTEND_ID=$(az network lb show -g rg-tutorial-aks -n kubernetes-internal --query "frontendIpConfigurations[0].id" -o tsv)
@@ -92,7 +92,7 @@ FRONTEND_ID=$(az network lb show -g rg-tutorial-aks -n kubernetes-internal --que
 
 ## Create a Private Link Service
 
-Before creating the Private Link Service we need to disable the private link service network policies.
+Before creating the Private Link Service we need to disable the Private Link Service network policies.
 
 ```
 az network vnet subnet update -g rg-tutorial --vnet-name <vnet-name> --name app-subnet  --disable-private-link-service-network-policies true
@@ -112,7 +112,7 @@ az network private-link-service create -g rg-tutorial -n fsidemoPrivateLinkServi
 
 ## Update Function App Settings
 
-Add the name of your Private Link service to your Function App Settings:
+Add the name of your Private Link Service to your Function App Settings:
 
 ```json
 {

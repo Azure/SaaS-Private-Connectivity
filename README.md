@@ -36,9 +36,9 @@ The key Azure components used to support this pattern are:
 
 A Private Endpoint is a network interface that connects you privately and securely to a service powered by Azure Private Link. Private Endpoint uses a private IP address from your VNet to provide the connection to the remote service. In the case of the Private Connectivity pattern this is a Private Link Service exposing a set of service APIs.
 
-Private Link service is the reference to the service provider's service. The service is running behind an internal load balancer and is enabled for Private Link access.
+Private Link Service is the reference to the service provider's service. The service is running behind an internal load balancer and is enabled for Private Link access.
 
-The private DNS Zone is linked to the VNet and allows resolution of the Private Link service names.
+The private DNS Zone is linked to the VNet and allows resolution of the Private Link Service names.
 
 Furthermore, the following component is also used to support the automated approval of the Private Link connection from a Marketplace (or service catalog) deployment:
 
@@ -46,11 +46,11 @@ Furthermore, the following component is also used to support the automated appro
 
 In the examples shown in the tutorials an [Azure Function](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview) has been used to implement the webhook notification endpoint. However, this could also be implemented as a Kubernetes service, a Web App service, or a service running in a VM as long as an endpoint is exposed and reachable through the Internet.
 
-The other components depicted in the deployment architecture diagram are used to support the example SaaS application deployment which provides the APIs that would be made available over the Private Link service.
+The other components depicted in the deployment architecture diagram are used to support the example SaaS application deployment which provides the APIs that would be made available over the Private Link Service.
 
 ## Deployment
 
-The Managed Application deployment can be done from either a [service catalog](./docs/servicecatalog.md) or an [Azure Market Place](./docs/marketplace.md) entry. By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the publisher. The deployment of all the components required to enable private connectivity are contained within the Managed Application with the exception of the webhook to handle notifications and any additional VNet peering that is required by the customer to enable access to the Managed Application VNet.
+The Managed Application deployment can be done from either a [service catalog](./docs/servicecatalog.md) or an [Azure Marketplace](./docs/marketplace.md) entry. By using a [Managed Application](https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) the deployment into the customer subscription is then managed by the publisher. The deployment of all the components required to enable private connectivity are contained within the Managed Application, with the exception of the webhook to handle notifications, and any additional VNet peering that is required by the customer to enable access to the Managed Application VNet.
 
 The diagram below illustrates a typical flow when provisioning a Managed Application and automating the approval of the Private Link Connection
 
@@ -58,9 +58,9 @@ The diagram below illustrates a typical flow when provisioning a Managed Applica
 
 ### Elements of approval flow
 
-1. Customer will locate the service catalog entry or Azure Marketplace offer and deploy/subscribe to it
+1. Customer will locate the service catalog entry or Azure Marketplace offer and deploy/subscribe to it.
 2. This action will result in the creation of a Managed Application in the resource group of the customers choosing.
-3. Additionally a managed resource group will be created containing the resources defined in the managed application template (_mainTemplate.json_)
+3. Additionally a managed resource group will be created containing the resources defined in the managed application template (_mainTemplate.json_).
 4. A notification is sent by the deployment to the webhook and will be handled by the function app which will authorize and approve the Private Link connection. In order to complete this action the identity used by the function app will be used to access the Managed Application deployment details.
 
 In the case of the Private Connectivity pattern it is recommended that an additional authorization is added to Notification and approval process based on the requirements of the service provider. In the tutorials provided this is demonstrated using a pre-shared key stored in the providers database which is provided at ordering time by the consumer and verified by the function app before the connection is approved.
