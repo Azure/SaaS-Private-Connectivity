@@ -25,7 +25,7 @@ When you've just triggered a managed app deployment, the provisoning state will 
 
 The flow for the private endpoint connection approval is as follows:
 
-- Getting managed app deployment details, such as Company Name and pre-shared key. These values were given by the user in the managed app deployment steps.
+- Getting managed app deployment details, such as the customer name and pre-shared key. These values were given by the user in the managed app deployment steps.
 - Verifying the pre-shared key is valid and can be found in the database.
 - Approving private endpoint connection.
 

@@ -142,19 +142,19 @@ USE tutorialdb;
 
 -- Create a table and insert rows
 DROP TABLE IF EXISTS customer;
-CREATE TABLE customer (id serial PRIMARY KEY, CompanyName VARCHAR(50), SharedKey VARCHAR(50));
+CREATE TABLE customer (id serial PRIMARY KEY, CustomerName VARCHAR(50), SharedKey VARCHAR(50));
 ```
 
 The tutorial uses a pre-shared key to validate the request for Private Link connection approval. To generate a pre-shared key you will need to create an entry in the customer table.
 
 ```
 -- insert sample row
-INSERT INTO customer ( CompanyName, SharedKey ) VALUES ('ExampleCustomer',uuid());
+INSERT INTO customer ( CustomerName, SharedKey ) VALUES ('ExampleCustomer',uuid());
 
 select * from customer;
 ```
 
-The result will return a value for the ExampleCustomer and pre-shared key. This pre-shared key will be used in the subsequent steps during this tutorial. NOTE:  The customerName will need to be the customerName entered into the Portal ordering screen in part 3 of this tutorial series.
+The result will return a value for the ExampleCustomer and pre-shared key. This pre-shared key will be used in the subsequent steps during this tutorial. NOTE: The CustomerName will need to be the CustomerName entered into the Portal ordering screen in part 3 of this tutorial series.
 
 ## Create service principal
 

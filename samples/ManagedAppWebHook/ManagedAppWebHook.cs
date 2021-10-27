@@ -182,8 +182,8 @@ namespace HttpTrigger
             if (reader.HasRows)
             {
                 await reader.ReadAsync();
-                var companyName = reader.GetString("CompanyName");
-                log.LogInformation("Found key for " + companyName);
+                var customerName = reader.GetString("CustomerName");
+                log.LogInformation("Found key for " + customerName);
                 return true;
             }
 
