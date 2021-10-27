@@ -9,23 +9,23 @@ When triggering a deployment, you can monitor live the Azure Function app by goi
 Alternatively, you can follow the same traces in the Logs as well. You can use the available options to filter based on timestamp, severity level, etc.
 
 On the Sample telemetry for the Live Metrics, you will get traces from your app. Currently, the type of .NET core trace logs used in the app are information and error.
-This will help see the progress of the current managed app deployment and debug your Azure Function app.
+This will help see the progress of the current Managed Application deployment and debug your Azure Function app.
 
 Some information to look out for:
 
-1. Managed App provisioning state
+1. Managed Application provisioning state
 
-The managed app provisioning state will tell you the current state of the managed application deployment : Accepted, Suceeded, Failed, etc. (see https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/publish-notifications#event-triggers)
+The Managed Application provisioning state will tell you the current state of the Managed Application deployment: Accepted, Suceeded, Failed, etc. (see https://docs.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/publish-notifications#event-triggers)
 
 ![appinsights-provisoningstates](../../images/appinsights-provisioningstate.png)
 
-When you've just triggered a managed app deployment, the provisoning state will be "Accepted". Give it a few seconds and you will see the state changing to "Succeeded", which means your managed app components have now been sucessfully deployed. At this point, your Azure Function app will start the flow for approving your Private endpoint connection.
+When you've just triggered a Managed Application deployment, the provisoning state will be "Accepted". Give it a few seconds and you will see the state changing to "Succeeded", which means your Managed Application components have now been sucessfully deployed. At this point, your Azure Function app will start the flow for approving your Private endpoint connection.
 
 2. Private endpoint connection approval
 
 The flow for the private endpoint connection approval is as follows:
 
-- Getting managed app deployment details, such as Company Name and pre-shared key. These values were given by the user in the managed app deployment steps.
+- Getting Managed Application deployment details, such as the customer name and pre-shared key. These values were given by the user in the Managed Application deployment steps.
 - Verifying the pre-shared key is valid and can be found in the database.
 - Approving private endpoint connection.
 
@@ -36,12 +36,12 @@ Logs in the application insights will show us information about these actions:
 ## Troubleshooting common errors
 
 ```
-"You do not have access to get managed app deployment details."
+"You do not have access to get Managed Application deployment details."
 ```
 
-This means that the service principal used by the Azure Function app does not have the right access to get deployment details. This implies an error with the role assignment for the service principal at managed app deployment time - it should have been given a Contributor role to the resource group where managed app components are deployed. You can verify it under the access control for the managed resource group.
+This means that the service principal used by the Azure Function app does not have the right access to get deployment details. This implies an error with the role assignment for the service principal at Managed Application deployment time - it should have been given a Contributor role to the resource group where Managed Application components are deployed. You can verify it under the access control for the managed resource group.
 
-You can either add this role assignment manually or republish your managed app definition making sure the app.json file contains the right role assignment for this service principal as detailed in [tutorial3](../tutorials/tutorial3.md)
+You can either add this role assignment manually or republish your Managed Application definition making sure the app.json file contains the right role assignment for this service principal as detailed in [tutorial3](../tutorials/tutorial3.md)
 
 ```
 "Your shared key is not valid."
@@ -56,7 +56,7 @@ Alternatively, this can also mean that you made a mistake when creating a pre-sh
 The client with object id does not have authorization to perform 'Microsoft.Network/privateLinkServices/privateEndpointConnections/read' over scope '/subscriptions/<subscription-id>/resourceGroups/rg-tutorial/providers/Microsoft.Network/privateLinkServices/fsidemoPrivateLinkService'
 ```
 
-This means that the service principal used by the Azure function app does not have Owner role assigned to the resource group where your Private Link Service is deployed, _rg-tutorial_.
+This means that the service principal used by the Azure Function app does not have Owner role assigned to the resource group where your Private Link Service is deployed, _rg-tutorial_.
 
 Same as in the previous example, you can verify it under the access control for _rg-tutorial_.
 

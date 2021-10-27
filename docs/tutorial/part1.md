@@ -27,9 +27,9 @@ cd Saas-Private-Connectivity
 In this tutorial, you learn how to:
 
 * Create a resource group
-* Deploy the Azure components required to support your Function App
-* Deploy your Function App
-* Configure the Function App for use with Azure App Insights and Azure MySQL
+* Deploy the Azure components required to support your function app
+* Deploy your function app
+* Configure the function app for use with Azure App Insights and Azure MySQL
 * Create a database table for use with the example app
 
 ## Create a resource group
@@ -45,7 +45,7 @@ az group create --name rg-tutorial --location northeurope
 You will now deploy the components needed to support the notification webhook:
 
 * App Service Plan
-* Function App
+* Azure Function app
 * Azure MySql
 * Storage Account
 * Log Analytics
@@ -65,7 +65,7 @@ cd samples/templates/bicep
 az deployment group create -g rg-tutorial -f ./main.bicep
 ```
 
-You will notice you are asked for an _administratorLoginPassword_. This password will be used to create an administrator password for your MySql instance.
+You will notice you are asked for an _administratorLoginPassword_. This password will be used to create an administrator password for your MySql instance. Please ensure you pick something that complies with the password policy, which can be found [here](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-ver15).
 
 Once deployed, get the function name value which can be found in the outputs section from the template deployment. For example:
 
@@ -80,7 +80,7 @@ Once deployed, get the function name value which can be found in the outputs sec
 }
 ```
 
-## Deploy the Function
+## Deploy the function
 
 This step assumes you have installed the functions core tools mentioned in the [Before you begin](#before-you-begin) section.
 
@@ -96,7 +96,7 @@ And navigate to the function app directory.
 cd samples/ManagedAppWebHook
 ```
 
-In order to deploy the Function, set up some needed environment variables and deploy the app.
+In order to deploy the function, set up some needed environment variables and deploy the app.
 
 ```
 functionApp=<function name from outputs>
@@ -110,7 +110,7 @@ The package file will be created and deployed to your function app:
 
 ## Check that the function is reachable
 
-Now that the Function has been deployed it can be verified using the health url:
+Now that the function has been deployed it can be verified using the health url:
 
 ```
 https://<function-url>/api/health
@@ -121,13 +121,14 @@ The function URL should be something like: "yourfunctionname.azurewebsites.net".
 ## Create customer table
 
 Once the function has been deployed you can additionally connect to the Azure MySql using your chosen [connection method](https://docs.microsoft.com/en-us/azure/mysql/how-to-connect-overview-single-server).
+
 Connection can be done using Azure Cloud Shell for example:
 
 ```
 mysql -h <unique resource name>.mysql.database.azure.com -u azureadmin@<unique resource name>mysqlserver -p
 ```
 
-The mysql name can be obtained from the created resource in the Azure Portal.
+The unique resource name can be obtained from the created resource in the Azure Portal.
 
 As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql. Once there, choose "Add client IP" and enter your IP address (see https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
@@ -141,19 +142,19 @@ USE tutorialdb;
 
 -- Create a table and insert rows
 DROP TABLE IF EXISTS customer;
-CREATE TABLE customer (id serial PRIMARY KEY, CompanyName VARCHAR(50), SharedKey VARCHAR(50));
+CREATE TABLE customer (id serial PRIMARY KEY, CustomerName VARCHAR(50), SharedKey VARCHAR(50));
 ```
 
 The tutorial uses a pre-shared key to validate the request for Private Link connection approval. To generate a pre-shared key you will need to create an entry in the customer table.
 
 ```
 -- insert sample row
-INSERT INTO customer ( CompanyName, SharedKey ) VALUES ('ExampleCustomer',uuid());
+INSERT INTO customer ( CustomerName, SharedKey ) VALUES ('ExampleCustomer',uuid());
 
 select * from customer;
 ```
 
-The result will return a value for the ExampleCustomer and pre-shared key. This pre-shared key will be used in the subsequent steps during this tutorial. NOTE:  The customerName will need to be the customerName entered into the Portal ordering screen in part 3 of this tutorial series.
+The result will return a value for the ExampleCustomer and pre-shared key. This pre-shared key will be used in the subsequent steps during this tutorial. NOTE: The CustomerName will need to be the CustomerName entered into the Portal ordering screen in part 3 of this tutorial series.
 
 ## Create service principal
 
@@ -186,7 +187,7 @@ The service principal information is displayed as JSON. An example output is sho
 }
 ```
 
-Make note of _clientId_, _clientSecret_ and _tenantId_. You will need this information to update the Function application settings.
+Make note of _clientId_, _clientSecret_ and _tenantId_. You will need this information to update the function application settings.
 
 To test the creation of the service principal, run the following AZ CLI command:
 
@@ -198,19 +199,19 @@ You can now go to the portal under your access control blade for your resource g
 
 ![sp_owner](../../images/sp_owner.png)
 
-## Update Function App Settings
+## Update function app settings
 
 One way you can store connection strings and secrets used by your function app and bindings is as application settings. This makes credentials available to both your function code and bindings.
 
 App settings and connection strings are stored encrypted in Azure. They are decrypted only before being injected into your app's process memory when the app starts. The encryption keys are rotated regularly (see https://docs.microsoft.com/en-us/azure/azure-functions/security-concepts#application-settings).
 
-When you develop a Function app locally, you must maintain local copies of these values in the _local.settings.json_ project file (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file).
+When you develop a function app locally, you must maintain local copies of these values in the _local.settings.json_ project file (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash#local-settings-file).
 
-You can use either the portal or the azure cli to update Function app settings.
+You can use either the portal or the azure cli to update function app settings.
 
 ### Using Azure portal
 
-In order to edit your Function app settings, go to the _Configuration_ blade of your Function app in the portal and then to _Application Settings_ (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the *APPINSIGHTS_INSTRUMENTATIONKEY*.
+In order to edit your function app settings, go to the _Configuration_ blade of your function app in the portal and then to _Application Settings_ (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal#get-started-in-the-azure-portal). You will see some values there by default, such as the *APPINSIGHTS_INSTRUMENTATIONKEY*.
 
 To edit, click on _Advanced Edit_ and this will allow you to edit them as a JSON file. Alternatively click on _New Application Setting_ which will allow you to add one by one.
 
