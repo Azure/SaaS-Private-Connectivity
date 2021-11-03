@@ -101,7 +101,7 @@ az network vnet subnet update -g rg-tutorial --vnet-name <vnet-name> --name app-
 Also obtain the subnet ID that will host the private link service.
 
 ```
-SUBNET_ID=$(az network vnet subnet show -g rg-tutorial --vnet-name fsidemo-a59d-vnet --name app-subnet --query "id" -o tsv)
+SUBNET_ID=$(az network vnet subnet show -g rg-tutorial --vnet-name <vnet-name> --name app-subnet --query "id" -o tsv)
 ```
 
 Create the Private Link Service.
