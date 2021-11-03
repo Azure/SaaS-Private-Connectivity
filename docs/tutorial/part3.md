@@ -78,18 +78,8 @@ Populate the [_app.json_](../../samples/appdefinition/app.json) file with the fo
 
 Make sure you add an authorization for the service principal you created in the first part of the tutorial and was configured in the Azure Function that will receive the notifications from the Managed Application deployment.
 
-Note: In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the Managed Application resource group by default ) to Peer VNets and link Private DNS zone to their existing VNets. These roles are:
+#### Contents of the app.json
 
-|Role|Description|
-|--|--|
-|Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write|Allow vnet peering to be created|
-|Microsoft.Network/virtualNetworks/virtualNetworkPeerings/delete|Allow deletion of vnet peering|
-|Microsoft.Network/virtualNetworks/peer/action| Allow peering|
-|Microsoft.Network/privateDnsZones/virtualNetworkLinks/write|All private DNS zone to be linked to existing vnet|
-|Microsoft.Network/privateDnsZones/virtualNetworkLinks/delete|Allow deletion of Private DNS zone link|
-|Microsoft.Network/virtualNetworks/join/action|Allow Private DNS zone control|
-
-<br>
 Obtain the object ID for that service principal.
 
 ```
@@ -219,3 +209,15 @@ curl saasprovider.northeurope.cloudapp.azure.com
 If the private connection between your Private Endpoint and your Private Link Service was successfully established, you will get the following :
 
 ![curl-output](../../images/curl-output.png)
+
+## Note: Permissions when deploying from Marketplace
+In the case of a Marketplace based deployment authorizations are added as "Allowed Control Actions".  In this case roles are added to allow customers ( who have a deny assignment on the Managed Application resource group by default ) to Peer VNets and link Private DNS zone to their existing VNets. These roles are:
+
+|Role|Description|
+|--|--|
+|Microsoft.Network/virtualNetworks/virtualNetworkPeerings/write|Allow vnet peering to be created|
+|Microsoft.Network/virtualNetworks/virtualNetworkPeerings/delete|Allow deletion of vnet peering|
+|Microsoft.Network/virtualNetworks/peer/action| Allow peering|
+|Microsoft.Network/privateDnsZones/virtualNetworkLinks/write|All private DNS zone to be linked to existing vnet|
+|Microsoft.Network/privateDnsZones/virtualNetworkLinks/delete|Allow deletion of Private DNS zone link|
+|Microsoft.Network/virtualNetworks/join/action|Allow Private DNS zone control|
