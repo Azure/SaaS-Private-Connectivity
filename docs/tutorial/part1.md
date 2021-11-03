@@ -125,10 +125,10 @@ Once the function has been deployed you can additionally connect to the Azure My
 Connection can be done using Azure Cloud Shell for example:
 
 ```
-mysql -h <unique resource name>.mysql.database.azure.com -u azureadmin@<unique resource name>mysqlserver -p
+mysql -h <unique resource name>.mysql.database.azure.com -u <server admin login name> -p
 ```
 
-The unique resource name can be obtained from the created resource in the Azure Portal.
+The unique resource name and the server admin login name can be obtained from the created resource in the Azure Portal.
 
 As part of this step, you will need to add your IP address under the Connection security blade for Azure MySql. Once there, choose "Add client IP" and enter your IP address (see https://docs.microsoft.com/en-us/azure/mysql/howto-manage-firewall-using-portal#create-a-server-level-firewall-rule-in-the-azure-portal).
 
@@ -167,23 +167,18 @@ Choose a service principal name that is unique in your Azure Active Directory.
 Create your service principal using the following command:
 
 ```
-az ad sp create-for-rbac --name <SP NAME> --sdk-auth --role owner --scope '/subscriptions/<subscriptionId>/resourceGroups/rg-tutorial'
+az ad sp create-for-rbac --name <SP NAME> --role owner --scope '/subscriptions/<subscriptionId>/resourceGroups/rg-tutorial'
 ```
 
 The service principal information is displayed as JSON. An example output is shown below:
 
 ```
 {
-  "clientId": "414f6051-191f-4786-afa9-b9d1b2cddc31",
-  "clientSecret": "****************************",
-  "subscriptionId": "550f272d-5a99-47b2-aaf5-cc1f7ca925b8",
-  "tenantId": "646f25ba-19dc-45a5-9fc8-fa8c60f09e84",
-  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
-  "resourceManagerEndpointUrl": "https://management.azure.com/",
-  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
-  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
-  "galleryEndpointUrl": "https://gallery.azure.com/",
-  "managementEndpointUrl": "https://management.core.windows.net/"
+  "appId": "414f6051-191f-4786-afa9-b9d1b2cddc31",
+  "displayName": "fsidemosp",
+  "name": "414f6051-191f-4786-afa9-2d7cd011db47"
+  "password": "****************************",
+  "tenant": "946ke4ba-15dc-4ca5-9fc8-2d7cd011db47",
 }
 ```
 

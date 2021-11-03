@@ -2,13 +2,12 @@ param appName string
 
 var resgpguid = substring(replace(guid(resourceGroup().id), '-', ''), 0, 4)
 
-resource storage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+resource storage 'Microsoft.Storage/storageAccounts@2021-06-01' = {
   name: '${appName}${resgpguid}sa'
   location: resourceGroup().location
   kind: 'StorageV2'
   sku: {
     name: 'Standard_LRS'
-    tier: 'Standard'
   }
   properties: {
     supportsHttpsTrafficOnly: true
