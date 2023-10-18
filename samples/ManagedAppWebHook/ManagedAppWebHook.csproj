@@ -5,7 +5,7 @@
     <UserSecretsId>ac5f15e1-00d9-4178-840c-59ec8f1bb3f4</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.4.0-beta.5" />
+    <PackageReference Include="Azure.Identity" Version="1.10.2" />
     <PackageReference Include="Azure.ResourceManager.Network" Version="1.0.0-preview.1" />
     <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.37.1" />
     <PackageReference Include="Azure.Core" Version="1.12.0" />
