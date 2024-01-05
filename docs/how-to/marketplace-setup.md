@@ -26,7 +26,7 @@ The technical configuration provides the package details.
 | Deployment Mode | Ensure "Incremental" is selected |
 | Notification Endpoint URL | Enter the webhook notification endpoint without /resource as this will be added by the Marketplace notification service eg (https://functionapp.azurewebsites.net/api) |
 | Customize Allowed Customer actions | select (see below for details) |
-| Azure Active Directory tenant ID | Enter the Publisher tenant id |
+| Microsoft Entra Id tenant ID | Enter the Publisher tenant id |
 | Authorizations | Enter the principal Id of the function app identity and any User/Group required to access the Managed Application |
 
 ### Allowed Control actions

@@ -88,7 +88,7 @@ az ad sp show --id <YOUR_SERVICE_PRINCIPAL_CLIENT_ID> -o tsv --query "objectId"
 
 And add an authorization with _Contributor_ access (role definition ID _b24988ac-6180-42a0-ab88-20f7382dd24c_).
 
-Add an authorization for your logged in user as well. Go to Azure Active Directory and get the Object Id for your user and give it _Contributor_ access (role definition ID b24988ac-6180-42a0-ab88-20f7382dd24c) (See: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-users-profile-azure-portal).
+Add an authorization for your logged in user as well. Go to Microsoft Entra ID and get the Object Id for your user and give it _Contributor_ access (role definition ID b24988ac-6180-42a0-ab88-20f7382dd24c) (See: https://learn.microsoft.com/en-us/entra/fundamentals/how-to-manage-user-profile-info).
 This will allow your current logged in user to make changes to the resource group where the Managed Application components are deployed.
 
 

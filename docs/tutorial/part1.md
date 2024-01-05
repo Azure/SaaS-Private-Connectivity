@@ -160,9 +160,9 @@ The result will return a value for the ExampleCustomer and pre-shared key. This 
 
 To access resources secured by an Azure AD tenant, the function app uses a service principal. There are three types of service principals: "application", "managed identity", and "legacy". This tutorial uses "application" as deployments are cross tenant.  Cross tenant deployments do not support the use of the "managed identity" type.
 
-This principal references a globally unique app object. The service principal object defines what the app can actually do in the specific tenant, who can access the app, and what resources the app can access (see https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#service-principal-object).
+This principal references a globally unique app object. The service principal object defines what the app can actually do in the specific tenant, who can access the app, and what resources the app can access (see https://learn.microsoft.com/en-us/entra/identity-platform/app-objects-and-service-principals?tabs=browser#service-principal-object).
 
-Choose a service principal name that is unique in your Azure Active Directory.
+Choose a service principal name that is unique in your Microsoft Entra ID.
 
 Create your service principal using the following command:
 
